@@ -40,6 +40,8 @@ import * as ep___admin_getUserIps from './endpoints/admin/get-user-ips.js';
 import * as ep___admin_invite from './endpoints/admin/invite.js';
 import * as ep___admin_moderators_add from './endpoints/admin/moderators/add.js';
 import * as ep___admin_moderators_remove from './endpoints/admin/moderators/remove.js';
+import * as ep___admin_admin_add from './endpoints/admin/admin/add.js';
+import * as ep___admin_admin_remove from './endpoints/admin/admin/remove.js';
 import * as ep___admin_promo_create from './endpoints/admin/promo/create.js';
 import * as ep___admin_queue_clear from './endpoints/admin/queue/clear.js';
 import * as ep___admin_queue_deliverDelayed from './endpoints/admin/queue/deliver-delayed.js';
@@ -320,6 +322,8 @@ import { GetterService } from './GetterService.js';
 import { ApiLoggerService } from './ApiLoggerService.js';
 import type { Provider } from '@nestjs/common';
 
+const $admin_admin_add: Provider = { provide: 'ep:admin/admin/add', useClass: ep___admin_admin_add.default };
+const $admin_admin_remove: Provider = { provide: 'ep:admin/admin/remove', useClass: ep___admin_admin_remove.default };
 const $admin_meta: Provider = { provide: 'ep:admin/meta', useClass: ep___admin_meta.default };
 const $admin_abuseUserReports: Provider = { provide: 'ep:admin/abuse-user-reports', useClass: ep___admin_abuseUserReports.default };
 const $admin_accounts_create: Provider = { provide: 'ep:admin/accounts/create', useClass: ep___admin_accounts_create.default };
@@ -643,6 +647,8 @@ const $retention: Provider = { provide: 'ep:retention', useClass: ep___retention
 	providers: [
 		GetterService,
 		ApiLoggerService,
+		$admin_admin_add,
+		$admin_admin_remove,
 		$admin_meta,
 		$admin_abuseUserReports,
 		$admin_accounts_create,
@@ -960,6 +966,8 @@ const $retention: Provider = { provide: 'ep:retention', useClass: ep___retention
 		$retention,
 	],
 	exports: [
+		$admin_admin_add,
+		$admin_admin_remove,
 		$admin_meta,
 		$admin_abuseUserReports,
 		$admin_accounts_create,

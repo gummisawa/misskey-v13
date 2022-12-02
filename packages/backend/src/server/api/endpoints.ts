@@ -1,5 +1,7 @@
 import type { Schema } from '@/misc/schema.js';
 
+import * as ep___admin_admin_add from './endpoints/admin/admin/add.js';
+import * as ep___admin_admin_remove from './endpoints/admin/admin/remove.js';
 import * as ep___admin_meta from './endpoints/admin/meta.js';
 import * as ep___admin_abuseUserReports from './endpoints/admin/abuse-user-reports.js';
 import * as ep___admin_accounts_create from './endpoints/admin/accounts/create.js';
@@ -325,6 +327,8 @@ const eps = [
 	['admin/ad/delete', ep___admin_ad_delete],
 	['admin/ad/list', ep___admin_ad_list],
 	['admin/ad/update', ep___admin_ad_update],
+	['admin/admin/add', ep___admin_admin_add],
+	['admin/admin/remove', ep___admin_admin_remove],
 	['admin/announcements/create', ep___admin_announcements_create],
 	['admin/announcements/delete', ep___admin_announcements_delete],
 	['admin/announcements/list', ep___admin_announcements_list],

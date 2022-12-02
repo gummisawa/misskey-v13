@@ -54,6 +54,7 @@ export default class extends Endpoint<typeof meta, typeof paramDef> {
 			if (!_me.isAdmin) {
 				return {
 					isModerator: user.isModerator,
+					isAdmin: user.isAdmin,
 					isSilenced: user.isSilenced,
 					isSuspended: user.isSuspended,
 				};
@@ -81,6 +82,7 @@ export default class extends Endpoint<typeof meta, typeof paramDef> {
 				mutedInstances: profile.mutedInstances,
 				mutingNotificationTypes: profile.mutingNotificationTypes,
 				isModerator: user.isModerator,
+				isAdmin: user.isAdmin,
 				isSilenced: user.isSilenced,
 				isSuspended: user.isSuspended,
 				lastActiveDate: user.lastActiveDate,
