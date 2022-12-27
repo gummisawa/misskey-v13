@@ -138,6 +138,12 @@ export class User {
 
 	@Column('boolean', {
 		default: false,
+		comment: 'Whether the User is a fox.',
+	})
+	public isFox: boolean;
+
+	@Column('boolean', {
+		default: false,
 		comment: 'Whether the User is the admin.',
 	})
 	public isAdmin: boolean;

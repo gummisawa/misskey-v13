@@ -55,6 +55,10 @@ export const packedUserLiteSchema = {
 			type: 'boolean',
 			nullable: false, optional: true,
 		},
+		isFox: {
+			type: 'boolean',
+			nullable: false, optional: true,
+		},
 		emojis: {
 			type: 'array',
 			nullable: false, optional: false,
