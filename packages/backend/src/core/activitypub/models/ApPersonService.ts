@@ -307,7 +307,6 @@ export class ApPersonService implements OnModuleInit {
 					tags,
 					isBot,
 					isCat: (person as any).isCat === true,
-					isFox: (person as any).isFox === true,
 					showTimelineReplies: false,
 				})) as IRemoteUser;
 
@@ -467,7 +466,6 @@ export class ApPersonService implements OnModuleInit {
 			tags,
 			isBot: getApType(object) === 'Service',
 			isCat: (person as any).isCat === true,
-			isFox: (person as any).isFox === true,
 			isLocked: !!person.manuallyApprovesFollowers,
 			isExplorable: !!person.discoverable,
 		} as Partial<User>;

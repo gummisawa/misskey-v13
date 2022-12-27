@@ -54,7 +54,6 @@
 	</FormSlot>
 
 	<FormSwitch v-model="profile.isCat" class="_formBlock">{{ i18n.ts.flagAsCat }}<template #caption>{{ i18n.ts.flagAsCatDescription }}</template></FormSwitch>
-	<FormSwitch v-model="profile.isFox" class="_formBlock">isFox(仮置きテキスト)<template #caption>せつめいせつめいせつめいせつめいせつめい</template></FormSwitch>
 	<FormSwitch v-model="profile.showTimelineReplies" class="_formBlock">{{ i18n.ts.flagShowTimelineReplies }}<template #caption>{{ i18n.ts.flagShowTimelineRepliesDescription }} {{ i18n.ts.reflectMayTakeTime }}</template></FormSwitch>
 	<FormSwitch v-model="profile.isBot" class="_formBlock">{{ i18n.ts.flagAsBot }}<template #caption>{{ i18n.ts.flagAsBotDescription }}</template></FormSwitch>
 </div>
@@ -86,7 +85,6 @@ const profile = reactive({
 	lang: $i.lang,
 	isBot: $i.isBot,
 	isCat: $i.isCat,
-	isFox: $i.isFox,
 	showTimelineReplies: $i.showTimelineReplies,
 });
 
@@ -124,7 +122,6 @@ function save() {
 		lang: profile.lang || null,
 		isBot: !!profile.isBot,
 		isCat: !!profile.isCat,
-		isFox: !!profile.isFox,
 		showTimelineReplies: !!profile.showTimelineReplies,
 	});
 }

@@ -333,7 +333,6 @@ export class NoteEntityService implements OnModuleInit {
 			} : {}),
 		});
 
-		//TODO? nojyaizeするときこのへんいじるかも(by r-ca)
 		if (packed.user.isCat && packed.text) {
 			const tokens = packed.text ? mfm.parse(packed.text) : [];
 			function nyaizeNode(node: mfm.MfmNode) {
