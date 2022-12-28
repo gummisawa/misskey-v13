@@ -56,8 +56,9 @@
 	<FormFolder>
 		<template #label>{{ i18n.ts.advancedSettings }}</template>
 
-		<div class="_formRoot">
+		<div class="_formRoot"> <!--TODO admin処理あたりを参考にisCatとisFoxを重複して設定できないようにするべきかも-->
 			<FormSwitch v-model="profile.isCat" class="_formBlock">{{ i18n.ts.flagAsCat }}<template #caption>{{ i18n.ts.flagAsCatDescription }}</template></FormSwitch>
+			<FormSwitch v-model="profile.isFox" class="_formBlock">flagAsFox（仮置きテキスト）<template #caption>isFoxのせつめいせつめい（仮置きテキスト）</template></FormSwitch>
 			<FormSwitch v-model="profile.isBot" class="_formBlock">{{ i18n.ts.flagAsBot }}<template #caption>{{ i18n.ts.flagAsBotDescription }}</template></FormSwitch>
 		</div>
 	</FormFolder>
@@ -92,6 +93,7 @@ const profile = reactive({
 	lang: $i.lang,
 	isBot: $i.isBot,
 	isCat: $i.isCat,
+	isFox: $i.isFox,
 	showTimelineReplies: $i.showTimelineReplies,
 });
 
@@ -129,6 +131,7 @@ function save() {
 		lang: profile.lang || null,
 		isBot: !!profile.isBot,
 		isCat: !!profile.isCat,
+		isFox: !!profile.isFox,
 		showTimelineReplies: !!profile.showTimelineReplies,
 	});
 }

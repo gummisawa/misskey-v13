@@ -502,6 +502,7 @@ export class ApRendererService {
 			discoverable: !!user.isExplorable,
 			publicKey: this.renderKey(user, keypair, '#main-key'),
 			isCat: user.isCat,
+			isFox: user.isFox,
 			attachment: attachment.length ? attachment : undefined,
 		} as any;
 
@@ -656,7 +657,7 @@ export class ApRendererService {
 					'isCat': 'misskey:isCat',
 					// vcard
 					vcard: 'http://www.w3.org/2006/vcard/ns#',
-				},
+				}, //TODO? ここになんか作る必要あるかも(isFox by r-ca)
 			],
 		}, x);
 	}

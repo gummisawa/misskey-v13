@@ -397,6 +397,7 @@ export class UserEntityService implements OnModuleInit {
 			isModerator: user.isModerator ?? falsy,
 			isBot: user.isBot ?? falsy,
 			isCat: user.isCat ?? falsy,
+			isFox: user.isFox ?? falsy,
 			instance: user.host ? this.userInstanceCache.fetch(user.host,
 				() => this.instancesRepository.findOneBy({ host: user.host! }),
 				v => v != null,
