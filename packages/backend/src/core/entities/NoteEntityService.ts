@@ -333,7 +333,7 @@ export class NoteEntityService implements OnModuleInit {
 			} : {}),
 		});
 
-		if (packed.user.isCat && packed.text) {
+		if (packed.user.isCat && packed.text) { //TODO? このへんでNojaizeの処理書くことになりそう？ (by r-ca)
 			const tokens = packed.text ? mfm.parse(packed.text) : [];
 			function nyaizeNode(node: mfm.MfmNode) {
 				if (node.type === 'quote') return;
