@@ -1,7 +1,17 @@
 export function nyaize(text: string): string {
 	return text
 		// ja-JP
-		.replace(/な/g, 'にゃ').replace(/ナ/g, 'ニャ').replace(/ﾅ/g, 'ﾆｬ')
+		.replace(/な$/gm, 'にゃ')
+		.replace(/ナ/g, 'ニャ')
+		.replace(/ﾅ/g, 'ﾆｬ')
+		.replace(/(な{1})(?=。|\.|、|\,|\！|\!|\?|\？)/gm, 'にゃ')
+		/*.replace(/(な{1})(?=\？)/gm, 'にゃ')
+		.replace(/(な{1})(?=\!)/gm, 'にゃ')
+		.replace(/(な{1})(?=\！)/gm, 'にゃ')
+		.replace(/(な{1})(?=、)/gm, 'にゃ')
+		.replace(/(な{1})(?=\,)/gm, 'にゃ')
+		.replace(/(な{1})(?=。)/gm, 'にゃ')
+		.replace(/(な{1})(?=\.)/gm, 'にゃ')*/
 		// en-US
 		.replace(/(?<=n)a/gi, x => x === 'A' ? 'YA' : 'ya')
 		.replace(/(?<=morn)ing/gi, x => x === 'ING' ? 'YAN' : 'yan')

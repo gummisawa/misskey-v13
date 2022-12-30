@@ -6,6 +6,7 @@ import { DI } from '@/di-symbols.js';
 import type { Config } from '@/config.js';
 import type { Packed } from '@/misc/schema.js';
 import { nyaize } from '@/misc/nyaize.js';
+import { nojaize } from '@/misc/nojaize.js';
 import { awaitAll } from '@/misc/prelude/await-all.js';
 import type { User } from '@/models/entities/User.js';
 import type { Note } from '@/models/entities/Note.js';
@@ -348,6 +349,25 @@ export class NoteEntityService implements OnModuleInit {
 			}
 			for (const node of tokens) {
 				nyaizeNode(node);
+			}
+			packed.text = mfm.toString(tokens);
+		}
+
+		if (packed.user.isFox && packed.text) { //TODO? このへんでNojaizeの処理書くことになりそう？ (by r-ca)
+			const tokens = packed.text ? mfm.parse(packed.text) : [];
+			function nojaizeNode(node: mfm.MfmNode) {
+				if (node.type === 'quote') return;
+				if (node.type === 'text') {
+					node.props.text = nojaize(node.props.text);
+				}
+				if (node.children) {
+					for (const child of node.children) {
+						nojaizeNode(child);
+					}
+				}
+			}
+			for (const node of tokens) {
+				nojaizeNode(node);
 			}
 			packed.text = mfm.toString(tokens);
 		}

@@ -58,7 +58,7 @@
 
 		<div class="_formRoot"> <!--TODO admin処理あたりを参考にisCatとisFoxを重複して設定できないようにするべきかも, テキストはisCatとかと同じように言語ごとに分けて適切な(?)ファイルに書くべきかも-->
 			<FormSwitch v-model="profile.isCat" class="_formBlock">{{ i18n.ts.flagAsCat }}<template #caption>{{ i18n.ts.flagAsCatDescription }}</template></FormSwitch>
-			<FormSwitch v-model="profile.isFox" class="_formBlock">flagAsFox（仮置きテキスト）<template #caption>isFoxのせつめいせつめい（仮置きテキスト）</template></FormSwitch> 
+			<FormSwitch v-model="profile.isFox" class="_formBlock">{{ i18n.ts.flagAsFox }}<template #caption>{{ i18n.ts.flagAsFoxDescription }}</template></FormSwitch> 
 			<FormSwitch v-model="profile.isBot" class="_formBlock">{{ i18n.ts.flagAsBot }}<template #caption>{{ i18n.ts.flagAsBotDescription }}</template></FormSwitch>
 		</div>
 	</FormFolder>

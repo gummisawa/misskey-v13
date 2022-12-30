@@ -655,6 +655,7 @@ export class ApRendererService {
 					'_misskey_votes': 'misskey:_misskey_votes',
 					'_misskey_talk': 'misskey:_misskey_talk',
 					'isCat': 'misskey:isCat',
+					'isFox': 'misskey:isFox',
 					// vcard
 					vcard: 'http://www.w3.org/2006/vcard/ns#',
 				}, //TODO? ここになんか作る必要あるかも(isFox by r-ca)

@@ -140,10 +140,10 @@ watch(() => props.user.avatarBlurhash, () => {
 		}
 	}
 
-	&.fox { //TODO 仮置きネコミミ、キツネ化する必要ありそう
+	&.fox { //再考の余地あり
 		&:before, &:after {
 			background: #df548f;
-			border: solid 4px currentColor;
+			border: solid 5px #f2e583; 
 			box-sizing: border-box;
 			content: '';
 			display: inline-block;
