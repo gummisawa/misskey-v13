@@ -62,6 +62,13 @@ export const meta = {
 			code: 'INVALID_REGEXP',
 			id: '0d786918-10df-41cd-8f33-8dec7d9a89a5',
 		},
+
+		duplicateFlags: {
+			message: 'Duplicate flags(isFox and isCat cannot be duplicated.)',
+			code: 'DUPLICATE_FLAGS',
+			id: '79524699-3f84-4bf2-84c7-385cf3f9a342',
+		},
+
 	},
 
 	res: {
@@ -197,6 +204,10 @@ export default class extends Endpoint<typeof meta, typeof paramDef> {
 			if (typeof ps.alwaysMarkNsfw === 'boolean') profileUpdates.alwaysMarkNsfw = ps.alwaysMarkNsfw;
 			if (typeof ps.autoSensitive === 'boolean') profileUpdates.autoSensitive = ps.autoSensitive;
 			if (ps.emailNotificationTypes !== undefined) profileUpdates.emailNotificationTypes = ps.emailNotificationTypes;
+
+			if (ps.isFox && ps.isCat) {
+				throw new ApiError(meta.errors.duplicateFlags);
+			}
 
 			if (ps.avatarId) {
 				const avatar = await this.driveFilesRepository.findOneBy({ id: ps.avatarId });
