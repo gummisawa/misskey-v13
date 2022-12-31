@@ -297,6 +297,10 @@ export const packedMeDetailedOnlySchema = {
 			type: 'boolean',
 			nullable: true, optional: false,
 		},
+		carefulRemote: {
+			type: 'boolean',
+			nullable: true, optional: false,
+		},
 		autoAcceptFollowed: {
 			type: 'boolean',
 			nullable: true, optional: false,

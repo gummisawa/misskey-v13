@@ -147,6 +147,7 @@ flagAsCat: "にゃああああああああああああああ！！！！！！�
 flagAsCatDescription: "にゃにゃにゃ？？"
 flagAsFox: "Foxとして設定"
 flagAsFoxDescription: "このアカウントが「きつね」であることを示したい場合は、このフラグをオンにします。オンにすると、ちょっといいことがあるとかないとか……？"
+flagCarefulRemote: "リモートからのフォローを承認制にする"
 flagShowTimelineReplies: "タイムラインにノートへの返信を表示する"
 flagShowTimelineRepliesDescription: "オンにすると、タイムラインにユーザーのノート以外にもそのユーザーの他のノートへの返信を表示します。"
 autoAcceptFollowed: "フォロー中ユーザーからのフォロリクを自動承認"

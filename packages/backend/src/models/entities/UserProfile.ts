@@ -165,6 +165,11 @@ export class UserProfile {
 	@Column('boolean', {
 		default: true,
 	})
+	public carefulRemote: boolean;
+
+	@Column('boolean', {
+		default: true,
+	})
 	public injectFeaturedNote: boolean;
 
 	@Column('boolean', {
