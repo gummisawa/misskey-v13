@@ -21,6 +21,8 @@ export const paramDef = {
 		disableRegistration: { type: 'boolean', nullable: true },
 		disableLocalTimeline: { type: 'boolean', nullable: true },
 		disableGlobalTimeline: { type: 'boolean', nullable: true },
+		disableTimelinePreview: { type: 'boolean', nullable: true },
+		disableProfileDirectory: { type: 'boolean', nullable: true },
 		useStarForReactionFallback: { type: 'boolean', nullable: true },
 		pinnedUsers: { type: 'array', nullable: true, items: {
 			type: 'string',
