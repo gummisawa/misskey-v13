@@ -285,6 +285,12 @@ export default class extends Endpoint<typeof meta, typeof paramDef> {
 			if (user.isLocked && ps.isLocked === false) {
 				this.userFollowingService.acceptAllFollowRequests(user);
 			}
+			if (profile.carefulBot && ps.carefulBot === false) {
+				this.userFollowingService.acceptAllFollowRequests(user);
+			}
+			if (profile.carefulRemote && ps.carefulRemote === false) {
+				this.userFollowingService.acceptAllFollowRequests(user);
+			}
 
 			// フォロワーにUpdateを配信
 			this.accountUpdateService.publishToFollowers(user.id);

@@ -30,7 +30,7 @@ export const navbarItemDef = reactive({
 	followRequests: {
 		title: 'followRequests',
 		icon: 'ti ti-user-plus',
-		show: computed(() => $i != null && $i.isLocked),
+		show: computed(() => $i != null && $i.isLocked || $i?.carefulBot || $i?.carefulRemote),
 		indicated: computed(() => $i != null && $i.hasPendingReceivedFollowRequest),
 		to: '/my/follow-requests',
 	},

@@ -50,7 +50,6 @@ export const packedUserLiteSchema = {
 			type: 'boolean',
 			nullable: false, optional: true,
 		},
-<<<<<<< HEAD
 		isFox: {
 			type: 'boolean',
 			nullable: false, optional: true,
@@ -74,8 +73,6 @@ export const packedUserLiteSchema = {
 				},
 			},
 		},
-=======
->>>>>>> d52e8cfbc7767c274b1cba01d6a17942fe1bc1d3
 		onlineStatus: {
 			type: 'string',
 			format: 'url',

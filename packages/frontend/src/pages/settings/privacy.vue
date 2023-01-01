@@ -1,9 +1,11 @@
 <template>
 <div class="_formRoot">
-	<FormSwitch v-model="isLocked" class="_formBlock" @update:model-value="save()">{{ i18n.ts.makeFollowManuallyApprove }}<template #caption>{{ i18n.ts.lockedAccountInfo }}</template></FormSwitch>
+	<FormSwitch v-if="!carefulRemote && !carefulBot" v-model="isLocked" class="_formBlock" @update:model-value="save()">{{ i18n.ts.makeFollowManuallyApprove }}<template #caption>{{ i18n.ts.lockedAccountInfo }}</template></FormSwitch>
 	<FormSwitch v-if="isLocked" v-model="autoAcceptFollowed" class="_formBlock" @update:model-value="save()">{{ i18n.ts.autoAcceptFollowed }}</FormSwitch>
-	<FormSwitch v-model="carefulRemote" class="_formBlock" @update:model-value="save()">{{ i18n.ts.flagCarefulRemote }}<template #caption>{{ i18n.ts.flagCarefulRemote }}</template></FormSwitch>
-	
+	<FormSwitch v-if="!isLocked" v-model="carefulRemote" class="_formBlock" @update:model-value="save()">{{ i18n.ts.flagCarefulRemote }}<template #caption>{{ i18n.ts.flagCarefulRemote }}</template></FormSwitch>
+	<FormSwitch v-if="!isLocked" v-model="carefulBot" class="_formBlock" @update:model-value="save()">{{ i18n.ts.flagCarefulBot }}<template #caption>{{ i18n.ts.flagCarefulBot }}</template></FormSwitch>
+
+
 	<FormSwitch v-model="publicReactions" class="_formBlock" @update:model-value="save()">
 		{{ i18n.ts.makeReactionsPublic }}
 		<template #caption>{{ i18n.ts.makeReactionsPublicDescription }}</template>
@@ -67,6 +69,7 @@ import { definePageMetadata } from '@/scripts/page-metadata';
 
 let isLocked = $ref($i.isLocked);
 let autoAcceptFollowed = $ref($i.autoAcceptFollowed);
+let carefulBot = $ref($i.carefulBot);
 let carefulRemote = $ref($i.carefulRemote);
 let noCrawle = $ref($i.noCrawle);
 let isExplorable = $ref($i.isExplorable);
@@ -83,6 +86,7 @@ function save() {
 	os.api('i/update', {
 		isLocked: !!isLocked,
 		autoAcceptFollowed: !!autoAcceptFollowed,
+		carefulBot: !!carefulBot,
 		carefulRemote: !!carefulRemote,
 		noCrawle: !!noCrawle,
 		isExplorable: !!isExplorable,
