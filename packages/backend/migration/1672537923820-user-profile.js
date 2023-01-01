@@ -1,7 +1,5 @@
-const { MigrationInterface, QueryRunner } = require("typeorm");
-
-module.exports = class userProfile1672503325587 {
-    name = 'userProfile1672503325587'
+export class userProfile1672537923820 {
+    name = 'userProfile1672537923820'
 
     async up(queryRunner) {
         await queryRunner.query(`COMMENT ON COLUMN "user"."isFox" IS 'Whether the User is a fox.'`);

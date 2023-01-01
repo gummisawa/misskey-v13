@@ -16,7 +16,10 @@
 		<template v-else-if="isFollowing">
 			<span v-if="full">{{ i18n.ts.unfollow }}</span><i class="ti ti-minus"></i>
 		</template>
-		<template v-else-if="!isFollowing && user.isLocked">
+		<template v-else-if="!isFollowing && !profile.carefulBot">
+			<span v-if="full">{{ i18n.ts.followRequest }}</span><i class="ti ti-plus"></i>
+		</template>
+		<template v-else-if="!isFollowing && !profile.carefulRemote">
 			<span v-if="full">{{ i18n.ts.followRequest }}</span><i class="ti ti-plus"></i>
 		</template>
 		<template v-else-if="!isFollowing && !user.isLocked">
