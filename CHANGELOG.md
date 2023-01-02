@@ -33,6 +33,8 @@ You should also include the user name that made the change.
 - AVIF support @tamaina
 - Add Cloudflare Turnstile CAPTCHA support @CyberRex0
 - Introduce retention-rate aggregation @syuilo
+- Make possible to export favorited notes @syuilo
+- Add per user pv chart @syuilo
 - Server: signToActivityPubGet is set to true by default @syuilo
 - Server: improve syslog performance @syuilo
 - Server: improve note scoring for featured notes @CyberRex0
@@ -72,6 +74,7 @@ You should also include the user name that made the change.
 - Client: Webhookの編集画面で、内容を保存することができない問題を修正 @m-hayabusa
 - Client: update emoji picker immediately on all input @saschanaz
 - Client: チャートのツールチップが画面に残ることがあるのを修正 @syuilo
+- Client: fix wrong link in tutorial @syuilo
 
 ## 12.119.1 (2022/12/03)
 ### Bugfixes
