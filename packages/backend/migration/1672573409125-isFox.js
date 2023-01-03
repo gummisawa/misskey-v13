@@ -1,4 +1,4 @@
-export class isFox1672573409125 {
+/*export class isFox1672573409125 {
     name = 'isFox1672573409125'
 
     async up(queryRunner) {
@@ -8,4 +8,4 @@ export class isFox1672573409125 {
     async down(queryRunner) {
         await queryRunner.query(`ALTER TABLE "user" DROP COLUMN "isFox" `);
     }
-}
+}*/
