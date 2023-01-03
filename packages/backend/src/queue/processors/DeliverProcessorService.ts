@@ -15,10 +15,10 @@ import ApRequestChart from '@/core/chart/charts/ap-request.js';
 import FederationChart from '@/core/chart/charts/federation.js';
 import { StatusError } from '@/misc/status-error.js';
 import { UtilityService } from '@/core/UtilityService.js';
+import { bindThis } from '@/decorators.js';
 import { QueueLoggerService } from '../QueueLoggerService.js';
 import type Bull from 'bull';
 import type { DeliverJobData } from '../types.js';
-import { bindThis } from '@/decorators.js';
 
 @Injectable()
 export class DeliverProcessorService {
@@ -83,13 +83,15 @@ export class DeliverProcessorService {
 			await this.apRequestService.signedPost(job.data.user, job.data.to, job.data.content);
 
 			// Update stats
-			this.federatedInstanceService.registerOrFetchInstanceDoc(host).then(i => {
-				this.instancesRepository.update(i.id, {
-					latestRequestSentAt: new Date(),
-					latestStatus: 200,
-					lastCommunicatedAt: new Date(),
-					isNotResponding: false,
-				});
+			this.federatedInstanceService.fetch(host).then(i => {
+				if (i.isNotResponding) {
+					this.instancesRepository.update(i.id, {
+						isNotResponding: false,
+					});
+					this.federatedInstanceService.updateCachePartial(host, {
+						isNotResponding: false,
+					});
+				}
 
 				this.fetchInstanceMetadataService.fetchInstanceMetadata(i);
 
@@ -100,13 +102,16 @@ export class DeliverProcessorService {
 
 			return 'Success';
 		} catch (res) {
-		// Update stats
-			this.federatedInstanceService.registerOrFetchInstanceDoc(host).then(i => {
-				this.instancesRepository.update(i.id, {
-					latestRequestSentAt: new Date(),
-					latestStatus: res instanceof StatusError ? res.statusCode : null,
-					isNotResponding: true,
-				});
+			// Update stats
+			this.federatedInstanceService.fetch(host).then(i => {
+				if (!i.isNotResponding) {
+					this.instancesRepository.update(i.id, {
+						isNotResponding: true,
+					});
+					this.federatedInstanceService.updateCachePartial(host, {
+						isNotResponding: true,
+					});
+				}
 
 				this.instanceChart.requestSent(i.host, false);
 				this.apRequestChart.deliverFail();
@@ -114,17 +119,17 @@ export class DeliverProcessorService {
 			});
 
 			if (res instanceof StatusError) {
-			// 4xx
+				// 4xx
 				if (res.isClientError) {
-				// HTTPステータスコード4xxはクライアントエラーであり、それはつまり
-				// 何回再送しても成功することはないということなのでエラーにはしないでおく
+					// HTTPステータスコード4xxはクライアントエラーであり、それはつまり
+					// 何回再送しても成功することはないということなのでエラーにはしないでおく
 					return `${res.statusCode} ${res.statusMessage}`;
 				}
 
 				// 5xx etc.
 				throw `${res.statusCode} ${res.statusMessage}`;
 			} else {
-			// DNS error, socket error, timeout ...
+				// DNS error, socket error, timeout ...
 				throw res;
 			}
 		}

@@ -13,7 +13,7 @@
   id-denylist violation when setting it. This is causing about 60+ lint issues.
   As this is part of Chart.js's API it makes sense to disable the check here.
 */
-import { onMounted, ref, watch, PropType, onUnmounted } from 'vue';
+import { onMounted, ref, shallowRef, watch, PropType, onUnmounted } from 'vue';
 import { Chart } from 'chart.js';
 import 'chartjs-adapter-date-fns';
 import { enUS } from 'date-fns/locale';
@@ -102,7 +102,7 @@ let chartData: {
 	}[];
 } = null;
 
-const chartEl = ref<HTMLCanvasElement>(null);
+const chartEl = shallowRef<HTMLCanvasElement>(null);
 const fetching = ref(true);
 
 const getDate = (ago: number) => {
@@ -128,11 +128,7 @@ const render = () => {
 		chartInstance.destroy();
 	}
 
-	const gridColor = defaultStore.state.darkMode ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.1)';
 	const vLineColor = defaultStore.state.darkMode ? 'rgba(255, 255, 255, 0.2)' : 'rgba(0, 0, 0, 0.2)';
-
-	// フォントカラー
-	Chart.defaults.color = getComputedStyle(document.documentElement).getPropertyValue('--fg');
 
 	const maxes = chartData.series.map((x, i) => Math.max(...x.data.map(d => d.y)));
 
@@ -188,8 +184,6 @@ const render = () => {
 						unit: props.span === 'day' ? 'month' : 'day',
 					},
 					grid: {
-						color: gridColor,
-						borderColor: 'rgb(0, 0, 0, 0)',
 					},
 					ticks: {
 						display: props.detailed,
@@ -208,8 +202,6 @@ const render = () => {
 					stacked: props.stacked,
 					suggestedMax: 50,
 					grid: {
-						color: gridColor,
-						borderColor: 'rgb(0, 0, 0, 0)',
 					},
 					ticks: {
 						display: props.detailed,
@@ -227,7 +219,6 @@ const render = () => {
 					hoverBorderWidth: 2,
 				},
 			},
-			animation: false,
 			plugins: {
 				legend: {
 					display: props.detailed,

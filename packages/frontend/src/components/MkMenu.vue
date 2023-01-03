@@ -78,7 +78,7 @@ const emit = defineEmits<{
 	(ev: 'close', actioned?: boolean): void;
 }>();
 
-let itemsEl = $ref<HTMLDivElement>();
+let itemsEl = $shallowRef<HTMLDivElement>();
 
 let items2: InnerMenuItem[] = $ref([]);
 
@@ -112,7 +112,7 @@ watch(() => props.items, () => {
 });
 
 let childMenu = $ref<MenuItem[] | null>();
-let childTarget = $ref<HTMLElement | null>();
+let childTarget = $shallowRef<HTMLElement | null>();
 
 function closeChild() {
 	childMenu = null;
@@ -203,7 +203,7 @@ onBeforeUnmount(() => {
 	> .item {
 		display: block;
 		position: relative;
-		padding: 6px 16px;
+		padding: 5px 16px;
 		width: 100%;
 		box-sizing: border-box;
 		white-space: nowrap;
