@@ -243,6 +243,10 @@ export class NoteCreateService {
 		if (data.renote && data.renote.visibility === 'followers') {
 			data.visibility = 'followers';
 		}
+		// Renote対象がpublicであっても強制的にhomeにする
+		if (data.renote && data.renote.visibility === 'public' && data.visibility === 'public') {
+			data.visibility = 'home';
+		}
 
 		// 返信対象がpublicではないならhomeにする
 		if (data.reply && data.reply.visibility !== 'public' && data.visibility === 'public') {
