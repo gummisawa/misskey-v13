@@ -1,7 +1,8 @@
-import { Entity, Column, PrimaryColumn, ManyToOne, JoinColumn } from 'typeorm';
+import { Entity, Column, PrimaryColumn, ManyToOne, JoinColumn, ColumnTypeUndefinedError } from 'typeorm';
 import { id } from '../id.js';
 import { User } from './User.js';
 import type { Clip } from './Clip.js';
+import { homedir } from 'node:os';
 
 @Entity()
 export class Meta {

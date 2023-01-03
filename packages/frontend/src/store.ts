@@ -51,11 +51,11 @@ export const defaultStore = markRaw(new Storage('base', {
 		default: false,
 	},
 	defaultNoteVisibility: {
-		where: 'account',
-		default: 'public',
+		where: 'deviceAccount',
+		default: 'home',
 	},
 	defaultNoteLocalOnly: {
-		where: 'account',
+		where: 'deviceAccount',
 		default: false,
 	},
 	uploadFolder: {

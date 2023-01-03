@@ -36,8 +36,7 @@
 		<FormSwitch v-model="rememberNoteVisibility" class="_formBlock" @update:model-value="save()">{{ i18n.ts.rememberNoteVisibility }}</FormSwitch>
 		<FormFolder v-if="!rememberNoteVisibility" class="_formBlock">
 			<template #label>{{ i18n.ts.defaultNoteVisibility }}</template>
-			<template v-if="defaultNoteVisibility === 'public'" #suffix>{{ i18n.ts._visibility.public }}</template>
-			<template v-else-if="defaultNoteVisibility === 'home'" #suffix>{{ i18n.ts._visibility.home }}</template>
+			<template v-if="defaultNoteVisibility === 'home'" #suffix>{{ i18n.ts._visibility.home }}</template>
 			<template v-else-if="defaultNoteVisibility === 'followers'" #suffix>{{ i18n.ts._visibility.followers }}</template>
 			<template v-else-if="defaultNoteVisibility === 'specified'" #suffix>{{ i18n.ts._visibility.specified }}</template>
 

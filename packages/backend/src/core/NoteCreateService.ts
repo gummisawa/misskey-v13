@@ -218,9 +218,9 @@ export class NoteCreateService {
 		}
 
 		if (data.createdAt == null) data.createdAt = new Date();
-		if (data.visibility == null) data.visibility = 'public';
-		if (data.localOnly == null) data.localOnly = false;
-		if (data.channel != null) data.visibility = 'public';
+		if (data.visibility == null) data.visibility = 'home';
+		if (data.localOnly == null) data.localOnly = true;
+		if (data.channel != null) data.visibility = 'home';
 		if (data.channel != null) data.visibleUsers = [];
 		if (data.channel != null) data.localOnly = true;
 
@@ -256,6 +256,11 @@ export class NoteCreateService {
 
 		// ローカルのみにリプライしたらローカルのみにする
 		if (data.reply && data.reply.localOnly && data.channel == null) {
+			data.localOnly = true;
+		}
+
+		//公開範囲を制限する(なくても良い)
+		if (data.visibility === 'public') {
 			data.localOnly = true;
 		}
 
