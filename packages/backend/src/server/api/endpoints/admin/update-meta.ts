@@ -19,6 +19,7 @@ export const paramDef = {
 	type: 'object',
 	properties: {
 		disableRegistration: { type: 'boolean', nullable: true },
+		disableInvitation: { type: 'boolean', nullable: true },
 		disableLocalTimeline: { type: 'boolean', nullable: true },
 		disableGlobalTimeline: { type: 'boolean', nullable: true },
 		disableTimelinePreview: { type: 'boolean', nullable: true },
@@ -130,6 +131,10 @@ export default class extends Endpoint<typeof meta, typeof paramDef> {
 
 			if (typeof ps.disableRegistration === 'boolean') {
 				set.disableRegistration = ps.disableRegistration;
+			}
+
+			if (typeof ps.disableInvitation === 'boolean') {
+				set.disableInvitation = ps.disableInvitation;
 			}
 
 			if (typeof ps.disableLocalTimeline === 'boolean') {

@@ -73,7 +73,7 @@ export class NodeinfoServerService {
 					inbound: [] as string[],
 					outbound: ['atom1.0', 'rss2.0'],
 				},
-				openRegistrations: !meta.disableRegistration,
+				openRegistrations: !meta.disableRegistration || !meta.disableInvitation,
 				usage: {
 					users: { total, activeHalfyear, activeMonth },
 					localPosts,
@@ -91,6 +91,7 @@ export class NodeinfoServerService {
 					repositoryUrl: meta.repositoryUrl,
 					feedbackUrl: meta.feedbackUrl,
 					disableRegistration: meta.disableRegistration,
+					disableInvitation: meta.disableInvitation,
 					disableLocalTimeline: meta.disableLocalTimeline,
 					disableGlobalTimeline: meta.disableGlobalTimeline,
 					emailRequiredForSignup: meta.emailRequiredForSignup,

@@ -53,7 +53,7 @@ let view = $ref(null);
 let el = $ref(null);
 let pageProps = $ref({});
 let noMaintainerInformation = isEmpty(instance.maintainerName) || isEmpty(instance.maintainerEmail);
-let noBotProtection = !instance.disableRegistration && !instance.enableHcaptcha && !instance.enableRecaptcha && !instance.enableTurnstile;
+let noBotProtection = !instance.disableInvitation && !instance.disableRegistration && !instance.enableHcaptcha && !instance.enableRecaptcha && !instance.enableTurnstile;
 let noEmailServer = !instance.enableEmail;
 let thereIsUnresolvedAbuseReport = $ref(false);
 let currentPage = $computed(() => router.currentRef.value.child);
@@ -78,7 +78,7 @@ const menuDef = $computed(() => [{
 		icon: 'ti ti-search',
 		text: i18n.ts.lookup,
 		action: lookup,
-	}, ...(instance.disableRegistration ? [{
+	}, ...(instance.disableRegistration || !instance.disableInvitation ? [{
 		type: 'button',
 		icon: 'ti ti-user',
 		text: i18n.ts.invite,

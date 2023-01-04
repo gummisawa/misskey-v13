@@ -46,6 +46,11 @@ export class Meta {
 	@Column('boolean', {
 		default: false,
 	})
+	public disableInvitation: boolean;
+
+	@Column('boolean', {
+		default: false,
+	})
 	public disableLocalTimeline: boolean;
 
 	@Column('boolean', {

@@ -78,6 +78,10 @@ export const meta = {
 				type: 'boolean',
 				optional: false, nullable: false,
 			},
+			disableInvitation: {
+				type: 'boolean',
+				optional: false, nullable: false,
+			},
 			disableLocalTimeline: {
 				type: 'boolean',
 				optional: false, nullable: false,
@@ -370,6 +374,7 @@ export default class extends Endpoint<typeof meta, typeof paramDef> {
 				repositoryUrl: instance.repositoryUrl,
 				feedbackUrl: instance.feedbackUrl,
 				disableRegistration: instance.disableRegistration,
+				disableInvitation: instance.disableInvitation,
 				disableLocalTimeline: instance.disableLocalTimeline,
 				disableGlobalTimeline: instance.disableGlobalTimeline,
 				driveCapacityPerLocalUserMb: instance.localDriveCapacityMb,

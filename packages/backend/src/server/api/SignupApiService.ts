@@ -12,8 +12,8 @@ import { UserEntityService } from '@/core/entities/UserEntityService.js';
 import { EmailService } from '@/core/EmailService.js';
 import { ILocalUser } from '@/models/entities/User.js';
 import { FastifyReplyError } from '@/misc/fastify-reply-error.js';
-import { SigninService } from './SigninService.js';
 import { bindThis } from '@/decorators.js';
+import { SigninService } from './SigninService.js';
 import type { FastifyRequest, FastifyReply } from 'fastify';
 
 @Injectable()
@@ -106,7 +106,7 @@ export class SignupApiService {
 		}
 	
 		if (instance.disableRegistration) {
-			if (invitationCode == null || typeof invitationCode !== 'string') {
+			if (instance.disableInvitation || invitationCode == null || typeof invitationCode !== 'string') {
 				reply.code(400);
 				return;
 			}

@@ -1,5 +1,3 @@
-
-
 export class Init1000000000000 {
     async up(queryRunner) {
         await queryRunner.query(`CREATE TYPE "log_level_enum" AS ENUM('error', 'warning', 'info', 'success', 'debug')`);

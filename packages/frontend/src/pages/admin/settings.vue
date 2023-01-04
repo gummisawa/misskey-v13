@@ -39,6 +39,10 @@
 							<template #label>{{ i18n.ts.enableRegistration }}</template>
 						</FormSwitch>
 
+						<FormSwitch v-model="disableInvitation" class="_formBlock">
+							<template #label>{{ i18n.ts.disableInvitation }}</template>
+						</FormSwitch>
+
 						<FormSwitch v-model="emailRequiredForSignup" class="_formBlock">
 							<template #label>{{ i18n.ts.emailRequiredForSignup }}</template>
 						</FormSwitch>
@@ -180,6 +184,7 @@ let cacheRemoteFiles: boolean = $ref(false);
 let localDriveCapacityMb: any = $ref(0);
 let remoteDriveCapacityMb: any = $ref(0);
 let enableRegistration: boolean = $ref(false);
+let disableInvitation: boolean = $ref(false);
 let emailRequiredForSignup: boolean = $ref(false);
 let enableServiceWorker: boolean = $ref(false);
 let swPublicKey: any = $ref(null);
@@ -207,6 +212,7 @@ async function init() {
 	localDriveCapacityMb = meta.driveCapacityPerLocalUserMb;
 	remoteDriveCapacityMb = meta.driveCapacityPerRemoteUserMb;
 	enableRegistration = !meta.disableRegistration;
+	disableInvitation = meta.disableInvitation;
 	emailRequiredForSignup = meta.emailRequiredForSignup;
 	enableServiceWorker = meta.enableServiceWorker;
 	swPublicKey = meta.swPublickey;
@@ -235,6 +241,7 @@ function save() {
 		localDriveCapacityMb: parseInt(localDriveCapacityMb, 10),
 		remoteDriveCapacityMb: parseInt(remoteDriveCapacityMb, 10),
 		disableRegistration: !enableRegistration,
+		disableInvitation: disableInvitation,
 		emailRequiredForSignup,
 		enableServiceWorker,
 		swPublicKey,
