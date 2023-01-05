@@ -82,7 +82,7 @@ let itemsEl = $shallowRef<HTMLDivElement>();
 
 let items2: InnerMenuItem[] = $ref([]);
 
-let child = $ref<InstanceType<typeof XChild>>();
+let child = $shallowRef<InstanceType<typeof XChild>>();
 
 let keymap = $computed(() => ({
 	'up|k|shift+tab': focusUp,
@@ -217,6 +217,7 @@ onBeforeUnmount(() => {
 			content: "";
 			display: block;
 			position: absolute;
+			z-index: -1;
 			top: 0;
 			left: 0;
 			right: 0;
@@ -224,10 +225,6 @@ onBeforeUnmount(() => {
 			width: calc(100% - 16px);
 			height: 100%;
 			border-radius: 6px;
-		}
-
-		> * {
-			position: relative;
 		}
 
 		&:not(:disabled):hover {

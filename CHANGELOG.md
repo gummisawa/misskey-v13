@@ -20,6 +20,9 @@ You should also include the user name that made the change.
 	- You may have to `yarn run clean-all`, `sudo corepack enable` and `yarn set version berry` before running `yarn install` if you're still on yarn classic
 - 新たに動的なPagesを作ることはできなくなりました
 	- 代わりに今後AiScriptを用いてより柔軟に動的なコンテンツを作成できるMisskey Play機能の実装を予定しています。
+- AiScriptが0.12.0にアップデートされました
+	- 0.12.0の変更点についてはこちら https://github.com/syuilo/aiscript/blob/master/CHANGELOG.md#0120
+	- 0.12.0未満のプラグインは読み込むことはできません
 - iOS15以下のデバイスはサポートされなくなりました
 - API: カスタム絵文字エンティティに`url`プロパティが含まれなくなりました
 	- 絵文字画像を表示するには、`<instance host>/emoji/<emoji name>.webp`にリクエストすると画像が返ります。
@@ -27,6 +30,7 @@ You should also include the user name that made the change.
 	- remote: `https://p1.a9z.dev/emoji/syuilo_birth_present@mk.f72u.net.webp`
 - API: `user`および`note`エンティティに`emojis`プロパティが含まれなくなりました
 - API: `user`エンティティに`avatarColor`および`bannerColor`プロパティが含まれなくなりました
+- API: `instance`エンティティに`latestStatus`、`lastCommunicatedAt`、`latestRequestSentAt`プロパティが含まれなくなりました
 
 ### Improvements
 - Push notification of Antenna note @tamaina
@@ -53,6 +57,7 @@ You should also include the user name that made the change.
 - Client: Make widgets of universal/classic sync between devices @tamaina
 - Client: Implement the button to subscribe push notification @tamaina
 - Client: Implement the toggle to or not to close push notifications when notifications or messages are read @tamaina
+- Client: Improve RSS widget @tamaina
 - Client: show Unicode emoji tooltip with its name in MkReactionsViewer.reaction @saschanaz
 - Client: OpenSearch support @SoniEx2 @chaoticryptidz
 - Client: add user list widget @syuilo
@@ -69,6 +74,8 @@ You should also include the user name that made the change.
 - Server: trim long text of note from ap @syuilo
 - Server: Ap inboxの最大ペイロードサイズを64kbに制限 @syuilo
 - Server: アンテナの作成数上限を追加 @syuilo
+- Server: pages/likeのエラーIDが重複しているのを修正 @syuilo
+- Server: pages/updateのパラメータによってはsummaryの値が更新されないのを修正 @syuilo
 - Client: case insensitive emoji search @saschanaz
 - Client: InAppウィンドウが操作できなくなることがあるのを修正 @tamaina
 - Client: use proxied image for instance icon @syuilo
