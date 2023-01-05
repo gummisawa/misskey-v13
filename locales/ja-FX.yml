@@ -921,6 +921,8 @@ loggedInAsBot: "Botアカウントでログインしているのじゃ"
 tools: "ツール"
 cannotLoad: "読み込めないのじゃ"
 numberOfProfileView: "プロフィール表示回数なのじゃ"
+inviteRevoke: "全ての招待コードを失効させるのじゃ"
+inviteRevokeConfirm: "本当に全ての招待コードを失効させるかの？"
 
 _sensitiveMediaDetection:
   description: "機械学習を使って自動でセンシティブなメディアを検出し、モデレーションに役立てることができるのじゃ。サーバーの負荷が少し増えるのじゃ。"
@@ -1427,6 +1429,7 @@ _profile:
 
 _exportOrImport:
   allNotes: "全てのノート"
+  favoritedNotes: "お気に入りにしたノート"
   followingList: "フォロー"
   muteList: "ミュート"
   blockingList: "ブロック"
