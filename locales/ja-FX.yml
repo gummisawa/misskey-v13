@@ -923,6 +923,10 @@ cannotLoad: "読み込めないのじゃ"
 numberOfProfileView: "プロフィール表示回数なのじゃ"
 inviteRevoke: "全ての招待コードを失効させるのじゃ"
 inviteRevokeConfirm: "本当に全ての招待コードを失効させるかの？"
+like: "いいね！"
+unlike: "いいねを解除するのじゃ"
+numberOfLikes: "いいね数"
+show: "表示"
 
 _sensitiveMediaDetection:
   description: "機械学習を使って自動でセンシティブなメディアを検出し、モデレーションに役立てることができるのじゃ。サーバーの負荷が少し増えるのじゃ。"
