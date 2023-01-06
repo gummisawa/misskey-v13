@@ -1,17 +1,16 @@
 <template>
-<div class="_formRoot">
+<div class="_autoGap">
 	<FormSwitch v-if="!carefulRemote && !carefulBot" v-model="isLocked" class="_formBlock" @update:model-value="save()">{{ i18n.ts.makeFollowManuallyApprove }}<template #caption>{{ i18n.ts.lockedAccountInfo }}</template></FormSwitch>
 	<FormSwitch v-if="isLocked" v-model="autoAcceptFollowed" class="_formBlock" @update:model-value="save()">{{ i18n.ts.autoAcceptFollowed }}</FormSwitch>
 	<FormSwitch v-if="!isLocked" v-model="carefulRemote" class="_formBlock" @update:model-value="save()">{{ i18n.ts.flagCarefulRemote }}<template #caption>{{ i18n.ts.flagCarefulRemote }}</template></FormSwitch>
 	<FormSwitch v-if="!isLocked" v-model="carefulBot" class="_formBlock" @update:model-value="save()">{{ i18n.ts.flagCarefulBot }}<template #caption>{{ i18n.ts.flagCarefulBot }}</template></FormSwitch>
 
-
-	<FormSwitch v-model="publicReactions" class="_formBlock" @update:model-value="save()">
+	<FormSwitch v-model="publicReactions" @update:model-value="save()">
 		{{ i18n.ts.makeReactionsPublic }}
 		<template #caption>{{ i18n.ts.makeReactionsPublicDescription }}</template>
 	</FormSwitch>
 		
-	<FormSelect v-model="ffVisibility" class="_formBlock" @update:model-value="save()">
+	<FormSelect v-model="ffVisibility" @update:model-value="save()">
 		<template #label>{{ i18n.ts.ffVisibility }}</template>
 		<option value="public">{{ i18n.ts._ffVisibility.public }}</option>
 		<option value="followers">{{ i18n.ts._ffVisibility.followers }}</option>
@@ -19,38 +18,42 @@
 		<template #caption>{{ i18n.ts.ffVisibilityDescription }}</template>
 	</FormSelect>
 		
-	<FormSwitch v-model="hideOnlineStatus" class="_formBlock" @update:model-value="save()">
+	<FormSwitch v-model="hideOnlineStatus" @update:model-value="save()">
 		{{ i18n.ts.hideOnlineStatus }}
 		<template #caption>{{ i18n.ts.hideOnlineStatusDescription }}</template>
 	</FormSwitch>
-	<FormSwitch v-model="noCrawle" class="_formBlock" @update:model-value="save()">
+	<FormSwitch v-model="noCrawle" @update:model-value="save()">
 		{{ i18n.ts.noCrawle }}
 		<template #caption>{{ i18n.ts.noCrawleDescription }}</template>
 	</FormSwitch>
-	<FormSwitch v-model="isExplorable" class="_formBlock" @update:model-value="save()">
+	<FormSwitch v-model="isExplorable" @update:model-value="save()">
 		{{ i18n.ts.makeExplorable }}
 		<template #caption>{{ i18n.ts.makeExplorableDescription }}</template>
 	</FormSwitch>
 
 	<FormSection>
-		<FormSwitch v-model="rememberNoteVisibility" class="_formBlock" @update:model-value="save()">{{ i18n.ts.rememberNoteVisibility }}</FormSwitch>
-		<FormFolder v-if="!rememberNoteVisibility" class="_formBlock">
-			<template #label>{{ i18n.ts.defaultNoteVisibility }}</template>
-			<template v-if="defaultNoteVisibility === 'home'" #suffix>{{ i18n.ts._visibility.home }}</template>
-			<template v-else-if="defaultNoteVisibility === 'followers'" #suffix>{{ i18n.ts._visibility.followers }}</template>
-			<template v-else-if="defaultNoteVisibility === 'specified'" #suffix>{{ i18n.ts._visibility.specified }}</template>
+		<div class="_autoGap">
+			<FormSwitch v-model="rememberNoteVisibility" class="_formBlock" @update:model-value="save()">{{ i18n.ts.rememberNoteVisibility }}</FormSwitch>
+			<FormFolder v-if="!rememberNoteVisibility" class="_formBlock">
+				<template #label>{{ i18n.ts.defaultNoteVisibility }}</template>
+				<template v-if="defaultNoteVisibility === 'home'" #suffix>{{ i18n.ts._visibility.home }}</template>
+				<template v-else-if="defaultNoteVisibility === 'followers'" #suffix>{{ i18n.ts._visibility.followers }}</template>
+				<template v-else-if="defaultNoteVisibility === 'specified'" #suffix>{{ i18n.ts._visibility.specified }}</template>
 
-			<FormSelect v-model="defaultNoteVisibility" class="_formBlock">
-				<option value="public">{{ i18n.ts._visibility.public }}</option>
-				<option value="home">{{ i18n.ts._visibility.home }}</option>
-				<option value="followers">{{ i18n.ts._visibility.followers }}</option>
-				<option value="specified">{{ i18n.ts._visibility.specified }}</option>
-			</FormSelect>
-			<FormSwitch v-model="defaultNoteLocalOnly" class="_formBlock">{{ i18n.ts._visibility.localOnly }}</FormSwitch>
-		</FormFolder>
+				<div class="_autoGap">
+					<FormSelect v-model="defaultNoteVisibility">
+						<option value="public">{{ i18n.ts._visibility.public }}</option>
+						<option value="home">{{ i18n.ts._visibility.home }}</option>
+						<option value="followers">{{ i18n.ts._visibility.followers }}</option>
+						<option value="specified">{{ i18n.ts._visibility.specified }}</option>
+					</FormSelect>
+					<FormSwitch v-model="defaultNoteLocalOnly">{{ i18n.ts._visibility.localOnly }}</FormSwitch>
+				</div>
+			</FormFolder>
+		</div>
 	</FormSection>
 
-	<FormSwitch v-model="keepCw" class="_formBlock" @update:model-value="save()">{{ i18n.ts.keepCw }}</FormSwitch>
+	<FormSwitch v-model="keepCw" @update:model-value="save()">{{ i18n.ts.keepCw }}</FormSwitch>
 </div>
 </template>
 
