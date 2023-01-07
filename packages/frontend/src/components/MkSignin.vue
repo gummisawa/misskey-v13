@@ -1,11 +1,11 @@
 <template>
 <form class="eppvobhk" :class="{ signing, totpLogin }" @submit.prevent="onSubmit">
-	<div class="auth _autoGap">
+	<div class="auth _gaps_m">
 		<div v-show="withAvatar" class="avatar" :style="{ backgroundImage: user ? `url('${ user.avatarUrl }')` : null, marginBottom: message ? '1.5em' : null }"></div>
 		<MkInfo v-if="message">
 			{{ message }}
 		</MkInfo>
-		<div v-if="!totpLogin" class="normal-signin _autoGap">
+		<div v-if="!totpLogin" class="normal-signin _gaps_m">
 			<MkInput v-model="username" :placeholder="i18n.ts.username" type="text" pattern="^[a-zA-Z0-9_]+$" :spellcheck="false" autofocus required data-cy-signin-username @update:model-value="onUsernameChange">
 				<template #prefix>@</template>
 				<template #suffix>@{{ host }}</template>
@@ -53,7 +53,7 @@ import { defineAsyncComponent } from 'vue';
 import { toUnicode } from 'punycode/';
 import { showSuspendedDialog } from '../scripts/show-suspended-dialog';
 import MkButton from '@/components/MkButton.vue';
-import MkInput from '@/components/form/input.vue';
+import MkInput from '@/components/MkInput.vue';
 import MkInfo from '@/components/MkInfo.vue';
 import { apiUrl, host as configHost } from '@/config';
 import { byteify, hexify } from '@/scripts/2fa';

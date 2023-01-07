@@ -1,14 +1,15 @@
 <template>
 <MkSpacer :content-max="narrow ? 800 : 1100">
 	<div ref="rootEl" class="ftskorzw" :class="{ wide: !narrow }" style="container-type: inline-size;">
-		<div class="main _autoGap">
+		<div class="main _gaps">
 			<!-- TODO -->
 			<!-- <div class="punished" v-if="user.isSuspended"><i class="fas fa-exclamation-triangle" style="margin-right: 8px;"></i> {{ i18n.ts.userSuspended }}</div> -->
 			<!-- <div class="punished" v-if="user.isSilenced"><i class="fas fa-exclamation-triangle" style="margin-right: 8px;"></i> {{ i18n.ts.userSilenced }}</div> -->
 
-			<div class="profile">
-				<MkRemoteCaution v-if="user.host != null" :href="user.url" class="warn" />
-				<div class="profile _autoGap">
+			<div class="profile _gaps">
+				<MkRemoteCaution v-if="user.host != null" :href="user.url" class="warn"/>
+
+				<div :key="user.id" class="main _panel">
 					<div class="banner-container" :style="style">
 						<div ref="bannerEl" class="banner" :style="style"></div>
 						<div class="title">
@@ -101,14 +102,14 @@
 				</div>
 			</div>
 
-			<div class="contents">
-				<div v-if="user.pinnedNotes.length > 0" class="_autoGap_half">
+			<div class="contents _gaps">
+				<div v-if="user.pinnedNotes.length > 0" class="_gaps">
 					<XNote v-for="note in user.pinnedNotes" :key="note.id" class="note _panel" :note="note" :pinned="true"/>
 				</div>
 				<MkInfo v-else-if="$i && $i.id === user.id">{{ i18n.ts.userPagePinTip }}</MkInfo>
 				<template v-if="narrow">
-					<XPhotos :key="user.id" :user="user" />
-					<XActivity :key="user.id" :user="user" style="margin-top: var(--margin);" />
+					<XPhotos :key="user.id" :user="user"/>
+					<XActivity :key="user.id" :user="user"/>
 				</template>
 			</div>
 			<div>
@@ -122,7 +123,6 @@
 	</div>
 	</MkSpacer>
 </template>
-
 <script lang="ts" setup>
 import { defineAsyncComponent, computed, inject, onMounted, onUnmounted, watch } from 'vue';
 import calcAge from 's-age';
@@ -144,6 +144,7 @@ import { useRouter } from '@/router';
 import { i18n } from '@/i18n';
 import { $i } from '@/account';
 import { dateString } from '@/filters/date';
+import { confetti } from '@/scripts/confetti';
 
 const XPhotos = defineAsyncComponent(() => import('./index.photos.vue'));
 const XActivity = defineAsyncComponent(() => import('./index.activity.vue'));
@@ -196,6 +197,18 @@ function parallax() {
 onMounted(() => {
 	window.requestAnimationFrame(parallaxLoop);
 	narrow = rootEl!.clientWidth < 1000;
+
+	if (props.user.birthday) {
+		const m = new Date().getMonth() + 1;
+		const d = new Date().getDate();
+		const bm = parseInt(props.user.birthday.split('-')[1]);
+		const bd = parseInt(props.user.birthday.split('-')[2]);
+		if (m === bm && d === bd) {
+			confetti({
+				duration: 1000 * 4
+			});
+		}
+	}
 });
 
 onUnmounted(() => {
