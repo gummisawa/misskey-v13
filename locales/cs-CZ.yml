@@ -610,7 +610,6 @@ speed: "Rychlost"
 slow: "Pomalá"
 fast: "Rychlá"
 account: "Účty"
-show: "Zobrazit"
 _ad:
   back: "Zpět"
 _gallery:
@@ -749,9 +748,6 @@ _charts:
 _timelines:
   home: "Domů"
   global: "Globální"
-_play:
-  script: "Skript"
-  summary: "Popis"
 _pages:
   newPage: "Vytvořit novou stránku"
   editPage: "Upravit stránku"

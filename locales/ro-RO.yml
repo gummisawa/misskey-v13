@@ -647,7 +647,6 @@ middle: "Mediu"
 sent: "Trimite"
 searchByGoogle: "Caută"
 file: "Fișiere"
-show: "Arată"
 _email:
   _follow:
     title: "te-a urmărit"
@@ -691,9 +690,6 @@ _charts:
   federation: "Federație"
 _timelines:
   home: "Acasă"
-_play:
-  script: "Script"
-  summary: "Descriere"
 _pages:
   blocks:
     image: "Imagini"

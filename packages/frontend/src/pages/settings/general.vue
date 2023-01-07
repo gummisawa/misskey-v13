@@ -52,7 +52,8 @@
 				<MkSwitch v-model="showGapBetweenNotesInTimeline">{{ i18n.ts.showGapBetweenNotesInTimeline }}</MkSwitch>
 				<MkSwitch v-model="loadRawImages">{{ i18n.ts.loadRawImages }}</MkSwitch>
 				<MkSwitch v-model="disableShowingAnimatedImages">{{ i18n.ts.disableShowingAnimatedImages }}</MkSwitch>
-				<MkSwitch v-model="squareAvatars">{{ i18n.ts.squareAvatars }}</MkSwitch>
+				<!--<MkSwitch v-model="squareAvatars">{{ i18n.ts.squareAvatars }}</MkSwitch>-->
+				<MkSwitch v-model="circleAvatars">{{ i18n.ts.circleAvatars }}</MkSwitch>
 				<MkSwitch v-model="useSystemFont">{{ i18n.ts.useSystemFont }}</MkSwitch>
 				<MkSwitch v-model="disableDrawer">{{ i18n.ts.disableDrawer }}</MkSwitch>
 			</div>
@@ -154,7 +155,8 @@ const numberOfPageCache = computed(defaultStore.makeGetterSetter('numberOfPageCa
 const instanceTicker = computed(defaultStore.makeGetterSetter('instanceTicker'));
 const enableInfiniteScroll = computed(defaultStore.makeGetterSetter('enableInfiniteScroll'));
 const useReactionPickerForContextMenu = computed(defaultStore.makeGetterSetter('useReactionPickerForContextMenu'));
-const squareAvatars = computed(defaultStore.makeGetterSetter('squareAvatars'));
+//const squareAvatars = computed(defaultStore.makeGetterSetter('squareAvatars'));
+const circleAvatars = computed(defaultStore.makeGetterSetter('circleAvatars'));
 const aiChanMode = computed(defaultStore.makeGetterSetter('aiChanMode'));
 
 watch(lang, () => {
@@ -183,7 +185,8 @@ watch([
 	fontSize,
 	useSystemFont,
 	enableInfiniteScroll,
-	squareAvatars,
+	//squareAvatars,
+	circleAvatars,
 	aiChanMode,
 	showGapBetweenNotesInTimeline,
 	instanceTicker,

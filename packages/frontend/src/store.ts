@@ -246,7 +246,11 @@ export const defaultStore = markRaw(new Storage('base', {
 		where: 'device',
 		default: false,
 	},
-	squareAvatars: {
+/*	squareAvatars: {
+		where: 'device',
+		default: false,
+	},*/
+	circleAvatars: {
 		where: 'device',
 		default: false,
 	},

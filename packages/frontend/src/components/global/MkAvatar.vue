@@ -1,9 +1,9 @@
 <template>
-<span v-if="disableLink" v-user-preview="disablePreview ? undefined : user.id" class="eiwwqkts _noSelect" :class="{ fox: user.isFox, cat: user.isCat, square: $store.state.squareAvatars }" :style="{ color }" :title="acct(user)" @click="onClick">
+<span v-if="disableLink" v-user-preview="disablePreview ? undefined : user.id" class="eiwwqkts _noSelect" :class="{ fox: user.isFox, cat: user.isCat,/* square: $store.state.squareAvatars*/ circle: $store.state.circleAvatars }" :style="{ color }" :title="acct(user)" @click="onClick">
 	<img class="inner" :src="url" decoding="async"/>
 	<MkUserOnlineIndicator v-if="showIndicator" class="indicator" :user="user"/>
 </span>
-<MkA v-else v-user-preview="disablePreview ? undefined : user.id" class="eiwwqkts _noSelect" :class="{ fox: user.isFox, cat: user.isCat, square: $store.state.squareAvatars }" :style="{ color }" :to="userPage(user)" :title="acct(user)" :target="target">
+<MkA v-else v-user-preview="disablePreview ? undefined : user.id" class="eiwwqkts _noSelect" :class="{ fox: user.isFox, cat: user.isCat,/* square: $store.state.squareAvatars*/ circle: $store.state.circleAvatars }" :style="{ color }" :to="userPage(user)" :title="acct(user)" :target="target">
 	<img class="inner" :src="url" decoding="async"/>
 	<MkUserOnlineIndicator v-if="showIndicator" class="indicator" :user="user"/>
 </MkA>
@@ -74,7 +74,8 @@ watch(() => props.user.avatarBlurhash, () => {
 	display: inline-block;
 	vertical-align: bottom;
 	flex-shrink: 0;
-	border-radius: 100%;
+	//border-radius: 100%;
+	border-radius: 20%;
 	line-height: 16px;
 
 	> .inner {
@@ -83,7 +84,8 @@ watch(() => props.user.avatarBlurhash, () => {
 		left: 0;
 		right: 0;
 		top: 0;
-		border-radius: 100%;
+		//border-radius: 100%;
+		border-radius: 20%;
 		z-index: 1;
 		overflow: clip;
 		object-fit: cover;
@@ -100,11 +102,19 @@ watch(() => props.user.avatarBlurhash, () => {
 		height: 20%;
 	}
 
-	&.square {
+	/*&.square {
 		border-radius: 20%;
 
 		> .inner {
 			border-radius: 20%;
+		}
+	}*/
+
+	&.circle {
+		border-radius: 100%;
+
+		> .inner {
+			border-radius: 100%;
 		}
 	}
 
