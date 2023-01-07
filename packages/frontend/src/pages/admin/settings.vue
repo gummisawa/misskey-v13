@@ -47,6 +47,7 @@
 							<FormSwitch v-model="emailRequiredForSignup">
 								<template #label>{{ i18n.ts.emailRequiredForSignup }}</template>
 							</FormSwitch>
+						</div>
 					</FormSection>
 
 					<FormSection>
