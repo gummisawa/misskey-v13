@@ -163,12 +163,17 @@ export class UserProfile {
 	public carefulBot: boolean;
 
 	@Column('boolean', {
-		default: true,
+		default: false,
 	})
 	public carefulRemote: boolean;
 
 	@Column('boolean', {
-		default: true,
+		default: false,
+	})
+	public carefulMassive: boolean;
+
+	@Column('boolean', {
+		default: false,
 	})
 	public injectFeaturedNote: boolean;
 

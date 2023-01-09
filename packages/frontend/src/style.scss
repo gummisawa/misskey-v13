@@ -242,7 +242,7 @@ hr {
 
 ._textButton {
 	@extend ._button;
-	color: var(--accent);
+	color: var(--navFocusFg);
 
 	&:not(:disabled):hover {
 		text-decoration: underline;

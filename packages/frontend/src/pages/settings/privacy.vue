@@ -1,9 +1,10 @@
 <template>
 <div class="_gaps_m">
-	<MkSwitch v-if="!carefulRemote && !carefulBot" v-model="isLocked" @update:model-value="save()">{{ i18n.ts.makeFollowManuallyApprove }}<template #caption>{{ i18n.ts.lockedAccountInfo }}</template></MkSwitch>
-	<MkSwitch v-if="isLocked" v-model="autoAcceptFollowed" @update:model-value="save()">{{ i18n.ts.autoAcceptFollowed }}</MkSwitch>
-	<MkSwitch v-if="!isLocked" v-model="carefulRemote" @update:model-value="save()">{{ i18n.ts.flagCarefulRemote }}<template #caption>{{ i18n.ts.flagCarefulRemote }}</template></MkSwitch>
-	<MkSwitch v-if="!isLocked" v-model="carefulBot" @update:model-value="save()">{{ i18n.ts.flagCarefulBot }}<template #caption>{{ i18n.ts.flagCarefulBot }}</template></MkSwitch>
+	<MkSwitch v-if="!carefulRemote && !carefulBot && !carefulMassive" v-model="isLocked" @update:model-value="save()">{{ i18n.ts.makeFollowManuallyApprove }}<template #caption>{{ i18n.ts.lockedAccountInfo }}</template></MkSwitch>
+	<MkSwitch v-if="!isLocked" v-model="carefulRemote" @update:model-value="save()">{{ i18n.ts.flagCarefulRemote }}<template #caption>{{ i18n.ts.carefulRemoteInfo }}</template></MkSwitch>
+	<MkSwitch v-if="!isLocked" v-model="carefulBot" @update:model-value="save()">{{ i18n.ts.flagCarefulBot }}<template #caption>{{ i18n.ts.carefulBotInfo }}</template></MkSwitch>
+	<MkSwitch v-if="!isLocked" v-model="carefulMassive" @update:model-value="save()">{{ i18n.ts.flagCarefulMassive }}<template #caption>{{ i18n.ts.carefulMassiveInfo}}</template></MkSwitch>
+	<MkSwitch v-if="isLocked || carefulRemote || carefulBot || carefulMassive" v-model="autoAcceptFollowed" @update:model-value="save()">{{ i18n.ts.autoAcceptFollowed }}</MkSwitch>
 
 	<MkSwitch v-model="publicReactions" @update:model-value="save()">
 		{{ i18n.ts.makeReactionsPublic }}
@@ -73,6 +74,7 @@ let isLocked = $ref($i.isLocked);
 let autoAcceptFollowed = $ref($i.autoAcceptFollowed);
 let carefulBot = $ref($i.carefulBot);
 let carefulRemote = $ref($i.carefulRemote);
+let carefulMassive = $ref($i.carefulMassive);
 let noCrawle = $ref($i.noCrawle);
 let isExplorable = $ref($i.isExplorable);
 let hideOnlineStatus = $ref($i.hideOnlineStatus);
@@ -90,6 +92,7 @@ function save() {
 		autoAcceptFollowed: !!autoAcceptFollowed,
 		carefulBot: !!carefulBot,
 		carefulRemote: !!carefulRemote,
+		carefulMassive: !!carefulMassive,
 		noCrawle: !!noCrawle,
 		isExplorable: !!isExplorable,
 		hideOnlineStatus: !!hideOnlineStatus,

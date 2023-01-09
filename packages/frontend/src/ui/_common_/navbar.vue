@@ -277,15 +277,15 @@ function more(ev: MouseEvent) {
 
 					&:hover {
 						text-decoration: none;
-						color: var(--navHoverFg);
+						color: var(--navFocusFg);
 					}
 
 					&.active {
-						color: var(--navActive);
+						color: var(--navFocusFg);
 					}
 
 					&:hover, &.active {
-						color: var(--accent);
+						color: var(--navFocusFg);
 
 						&:before {
 							content: "";
@@ -299,7 +299,7 @@ function more(ev: MouseEvent) {
 							right: 0;
 							bottom: 0;
 							border-radius: 999px;
-							background: var(--accentedBg);
+							background: var(--navFocusBg);
 						}
 					}
 				}
@@ -451,7 +451,9 @@ function more(ev: MouseEvent) {
 							right: 0;
 							bottom: 0;
 							border-radius: 999px;
-							background: var(--accentedBg);
+							color: var(--navFocusFg);
+							background: var(--navFocusBg);
+							z-index: -1;
 						}
 
 						> .icon, > .text {

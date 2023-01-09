@@ -458,6 +458,7 @@ export class UserEntityService implements OnModuleInit {
 				autoSensitive: profile!.autoSensitive,
 				carefulBot: profile!.carefulBot,
 				carefulRemote: profile!.carefulRemote,
+				carefulMassive: profile!.carefulMassive,
 				autoAcceptFollowed: profile!.autoAcceptFollowed,
 				noCrawle: profile!.noCrawle,
 				isExplorable: user.isExplorable,

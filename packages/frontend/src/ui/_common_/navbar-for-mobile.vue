@@ -248,7 +248,7 @@ function more() {
 						right: 0;
 						bottom: 0;
 						border-radius: 999px;
-						background: var(--accentedBg);
+						background: var(--navFocusBg);
 					}
 				}
 			}

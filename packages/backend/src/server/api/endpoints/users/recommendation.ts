@@ -53,6 +53,7 @@ export default class extends Endpoint<typeof meta, typeof paramDef> {
 				.where('user.isLocked = FALSE')
 				.andWhere('profile.carefulBot = FALSE')
 				.andWhere('profile.carefulRemote = FALSE')
+				.andWhere('profile.carefulMassive = FALSE')
 				.andWhere('user.isExplorable = TRUE')
 				.andWhere('user.host IS NULL')
 				.andWhere('user.updatedAt >= :date', { date: new Date(Date.now() - ms('7days')) })

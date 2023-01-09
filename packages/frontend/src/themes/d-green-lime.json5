@@ -8,6 +8,9 @@
 
 	props: {
 		accent: '#b4e900',
+		navFocusFg: '@accent',
+		navFocusBg: '@accentedBg',
+		accentedFg: '@accent',
 		bg: '#0C1210',
 		fg: '#dee7e4',
 		fgHighlighted: '#fff',

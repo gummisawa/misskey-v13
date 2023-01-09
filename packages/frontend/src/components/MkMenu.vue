@@ -228,11 +228,11 @@ onBeforeUnmount(() => {
 		}
 
 		&:not(:disabled):hover {
-			color: var(--accent);
+			color: var(--navFocusFg);
 			text-decoration: none;
 
 			&:before {
-				background: var(--accentedBg);
+				background: var(--navFocusBg);
 			}
 		}
 
@@ -300,11 +300,11 @@ onBeforeUnmount(() => {
 			}
 
 			&.childShowing {
-				color: var(--accent);
+				color: var(--nuvFocusFg);
 				text-decoration: none;
 
 				&:before {
-					background: var(--accentedBg);
+					background: var(--navFocusBg);
 				}
 			}
 		}

@@ -97,8 +97,8 @@ function close() {
 			border-radius: 10px;
 
 			&:hover {
-				color: var(--accent);
-				background: var(--accentedBg);
+				color: var(--navFocusFg);
+				background: var(--navFocusBg);
 				text-decoration: none;
 			}
 

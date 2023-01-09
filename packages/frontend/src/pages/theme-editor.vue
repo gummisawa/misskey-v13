@@ -41,6 +41,28 @@
 				</div>
 			</FormFolder>
 
+			<FormFolder :default-open="true">
+				<template #label>{{ i18n.ts.navFocusBg }}</template>
+				<div class="cwepdizn-colors">
+					<div class="row">
+						<button v-for="color in navFocusBg" :key="color" class="color rounded _button" :class="{ active: theme.props.navFocusBg === color }" @click="setNavFocusBg(color)">
+							<div class="preview" :style="{ background: color }"></div>
+						</button>
+					</div>
+				</div>
+			</FormFolder>
+
+			<FormFolder :default-open="true">
+				<template #label>{{ i18n.ts.navFocusFg }}</template>
+				<div class="cwepdizn-colors">
+					<div class="row">
+						<button v-for="color in navFocusFg" :key="color" class="color char _button" :class="{ active: (theme.props.navFocusFg === color.forLight) || (theme.props.navFocusFg === color.forDark) }" @click="setNavFocusFg(color)">
+							<div class="preview" :style="{ color: color.forPreview ? color.forPreview : theme.base === 'light' ? '#5f5f5f' : '#dadada' }">A</div>
+						</button>
+					</div>
+				</div>
+			</FormFolder>
+
 			<FormFolder :default-open="false">
 				<template #icon><i class="ti ti-code"></i></template>
 				<template #label>{{ i18n.ts.editCode }}</template>
@@ -109,6 +131,16 @@ const bgColors = [
 	{ color: '#191919', kind: 'dark', forPreview: '#272727' },
 ] as const;
 const accentColors = ['#e36749', '#f29924', '#98c934', '#34c9a9', '#34a1c9', '#606df7', '#8d34c9', '#e84d83'];
+const navFocusBg = ['#e3674926', '#f2992426', '#98c93426', '#34c9a926', '#34a1c926', '#606df726', '#8d34c926', '#e84d8326'];
+const navFocusFg = [
+	{ color: 'none', forLight: '#5f5f5f', forDark: '#dadada', forPreview: null },
+	{ color: 'red', forLight: '#7f6666', forDark: '#e4d1d1', forPreview: '#ca4343' },
+	{ color: 'yellow', forLight: '#736955', forDark: '#e0d5c0', forPreview: '#d49923' },
+	{ color: 'green', forLight: '#586d5b', forDark: '#d1e4d4', forPreview: '#4cbd5c' },
+	{ color: 'cyan', forLight: '#5d7475', forDark: '#d1e3e4', forPreview: '#2abdc3' },
+	{ color: 'blue', forLight: '#676880', forDark: '#d1d2e4', forPreview: '#7275d8' },
+	{ color: 'pink', forLight: '#84667d', forDark: '#e4d1e0', forPreview: '#b12390' },
+];
 const fgColors = [
 	{ color: 'none', forLight: '#5f5f5f', forDark: '#dadada', forPreview: null },
 	{ color: 'red', forLight: '#7f6666', forDark: '#e4d1d1', forPreview: '#ca4343' },
@@ -153,6 +185,14 @@ function setBgColor(color: typeof bgColors[number]) {
 
 function setAccentColor(color) {
 	theme.props.accent = color;
+}
+
+function setNavFocusBg(color) {
+	theme.props.navFocusBg = color;
+}
+
+function setNavFocusFg(color) {
+	theme.props.navFocusFg = theme.base === 'light' ? color.forLight : color.forDark;
 }
 
 function setFgColor(color) {

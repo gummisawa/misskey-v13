@@ -72,8 +72,8 @@ export default defineComponent({
 				}
 
 				&.active {
-					color: var(--accent);
-					background: var(--accentedBg);
+					color: var(--navFocusFg);
+					background: var(--navFocusBg);
 				}
 
 				&.danger {
@@ -128,10 +128,10 @@ export default defineComponent({
 					&:hover {
 						text-decoration: none;
 						background: none;
-						color: var(--accent);
+						color: var(--navFocusFg);
 
 						> .icon {
-							background: var(--accentedBg);
+							background: var(--navFocusBg);
 						}
 					}
 
