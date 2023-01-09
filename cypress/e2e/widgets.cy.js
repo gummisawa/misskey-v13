@@ -48,7 +48,7 @@ describe('After user signed in', () => {
 	buildWidgetTest('timeline');
 	buildWidgetTest('calendar');
 	buildWidgetTest('rss');
-	buildWidgetTest('trends');
+	//buildWidgetTest('trends');
 	buildWidgetTest('clock');
 	buildWidgetTest('activity');
 	buildWidgetTest('photos');

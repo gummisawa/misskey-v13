@@ -57,6 +57,11 @@ export class Meta {
 		default: false,
 	})
 	public disableGlobalTimeline: boolean;
+	
+	@Column('boolean', {
+		default: false,
+	})
+	public disableTrends: boolean;
 
 	@Column('boolean', {
 		default: false,

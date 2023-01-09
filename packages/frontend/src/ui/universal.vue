@@ -123,7 +123,7 @@ defaultStore.ready.then(() => {
 			name: 'notifications',
 			id: 'b', place: 'right', data: {},
 		}, {
-			name: 'trends',
+			name: 'clicker',
 			id: 'c', place: 'right', data: {},
 		}]);
 	}

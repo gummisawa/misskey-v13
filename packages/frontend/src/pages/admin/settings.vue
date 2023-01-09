@@ -59,6 +59,13 @@
 					</FormSection>
 
 					<FormSection>
+						<div class="_gaps_s">
+							<!--<MkSwitch v-model="enableFeatured">{{ i18n.ts.enableFeatured }}</MkSwitch>-->
+							<MkSwitch v-model="enableTrends">{{ i18n.ts.enableTrends }}</MkSwitch>
+						</div>
+					</FormSection>
+
+					<FormSection>
 						<template #label>{{ i18n.ts.theme }}</template>
 
 						<div class="_gaps_m">
@@ -191,6 +198,8 @@ let defaultLightTheme: any = $ref(null);
 let defaultDarkTheme: any = $ref(null);
 let enableLocalTimeline: boolean = $ref(false);
 let enableGlobalTimeline: boolean = $ref(false);
+let enableFeatured: boolean = $ref(false);
+let enableTrends: boolean = $ref(false);
 let pinnedUsers: string = $ref('');
 let cacheRemoteFiles: boolean = $ref(false);
 let localDriveCapacityMb: any = $ref(0);
@@ -219,6 +228,8 @@ async function init() {
 	maintainerEmail = meta.maintainerEmail;
 	enableLocalTimeline = !meta.disableLocalTimeline;
 	enableGlobalTimeline = !meta.disableGlobalTimeline;
+	enableFeatured = !meta.enableFeatured;
+	enableTrends = !meta.disableTrends;
 	pinnedUsers = meta.pinnedUsers.join('\n');
 	cacheRemoteFiles = meta.cacheRemoteFiles;
 	localDriveCapacityMb = meta.driveCapacityPerLocalUserMb;
@@ -248,6 +259,8 @@ function save() {
 		maintainerEmail,
 		disableLocalTimeline: !enableLocalTimeline,
 		disableGlobalTimeline: !enableGlobalTimeline,
+		disableFeatured: !enableFeatured,
+		disableTrends: !enableTrends,
 		pinnedUsers: pinnedUsers.split('\n'),
 		cacheRemoteFiles,
 		localDriveCapacityMb: parseInt(localDriveCapacityMb, 10),

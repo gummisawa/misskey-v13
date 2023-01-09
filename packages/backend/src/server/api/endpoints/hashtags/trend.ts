@@ -71,6 +71,10 @@ export default class extends Endpoint<typeof meta, typeof paramDef> {
 		private metaService: MetaService,
 	) {
 		super(meta, paramDef, async () => {
+			const m = await this.metaService.fetch(true);
+			if (m.disableTrends) {
+				return [];
+			}
 			const instance = await this.metaService.fetch(true);
 			const hiddenTags = instance.hiddenTags.map(t => normalizeForSearch(t));
 

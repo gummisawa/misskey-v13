@@ -332,6 +332,7 @@ disablingTimelinesInfo: "Adminstrators and Moderators will always have access to
 registration: "Register"
 enableRegistration: "Enable new user registration"
 invite: "Invite"
+enableTrends: "Enable Trends"
 driveCapacityPerLocalAccount: "Drive capacity per local user"
 driveCapacityPerRemoteAccount: "Drive capacity per remote user"
 inMb: "In megabytes"

@@ -22,6 +22,7 @@ export const paramDef = {
 		disableInvitation: { type: 'boolean', nullable: true },
 		disableLocalTimeline: { type: 'boolean', nullable: true },
 		disableGlobalTimeline: { type: 'boolean', nullable: true },
+		disableTrends: { type: 'boolean', nullable: true },
 		disableTimelinePreview: { type: 'boolean', nullable: true },
 		disableProfileDirectory: { type: 'boolean', nullable: true },
 		useStarForReactionFallback: { type: 'boolean', nullable: true },
@@ -143,6 +144,14 @@ export default class extends Endpoint<typeof meta, typeof paramDef> {
 
 			if (typeof ps.disableGlobalTimeline === 'boolean') {
 				set.disableGlobalTimeline = ps.disableGlobalTimeline;
+			}
+
+			if (typeof ps.disableFeatured === 'boolean') {
+				set.disableFeatured = ps.disableFeatured;
+			}
+
+			if (typeof ps.disableTrends === 'boolean') {
+				set.disableTrends = ps.disableTrends;
 			}
 
 			if (typeof ps.useStarForReactionFallback === 'boolean') {

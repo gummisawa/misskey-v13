@@ -437,7 +437,7 @@ function more(ev: MouseEvent) {
 
 					&:hover, &.active {
 						text-decoration: none;
-						color: var(--accent);
+						color: var(--navFocusFg);
 
 						&:before {
 							content: "";

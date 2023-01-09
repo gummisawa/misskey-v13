@@ -47,7 +47,7 @@ const props = withDefaults(defineProps<{
 	tag?: string;
 	initialTab?: string;
 }>(), {
-	initialTab: 'featured',
+	initialTab: 'users',
 });
 
 let tab = $ref(props.initialTab);
@@ -71,10 +71,10 @@ const searchPagination = {
 const headerActions = $computed(() => []);
 
 const headerTabs = $computed(() => [{
-	key: 'featured',
+/*	key: 'featured',
 	icon: 'ti ti-bolt',
 	title: i18n.ts.featured,
-}, {
+}, {*/
 	key: 'users',
 	icon: 'ti ti-users',
 	title: i18n.ts.users,

@@ -138,9 +138,6 @@ defaultStore.ready.then(() => {
 		}, {
 			name: 'notifications',
 			id: 'b', place: null, data: {},
-		}, {
-			name: 'trends',
-			id: 'c', place: null, data: {},
 		}]);
 	}
 });

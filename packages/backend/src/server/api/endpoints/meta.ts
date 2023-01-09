@@ -7,6 +7,7 @@ import { UserEntityService } from '@/core/entities/UserEntityService.js';
 import { MetaService } from '@/core/MetaService.js';
 import type { Config } from '@/config.js';
 import { DI } from '@/di-symbols.js';
+import { disableDeprecationWarnings } from '@tensorflow/tfjs-node';
 
 export const meta = {
 	tags: ['meta'],
@@ -86,6 +87,10 @@ export const meta = {
 				optional: false, nullable: false,
 			},
 			disableGlobalTimeline: {
+				type: 'boolean',
+				optional: false, nullable: false,
+			},
+			disableTrends: {
 				type: 'boolean',
 				optional: false, nullable: false,
 			},
@@ -321,6 +326,7 @@ export default class extends Endpoint<typeof meta, typeof paramDef> {
 				disableInvitation: instance.disableInvitation,
 				disableLocalTimeline: instance.disableLocalTimeline,
 				disableGlobalTimeline: instance.disableGlobalTimeline,
+				disableTrends: instance.disableTrends,
 				driveCapacityPerLocalUserMb: instance.localDriveCapacityMb,
 				driveCapacityPerRemoteUserMb: instance.remoteDriveCapacityMb,
 				emailRequiredForSignup: instance.emailRequiredForSignup,
