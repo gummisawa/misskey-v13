@@ -33,7 +33,7 @@
 	</MkSelect>
 
 	<FormSlot>
-		<FormFolder>
+		<MkFolder>
 			<template #icon><i class="ti ti-list"></i></template>
 			<template #label>{{ i18n.ts._profile.metadataEdit }}</template>
 
@@ -51,11 +51,11 @@
 					<MkButton inline primary @click="saveFields"><i class="ti ti-check"></i> {{ i18n.ts.save }}</MkButton>
 				</div>
 			</div>
-		</FormFolder>
+		</MkFolder>
 		<template #caption>{{ i18n.ts._profile.metadataDescription }}</template>
 	</FormSlot>
 
-	<FormFolder>
+	<MkFolder>
 		<template #label>{{ i18n.ts.advancedSettings }}</template>
 
 		<div class="_gaps_m"> <!--TODO admin処理あたりを参考にisCatとisFoxを重複して設定できないようにするべきかも, テキストはisCatとかと同じように言語ごとに分けて適切な(?)ファイルに書くべきかも-->
@@ -63,7 +63,7 @@
 			<MkSwitch v-if="!$i?.isCat" v-model="profile.isFox">{{ i18n.ts.flagAsFox }}<template #caption>{{ i18n.ts.flagAsFoxDescription }}</template></MkSwitch> 
 			<MkSwitch v-model="profile.isBot" class="_formBlock">{{ i18n.ts.flagAsBot }}<template #caption>{{ i18n.ts.flagAsBotDescription }}</template></MkSwitch>
 		</div>
-	</FormFolder>
+	</MkFolder>
 
 	<MkSwitch v-model="profile.showTimelineReplies">{{ i18n.ts.flagShowTimelineReplies }}<template #caption>{{ i18n.ts.flagShowTimelineRepliesDescription }} {{ i18n.ts.reflectMayTakeTime }}</template></MkSwitch>
 </div>
@@ -77,7 +77,7 @@ import MkTextarea from '@/components/MkTextarea.vue';
 import MkSwitch from '@/components/MkSwitch.vue';
 import MkSelect from '@/components/MkSelect.vue';
 import FormSplit from '@/components/form/split.vue';
-import FormFolder from '@/components/form/folder.vue';
+import MkFolder from '@/components/MkFolder.vue';
 import FormSlot from '@/components/form/slot.vue';
 import { host } from '@/config';
 import { selectFile } from '@/scripts/select-file';

@@ -77,12 +77,12 @@
 
 						<MkButton v-if="user.host != null" @click="updateRemoteUser"><i class="ti ti-refresh"></i> {{ i18n.ts.updateRemoteUser }}</MkButton>
 
-						<FormFolder>
+						<MkFolder>
 							<template #label>Raw</template>
 
 							<MkObjectView v-if="ap" tall :value="ap">
 							</MkObjectView>
-						</FormFolder>
+						</MkFolder>
 					</div>
 				</FormSection>
 			</div>
@@ -99,7 +99,7 @@
 				<MkTextarea v-model="moderationNote" manual-save>
 					<template #label>Moderation note</template>
 				</MkTextarea>
-				<FormFolder>
+				<MkFolder>
 					<template #label>IP</template>
 					<MkInfo v-if="!iAmAdmin" warn>{{ i18n.ts.requireAdminForView }}</MkInfo>
 					<MkInfo v-else>The date is the IP address was first acknowledged.</MkInfo>
@@ -109,12 +109,12 @@
 							<span class="ip">{{ record.ip }}</span>
 						</div>
 					</template>
-				</FormFolder>
-				<FormFolder>
+				</MkFolder>
+				<MkFolder>
 					<template #label>{{ i18n.ts.files }}</template>
 
 					<MkFileListForAdmin :pagination="filesPagination" view-mode="grid"/>
-				</FormFolder>
+				</MkFolder>
 				<FormSection>
 					<template #label>Drive Capacity Override</template>
 
@@ -166,7 +166,7 @@ import FormSection from '@/components/form/section.vue';
 import MkButton from '@/components/MkButton.vue';
 import MkInput from '@/components/MkInput.vue';
 import FormSplit from '@/components/form/split.vue';
-import FormFolder from '@/components/form/folder.vue';
+import MkFolder from '@/components/MkFolder.vue';
 import MkKeyValue from '@/components/MkKeyValue.vue';
 import MkSelect from '@/components/MkSelect.vue';
 import FormSuspense from '@/components/form/suspense.vue';
