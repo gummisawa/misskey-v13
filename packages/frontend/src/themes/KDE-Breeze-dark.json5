@@ -1,0 +1,14 @@
+{
+	base: 'dark',
+	props: {
+		accent: '#3DAEE9',
+		bg: '#232629',
+		panel: '31363B',
+		navFocusBg: ':alpha<0.6<@accent',
+		navFocusFg: '#dadada',
+		fg: '#dadada',
+	},
+	id: '27cbc0ff-1df5-494c-b512-4118e40dcdff',
+	name: 'KDE Plasma Breeze Dark風',
+	author: 'とある管理者',
+}

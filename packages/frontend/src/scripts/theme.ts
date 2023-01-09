@@ -30,6 +30,8 @@ export const getBuiltinThemes = () => Promise.all(
 		'l-sushi',
 		'l-u0',
 
+		'KDE-Breeze-dark',
+		'Kemomimi-cafe',
 		'd-dark',
 		'd-persimmon',
 		'd-astro',
