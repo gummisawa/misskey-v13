@@ -1368,6 +1368,7 @@ _widgets:
   userList: "ユーザーリスト"
   _userList:
     chooseList: "リストを選択"
+  clicker: "クリッカー"
 
 _cw:
   hide: "隠す"
