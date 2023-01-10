@@ -1270,6 +1270,8 @@ _weekday:
   friday: "Thứ Sáu"
   saturday: "Thứ Bảy"
 _widgets:
+  profile: "Trang cá nhân"
+  instanceInfo: "Thông tin máy chủ"
   memo: "Tút đã ghim"
   notifications: "Thông báo"
   timeline: "Bảng tin"
