@@ -1,7 +1,7 @@
 <template>
 <Transition :name="$store.state.animation ? '_transition_zoom' : ''" appear>
 	<div class="mjndxjcg">
-		<img src="https://xn--931a.moe/assets/error.jpg" class="_ghost"/>
+		<img src="https://beta-media.kemomi.me/media/3ca30b92-8f82-4fd5-a2f6-140f92f0be55.png" class="_ghost"/>
 		<p><i class="ti ti-alert-triangle"></i> {{ i18n.ts.somethingHappened }}</p>
 		<MkButton class="button" @click="() => $emit('retry')">{{ i18n.ts.retry }}</MkButton>
 	</div>

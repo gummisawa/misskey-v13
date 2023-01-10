@@ -3,7 +3,7 @@
 	<FormPagination ref="list" :pagination="pagination">
 		<template #empty>
 			<div class="_fullinfo">
-				<img src="https://xn--931a.moe/assets/info.jpg" class="_ghost"/>
+				<img src="https://beta-media.kemomi.me/media/3ca30b92-8f82-4fd5-a2f6-140f92f0be55.png" class="_ghost"/>
 				<div>{{ i18n.ts.nothing }}</div>
 			</div>
 		</template>
