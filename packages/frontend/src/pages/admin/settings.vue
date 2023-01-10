@@ -60,7 +60,6 @@
 
 					<FormSection>
 						<div class="_gaps_s">
-							<!--<MkSwitch v-model="enableFeatured">{{ i18n.ts.enableFeatured }}</MkSwitch>-->
 							<MkSwitch v-model="enableTrends">{{ i18n.ts.enableTrends }}</MkSwitch>
 						</div>
 					</FormSection>
@@ -198,7 +197,6 @@ let defaultLightTheme: any = $ref(null);
 let defaultDarkTheme: any = $ref(null);
 let enableLocalTimeline: boolean = $ref(false);
 let enableGlobalTimeline: boolean = $ref(false);
-let enableFeatured: boolean = $ref(false);
 let enableTrends: boolean = $ref(false);
 let pinnedUsers: string = $ref('');
 let cacheRemoteFiles: boolean = $ref(false);
@@ -228,7 +226,6 @@ async function init() {
 	maintainerEmail = meta.maintainerEmail;
 	enableLocalTimeline = !meta.disableLocalTimeline;
 	enableGlobalTimeline = !meta.disableGlobalTimeline;
-	enableFeatured = !meta.enableFeatured;
 	enableTrends = !meta.disableTrends;
 	pinnedUsers = meta.pinnedUsers.join('\n');
 	cacheRemoteFiles = meta.cacheRemoteFiles;
@@ -259,7 +256,6 @@ function save() {
 		maintainerEmail,
 		disableLocalTimeline: !enableLocalTimeline,
 		disableGlobalTimeline: !enableGlobalTimeline,
-		disableFeatured: !enableFeatured,
 		disableTrends: !enableTrends,
 		pinnedUsers: pinnedUsers.split('\n'),
 		cacheRemoteFiles,

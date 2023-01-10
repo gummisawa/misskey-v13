@@ -146,10 +146,6 @@ export default class extends Endpoint<typeof meta, typeof paramDef> {
 				set.disableGlobalTimeline = ps.disableGlobalTimeline;
 			}
 
-			if (typeof ps.disableFeatured === 'boolean') {
-				set.disableFeatured = ps.disableFeatured;
-			}
-
 			if (typeof ps.disableTrends === 'boolean') {
 				set.disableTrends = ps.disableTrends;
 			}
