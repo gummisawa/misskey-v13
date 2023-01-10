@@ -1,10 +1,10 @@
 {
 	"name": "misskey",
-	"version": "13.0.0-beta.36",
+	"version": "13.0.0-kakitsubata(beta.36)",
 	"codename": "indigo",
 	"repository": {
 		"type": "git",
-		"url": "https://github.com/misskey-dev/misskey.git"
+		"url": "https://github.com/gummisawa/misskey-v13.git"
 	},
 	"packageManager": "yarn@3.3.0",
 	"workspaces": [
