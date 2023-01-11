@@ -30,19 +30,20 @@ const faviconUrl = $computed(() => props.instance ? getProxiedImageUrlNullable(p
 const themeColor = instance.themeColor ?? '#777777';
 
 const bg = {
-	background: `linear-gradient(90deg, ${themeColor}, ${themeColor}00)`,
+	background: `linear-gradient(90deg, ${themeColor}, ${themeColor}11)`,
 };
 </script>
 
 <style lang="scss" module>
-$height: 2ex;
+$height: 1.1rem;
 
 .root {
 	display: flex;
-	align-items: center;
+	justify-self: end;
 	height: $height;
-	border-radius: 4px 0 0 4px;
-	overflow: clip;
+	padding: .1em .7em;
+	border-radius: 100px;
+	overflow: hidden;
 	color: #fff;
 	text-shadow: /* .866 ≈ sin(60deg) */
 		1px 0 1px #000,
@@ -65,16 +66,16 @@ $height: 2ex;
 }
 
 .icon {
-	height: $height;
+	height: 100%;
 	flex-shrink: 0;
 }
 
 .name {
 	margin-left: 4px;
-	line-height: 1;
+	line-height: $height;
 	font-size: 0.9em;
+	vertical-align: top;
 	font-weight: bold;
-	white-space: nowrap;
-	overflow: visible;
+	text-overflow: clip;
 }
 </style>

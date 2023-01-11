@@ -37,6 +37,11 @@ defineProps<{
 	display: flex;
 	align-items: baseline;
 	white-space: nowrap;
+	justify-self: flex-end;
+	padding: .1em .7em;
+	border-radius: 100px;
+	font-size: .8em;
+
 }
 
 .name {
@@ -45,7 +50,7 @@ defineProps<{
 	margin: 0 .5em 0 0;
 	padding: 0;
 	overflow: hidden;
-	font-size: 1em;
+	font-size: 1.2em;
 	font-weight: bold;
 	text-decoration: none;
 	text-overflow: ellipsis;
@@ -70,11 +75,18 @@ defineProps<{
 	margin: 0 .5em 0 0;
 	overflow: hidden;
 	text-overflow: ellipsis;
+	grid-row: 2;
+	align-self: flex-start;
 }
 
 .info {
 	flex-shrink: 0;
 	margin-left: auto;
-	font-size: 0.9em;
+	font-size: 1.1em;
+	font-weight: bold;	
+}
+
+.name, .info {
+	grid-row: 1;
 }
 </style>

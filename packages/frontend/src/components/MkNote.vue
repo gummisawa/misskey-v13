@@ -39,7 +39,7 @@
 		<div :class="$style.main">
 			<MkNoteHeader :class="$style.header" :note="appearNote" :mini="true"/>
 			<MkInstanceTicker v-if="showTicker" :class="$style.ticker" :instance="appearNote.user.instance"/>
-			<div style="container-type: inline-size;">
+			<div :class="$style.body">
 				<p v-if="appearNote.cw != null" :class="$style.cw">
 					<Mfm v-if="appearNote.cw != ''" style="margin-right: 8px;" :text="appearNote.cw" :author="appearNote.user" :i="$i"/>
 					<MkCwButton v-model="showContent" :note="appearNote"/>
@@ -458,24 +458,54 @@ function readPromo() {
 }
 
 .article {
-	display: flex;
+	display: grid;
 	padding: 28px 32px 18px;
+	align-items: center;
+	grid-template-columns: 58px;
 }
 
 .avatar {
 	flex-shrink: 0;
-	display: block !important;
+	display: block;
 	margin: 0 14px 8px 0;
-	width: 58px;
-	height: 58px;
-	position: sticky !important;
-	top: calc(22px + var(--stickyTop, 0px));
+	grid-row: 1 / span 2;
+	width: 48px;
+	height: 48px;
+	position: relative;
+	top: 0;
 	left: 0;
 }
 
 .main {
 	flex: 1;
 	min-width: 0;
+	display: contents;
+}
+
+.header {
+	display: contents;
+}
+
+.ticker {
+	grid-row: 2;
+	align-self: flex-start;
+	margin-left: auto;
+}
+
+.ticker {
+	font-size: 0.9em;
+}
+
+.body {
+	margin-top: .2em;
+	overflow: hidden;
+	margin-inline: -100px;
+	padding-inline: 100px;
+	grid-column: 1 / span 3;
+	width: 100%;
+	max-width: 100%;
+	font-size: 1.05em;
+	font-weight: bold;
 }
 
 .cw {
@@ -570,13 +600,19 @@ function readPromo() {
 	font-size: 80%;
 }
 
+.footer{
+	grid-column: 1 / span 3;
+	width: 100%;
+	max-width: 100%;
+}
+
 .footerButton {
 	margin: 0;
 	padding: 8px;
 	opacity: 0.7;
 
 	&:not(:last-child) {
-		margin-right: 28px;
+		margin-right: 16px;
 	}
 
 	&:hover {
@@ -618,7 +654,8 @@ function readPromo() {
 		margin: 0 10px 8px 0;
 		width: 46px;
 		height: 46px;
-		top: calc(14px + var(--stickyTop, 0px));
+		top: 0;
+		left: 0;
 	}
 }
 
