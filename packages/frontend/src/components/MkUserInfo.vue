@@ -33,7 +33,6 @@ import * as misskey from 'misskey-js';
 import MkFollowButton from '@/components/MkFollowButton.vue';
 import { userPage } from '@/filters/user';
 import { i18n } from '@/i18n';
-
 defineProps<{
 	user: misskey.entities.UserDetailed;
 }>();
@@ -42,14 +41,12 @@ defineProps<{
 <style lang="scss" scoped>
 .vjnjpkug {
 	position: relative;
-
 	> .banner {
 		height: 84px;
 		background-color: rgba(0, 0, 0, 0.1);
 		background-size: cover;
 		background-position: center;
 	}
-
 	> .avatar {
 		display: block;
 		position: absolute;
@@ -60,11 +57,9 @@ defineProps<{
 		height: 58px;
 		border: solid 4px var(--panel);
 	}
-
 	> .title {
 		display: block;
 		padding: 10px 0 10px 88px;
-
 		> .name {
 			display: inline-block;
 			margin: 0;
@@ -72,7 +67,6 @@ defineProps<{
 			line-height: 16px;
 			word-break: break-all;
 		}
-
 		> .username {
 			display: block;
 			margin: 0;
@@ -98,7 +92,6 @@ defineProps<{
 		padding: 16px;
 		font-size: 0.8em;
 		border-top: solid 0.5px var(--divider);
-
 		> .mfm {
 			display: -webkit-box;
 			-webkit-line-clamp: 3;
@@ -106,28 +99,23 @@ defineProps<{
 			overflow: hidden;
 		}
 	}
-
 	> .status {
 		padding: 10px 16px;
 		border-top: solid 0.5px var(--divider);
-
 		> div {
 			display: inline-block;
 			width: 33%;
-
 			> p {
 				margin: 0;
 				font-size: 0.7em;
 				color: var(--fg);
 			}
-
 			> span {
 				font-size: 1em;
 				color: var(--accent);
 			}
 		}
 	}
-
 	> .koudoku-button {
 		position: absolute;
 		top: 8px;

@@ -3,8 +3,8 @@
 	<div ref="rootEl" class="ftskorzw" :class="{ wide: !narrow }" style="container-type: inline-size;">
 		<div class="main _gaps">
 			<!-- TODO -->
-			<!-- <div class="punished" v-if="user.isSuspended"><i class="fas fa-exclamation-triangle" style="margin-right: 8px;"></i> {{ i18n.ts.userSuspended }}</div> -->
-			<!-- <div class="punished" v-if="user.isSilenced"><i class="fas fa-exclamation-triangle" style="margin-right: 8px;"></i> {{ i18n.ts.userSilenced }}</div> -->
+			<!-- <div class="punished" v-if="user.isSuspended"><i class="ti ti-alert-triangle" style="margin-right: 8px;"></i> {{ i18n.ts.userSuspended }}</div> -->
+			<!-- <div class="punished" v-if="user.isSilenced"><i class="ti ti-alert-triangle" style="margin-right: 8px;"></i> {{ i18n.ts.userSilenced }}</div> -->
 
 			<div class="profile _gaps">
 				<MkRemoteCaution v-if="user.host != null" :href="user.url" class="warn"/>
@@ -12,12 +12,10 @@
 				<div :key="user.id" class="main _panel">
 					<div class="banner-container" :style="style">
 						<div ref="bannerEl" class="banner" :style="style"></div>
+						<div class="fade"></div>
 						<div class="title">
-							<MkUserName class="name" :user="user" :nowrap="true" />
+							<MkUserName class="name" :user="user" :nowrap="true"/>
 							<div class="bottom">
-								<span class="username">
-									<MkAcct :user="user" :detail="true" />
-								</span>
 								<!-- <span v-if="user.isAdmin" :title="i18n.ts.isAdmin" style="color: var(--badge);"><i class="fas fa-bookmark"></i></span>
 								<span v-if="!user.isAdmin && user.isModerator" :title="i18n.ts.isModerator" style="color: var(--badge);"><i class="far fa-bookmark"></i></span>
 								<span v-if="user.isLocked" :title="i18n.ts.isLocked"><i class="fas fa-lock"></i></span>
@@ -26,47 +24,35 @@
 								<span v-if="user.isAdmin" class="administrator">Administrator</span>
 							</div>
 						</div>
-						<span v-if="$i && $i.id != user.id && user.isFollowed" class="followed">{{
-							i18n.ts.followsYou
-						}}</span>
+						<span v-if="$i && $i.id != user.id && user.isFollowed" class="followed">{{ i18n.ts.followsYou }}</span>
 						<div v-if="$i" class="actions">
-							<button class="menu _button" @click="menu"><i class="fas fa-ellipsis-h"></i></button>
-							<MkFollowButton
-								v-if="$i.id != user.id" :user="user" :inline="true" :transparent="false"
-								:full="true" class="koudoku"
-							/>
+							<button class="menu _button" @click="menu"><i class="ti ti-dots"></i></button>
+							<MkFollowButton v-if="$i.id != user.id" :user="user" :inline="true" :transparent="false" :full="true" class="koudoku"/>
 						</div>
 					</div>
-					<MkAvatar class="avatar" :user="user" :disable-preview="true" :show-indicator="true" />
+					<MkAvatar class="avatar" :user="user" :disable-preview="true" :show-indicator="true"/>
 					<div class="title">
-						<MkUserName :user="user" :nowrap="false" class="name" />
+						<MkUserName :user="user" :nowrap="false" class="name"/>
 						<div class="bottom">
-							<span class="username">
-								<MkAcct :user="user" :detail="true" />
-							</span>
-							<!-- <span v-if="user.isAdmin" :title="i18n.ts.isAdmin" style="color: var(--badge);"><i class="fas fa-bookmark"></i></span>
-							<span v-if="!user.isAdmin && user.isModerator" :title="i18n.ts.isModerator" style="color: var(--badge);"><i class="far fa-bookmark"></i></span> -->
-							<span v-if="user.isModerator" class="moderator">Moderator</span>
-							<span v-if="user.isAdmin" class="administrator">Administrator</span>
-							<span v-if="user.isLocked" :title="i18n.ts.isLocked"><i class="fas fa-lock"></i></span>
-							<span v-if="user.isBot" :title="i18n.ts.isBot"><i class="fas fa-robot"></i></span>
+							<span class="username"><MkAcct :user="user" :detail="true"/></span>
+							<span v-if="user.isAdmin" :title="i18n.ts.isAdmin" style="color: var(--badge);"><i class="ti ti-shield"></i></span>
+							<span v-if="!user.isAdmin && user.isModerator" :title="i18n.ts.isModerator" style="color: var(--badge);"><i class="ti ti-shield"></i></span>
+							<span v-if="user.isLocked" :title="i18n.ts.isLocked"><i class="ti ti-lock"></i></span>
+							<span v-if="user.isBot" :title="i18n.ts.isBot"><i class="ti ti-robot"></i></span>
 						</div>
 					</div>
 					<div class="description">
-						<Mfm v-if="user.description" :text="user.description" :is-note="false" :author="user"
-							:i="$i" :custom-emojis="user.emojis" />
+						<Mfm v-if="user.description" :text="user.description" :is-note="false" :author="user" :i="$i"/>
 						<p v-else class="empty">{{ i18n.ts.noAccountDescription }}</p>
 					</div>
 					<div class="fields system">
 						<dl v-if="user.location" class="field">
-							<dt class="name"><i class="fas fa-map-marker fa-fw"></i> {{ i18n.ts.location }}</dt>
+							<dt class="name"><i class="ti ti-map-pin ti-fw"></i> {{ i18n.ts.location }}</dt>
 							<dd class="value">{{ user.location }}</dd>
 						</dl>
 						<dl v-if="user.birthday" class="field">
-							<dt class="name"><i class="fas fa-birthday-cake fa-fw"></i> {{ i18n.ts.birthday }}</dt>
-							<dd class="value">{{ user.birthday.replace('-', '/').replace('-', '/') }} ({{
-								$t('yearsOld', { age })
-							}})</dd>
+							<dt class="name"><i class="ti ti-cake ti-fw"></i> {{ i18n.ts.birthday }}</dt>
+							<dd class="value">{{ user.birthday.replace('-', '/').replace('-', '/') }} ({{ $t('yearsOld', { age }) }})</dd>
 						</dl>
 						<dl class="field">
 							<dt class="name"><i class="ti ti-calendar ti-fw"></i> {{ i18n.ts.registeredDate }}</dt>
@@ -76,12 +62,10 @@
 					<div v-if="user.fields.length > 0" class="fields">
 						<dl v-for="(field, i) in user.fields" :key="i" class="field">
 							<dt class="name">
-								<Mfm :text="field.name" :plain="true" :custom-emojis="user.emojis"
-									:colored="false" />
+								<Mfm :text="field.name" :plain="true" :colored="false"/>
 							</dt>
 							<dd class="value">
-								<Mfm :text="field.value" :author="user" :i="$i" :custom-emojis="user.emojis"
-									:colored="false" />
+								<Mfm :text="field.value" :author="user" :i="$i" :colored="false"/>
 							</dd>
 						</dl>
 					</div>
@@ -90,13 +74,11 @@
 							<b>{{ number(user.notesCount) }}</b>
 							<span>{{ i18n.ts.notes }}</span>
 						</MkA>
-						<MkA v-click-anime :to="userPage(user, 'following')"
-							:class="{ active: page === 'following' }">
+						<MkA v-click-anime :to="userPage(user, 'following')" :class="{ active: page === 'following' }">
 							<b>{{ number(user.followingCount) }}</b>
 							<span>{{ i18n.ts.following }}</span>
 						</MkA>
-						<MkA v-click-anime :to="userPage(user, 'followers')"
-							:class="{ active: page === 'followers' }">
+						<MkA v-click-anime :to="userPage(user, 'followers')" :class="{ active: page === 'followers' }">
 							<b>{{ number(user.followersCount) }}</b>
 							<span>{{ i18n.ts.followers }}</span>
 						</MkA>
@@ -115,16 +97,17 @@
 				</template>
 			</div>
 			<div>
-				<XUserTimeline :user="user" />
+				<XUserTimeline :user="user"/>
 			</div>
-		</div>	
-		<div v-if="!narrow" class="sub">
-			<XPhotos :key="user.id" :user="user" />
-			<XActivity :key="user.id" :user="user" style="margin-top: var(--margin);" />
+		</div>
+		<div v-if="!narrow" class="sub _gaps" style="container-type: inline-size;">
+			<XPhotos :key="user.id" :user="user"/>
+			<XActivity :key="user.id" :user="user"/>
 		</div>
 	</div>
-	</MkSpacer>
+</MkSpacer>
 </template>
+
 <script lang="ts" setup>
 import { defineAsyncComponent, computed, inject, onMounted, onUnmounted, watch } from 'vue';
 import calcAge from 's-age';
@@ -147,59 +130,45 @@ import { i18n } from '@/i18n';
 import { $i } from '@/account';
 import { dateString } from '@/filters/date';
 import { confetti } from '@/scripts/confetti';
-
 const XPhotos = defineAsyncComponent(() => import('./index.photos.vue'));
 const XActivity = defineAsyncComponent(() => import('./index.activity.vue'));
-
 const props = withDefaults(defineProps<{
 	user: misskey.entities.UserDetailed;
 }>(), {
 });
-
 const router = useRouter();
-
 let parallaxAnimationId = $ref<null | number>(null);
 let narrow = $ref<null | boolean>(null);
 let rootEl = $ref<null | HTMLElement>(null);
 let bannerEl = $ref<null | HTMLElement>(null);
-
 const style = $computed(() => {
 	if (props.user.bannerUrl == null) return {};
 	return {
-		backgroundImage: `url(${props.user.bannerUrl})`,
+		backgroundImage: `url(${ props.user.bannerUrl })`,
 	};
 });
-
 const age = $computed(() => {
 	return calcAge(props.user.birthday);
 });
-
 function menu(ev) {
 	os.popupMenu(getUserMenu(props.user, router), ev.currentTarget ?? ev.target);
 }
-
 function parallaxLoop() {
 	parallaxAnimationId = window.requestAnimationFrame(parallaxLoop);
 	parallax();
 }
-
 function parallax() {
 	const banner = bannerEl as any;
 	if (banner == null) return;
-
 	const top = getScrollPosition(rootEl);
-
 	if (top < 0) return;
-
 	const z = 1.75; // 奥行き(小さいほど奥)
 	const pos = -(top / z);
 	banner.style.backgroundPosition = `center calc(50% - ${pos}px)`;
 }
-
 onMounted(() => {
 	window.requestAnimationFrame(parallaxLoop);
 	narrow = rootEl!.clientWidth < 1000;
-
 	if (props.user.birthday) {
 		const m = new Date().getMonth() + 1;
 		const d = new Date().getDate();
@@ -212,7 +181,6 @@ onMounted(() => {
 		}
 	}
 });
-
 onUnmounted(() => {
 	if (parallaxAnimationId) {
 		window.cancelAnimationFrame(parallaxAnimationId);
@@ -222,28 +190,22 @@ onUnmounted(() => {
 
 <style lang="scss" scoped>
 .ftskorzw {
-
-	>.main {
-
-		>.punished {
+	> .main {
+		> .punished {
 			font-size: 0.8em;
 			padding: 16px;
 		}
-
-		>.profile {
-
-			>.main {
+		> .profile {
+			> .main {
 				position: relative;
 				overflow: clip;
-
-				>.banner-container {
+				> .banner-container {
 					position: relative;
 					height: 250px;
 					overflow: clip;
 					background-size: cover;
 					background-position: center;
-
-					>.banner {
+					> .banner {
 						height: 100%;
 						background-color: #4c5e6d;
 						background-size: cover;
@@ -251,8 +213,7 @@ onUnmounted(() => {
 						box-shadow: 0 0 128px rgba(0, 0, 0, 0.5) inset;
 						will-change: background-position;
 					}
-
-					>.fade {
+					> .fade {
 						position: absolute;
 						bottom: 0;
 						left: 0;
@@ -260,8 +221,7 @@ onUnmounted(() => {
 						height: 78px;
 						background: linear-gradient(transparent, rgba(#000, 0.7));
 					}
-
-					>.followed {
+					> .followed {
 						position: absolute;
 						top: 12px;
 						left: 12px;
@@ -271,8 +231,7 @@ onUnmounted(() => {
 						font-size: 0.7em;
 						border-radius: 6px;
 					}
-
-					>.actions {
+					> .actions {
 						position: absolute;
 						top: 12px;
 						right: 12px;
@@ -281,8 +240,7 @@ onUnmounted(() => {
 						background: rgba(0, 0, 0, 0.2);
 						padding: 8px;
 						border-radius: 24px;
-
-						>.menu {
+						> .menu {
 							vertical-align: bottom;
 							height: 31px;
 							width: 31px;
@@ -290,14 +248,12 @@ onUnmounted(() => {
 							text-shadow: 0 0 8px #000;
 							font-size: 16px;
 						}
-
-						>.koudoku {
+						> .koudoku {
 							margin-left: 4px;
 							vertical-align: bottom;
 						}
 					}
-
-					>.title {
+					> .title {
 						position: absolute;
 						bottom: 0;
 						left: 0;
@@ -305,8 +261,7 @@ onUnmounted(() => {
 						padding: 0 0 8px 154px;
 						box-sizing: border-box;
 						color: #fff;
-
-						>.name {
+						> .name {
 							display: block;
 							margin: 0;
 							line-height: 32px;
@@ -314,40 +269,34 @@ onUnmounted(() => {
 							font-size: 1.8em;
 							text-shadow: 0 0 8px #000;
 						}
-
-						>.bottom {
-							>* {
+						> .bottom {
+							> * {
 								display: inline-block;
 								margin-right: 16px;
 								line-height: 20px;
 								opacity: 0.8;
-
 								&.username {
 									font-weight: bold;
 								}
-
 							}
 						}
 					}
 				}
-
-				>.title {
+				> .title {
 					display: none;
 					text-align: center;
 					padding: 50px 8px 16px 8px;
 					font-weight: bold;
 					border-bottom: solid 0.5px var(--divider);
-
-					>.bottom {
-						>* {
+					> .bottom {
+						> * {
 							display: inline-block;
 							margin-right: 8px;
 							opacity: 0.8;
 						}
 					}
 				}
-
-				>.avatar {
+				> .avatar {
 					display: block;
 					position: absolute;
 					top: 170px;
@@ -357,33 +306,27 @@ onUnmounted(() => {
 					height: 120px;
 					box-shadow: 1px 1px 3px rgba(#000, 0.2);
 				}
-
-				>.description {
+				> .description {
 					padding: 24px 24px 24px 154px;
 					font-size: 0.95em;
-
-					>.empty {
+					> .empty {
 						margin: 0;
 						opacity: 0.5;
 					}
 				}
-
-				>.fields {
+				> .fields {
 					padding: 24px;
 					font-size: 0.9em;
 					border-top: solid 0.5px var(--divider);
-
-					>.field {
+					> .field {
 						display: flex;
 						padding: 0;
 						margin: 0;
 						align-items: center;
-
 						&:not(:last-child) {
 							margin-bottom: 8px;
 						}
-
-						>.name {
+						> .name {
 							width: 30%;
 							overflow: hidden;
 							white-space: nowrap;
@@ -391,8 +334,7 @@ onUnmounted(() => {
 							font-weight: bold;
 							text-align: center;
 						}
-
-						>.value {
+						> .value {
 							width: 70%;
 							overflow: hidden;
 							white-space: nowrap;
@@ -400,67 +342,70 @@ onUnmounted(() => {
 							margin: 0;
 						}
 					}
-
-					&.system>.field>.name {}
+					&.system > .field > .name {
+					}
 				}
-
-				>.status {
+				> .status {
 					display: flex;
 					padding: 24px;
 					border-top: solid 0.5px var(--divider);
-
-					>a {
+					> a {
 						flex: 1;
 						text-align: center;
-
 						&.active {
 							color: var(--accent);
 						}
-
 						&:hover {
 							text-decoration: none;
 						}
-
-						>b {
+						> b {
 							display: block;
 							line-height: 16px;
 						}
-
-						>span {
+						> span {
 							font-size: 70%;
 						}
 					}
 				}
 			}
 		}
-
-		>.contents {
-			>.content {
+		> .contents {
+			> .content {
 				margin-bottom: var(--margin);
 			}
 		}
 	}
-
-	&.max-width_500px {
-		>.main {
-			>.profile>.main {
-				>.banner-container {
+	&.wide {
+		display: flex;
+		width: 100%;
+		> .main {
+			width: 100%;
+			min-width: 0;
+		}
+		> .sub {
+			max-width: 350px;
+			min-width: 350px;
+			margin-left: var(--margin);
+		}
+	}
+}
+@container (max-width: 500px) {
+	.ftskorzw {
+		> .main {
+			> .profile > .main {
+				> .banner-container {
 					height: 140px;
-
-					>.fade {
+					> .fade {
 						display: none;
 					}
-
-					>.title {
+					> .title {
 						display: none;
 					}
 				}
-
-				>.title {
+				> .title {
 					display: block;
 				}
-
-				>.avatar {
+				> .avatar {
 					top: 90px;
 					left: 0;
 					right: 0;
@@ -468,63 +413,23 @@ onUnmounted(() => {
 					height: 92px;
 					margin: auto;
 				}
-
-				>.description {
+				> .description {
 					padding: 16px;
 					text-align: center;
 				}
-
-				>.fields {
+				> .fields {
 					padding: 16px;
 				}
-
-				>.status {
+				> .status {
 					padding: 16px;
 				}
 			}
-
-			>.contents {
-				>.nav {
+			> .contents {
+				> .nav {
 					font-size: 80%;
 				}
 			}
 		}
 	}
-
-	&.wide {
-		display: flex;
-		width: 100%;
-
-		>.main {
-			width: 100%;
-			min-width: 0;
-		}
-
-		>.sub {
-			max-width: 350px;
-			min-width: 350px;
-			margin-left: var(--margin);
-		}
-	}
-}
-
-.administrator {
-	display: inline-block;
-	border: solid 1px;
-	border-radius: 6px;
-	padding: 1px 6px;
-	font-size: 85%;
-	color: var(--error);
-	border-color: var(--error);
-}
-
-.moderator {
-	display: inline-block;
-	border: solid 1px;
-	border-radius: 6px;
-	padding: 1px 6px;
-	font-size: 85%;
-	color: var(--success);
-	border-color: var(--success);
 }
 </style>

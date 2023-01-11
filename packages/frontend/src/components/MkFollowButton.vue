@@ -16,13 +16,13 @@
 		<template v-else-if="isFollowing">
 			<span v-if="full">{{ i18n.ts.unfollow }}</span><i class="ti ti-minus"></i>
 		</template>
-		<template v-else-if="!isFollowing && !profile.carefulBot">
+		<template v-else-if="!isFollowing && !Profile.carefulBot">
 			<span v-if="full">{{ i18n.ts.followRequest }}</span><i class="ti ti-plus"></i>
 		</template>
-		<template v-else-if="!isFollowing && !profile.carefulRemote">
+		<template v-else-if="!isFollowing && !Profile.carefulRemote">
 			<span v-if="full">{{ i18n.ts.followRequest }}</span><i class="ti ti-plus"></i>
 		</template>
-		<template v-else-if="!isFollowing && !profile.carefulMassive">
+		<template v-else-if="!isFollowing && !Profile.carefulMassive">
 			<span v-if="full">{{ i18n.ts.followRequest }}</span><i class="ti ti-plus"></i>			
 		</template>
 		<template v-else-if="!isFollowing && !user.isLocked">
@@ -41,6 +41,7 @@ import * as Misskey from 'misskey-js';
 import * as os from '@/os';
 import { stream } from '@/stream';
 import { i18n } from '@/i18n';
+import Profile from '@/pages/settings/profile.vue';
 
 const props = withDefaults(defineProps<{
 	user: Misskey.entities.UserDetailed,
