@@ -505,7 +505,6 @@ function readPromo() {
 	width: 100%;
 	max-width: 100%;
 	font-size: 1.05em;
-	font-weight: bold;
 }
 
 .cw {
