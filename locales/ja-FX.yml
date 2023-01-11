@@ -636,7 +636,7 @@ setMultipleBySeparatingWithSpace: "スペースで区切って複数設定でき
 fileIdOrUrl: "ファイルIDまたはURLを入れるのじゃ"
 behavior: "動作の設定なのじゃ"
 sample: "サンプル"
-abuseReports: "通報するのじゃ"
+abuseReports: "通報"
 reportAbuse: "通報するのじゃ"
 reportAbuseOf: "{name}を通報するのじゃ"
 fillAbuseReportDescription: "通報理由の詳細を書くのじゃ。対象のノートがある場合はそのURLも書いてくれると助かるのじゃ。"
