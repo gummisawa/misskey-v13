@@ -32,7 +32,8 @@
 						<div v-if="$i" class="actions">
 							<button class="menu _button" @click="menu"><i class="fas fa-ellipsis-h"></i></button>
 							<MkFollowButton v-if="$i.id != user.id" :user="user" :inline="true" :transparent="false"
-								:full="true" class="koudoku" />
+								:full="true" class="koudoku"
+							/>
 						</div>
 					</div>
 					<MkAvatar class="avatar" :user="user" :disable-preview="true" :show-indicator="true" />
