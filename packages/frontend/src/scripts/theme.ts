@@ -29,9 +29,8 @@ export const getBuiltinThemes = () => Promise.all(
 		'l-cherry',
 		'l-sushi',
 		'l-u0',
+		'l-Windose',
 
-		'KDE-Breeze-dark',
-		'Kemomimi-cafe',
 		'd-dark',
 		'd-persimmon',
 		'd-astro',
@@ -42,6 +41,8 @@ export const getBuiltinThemes = () => Promise.all(
 		'd-cherry',
 		'd-ice',
 		'd-u0',
+		'KDE-Breeze-dark',
+		'Kemomimi-cafe',
 	].map(name => import(`../themes/${name}.json5`).then(({ default: _default }): Theme => _default)),
 );
 
