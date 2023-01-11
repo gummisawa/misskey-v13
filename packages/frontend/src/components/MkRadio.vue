@@ -71,9 +71,9 @@ function toggle(): void {
 	}
 
 	&.checked {
-		background-color: var(--accentedBg) !important;
+		background-color: var(--navFocusBg) !important;
 		border-color: var(--accentedBg) !important;
-		color: var(--accentedFg);
+		color: var(--nabFocusFg);
 
 		&, * {
 			cursor: default !important;

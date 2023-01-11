@@ -42,8 +42,8 @@ export default defineComponent({
 		}
 
 		&.active {
-			color: var(--accent);
-			background: var(--accentedBg);
+			color: var(--navFocusFg);
+			background: var(--navFocusBg);
 		}
 
 		&:not(.active):hover {
