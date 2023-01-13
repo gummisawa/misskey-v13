@@ -228,12 +228,6 @@ export class Meta {
 	})
 	public enableSensitiveMediaDetectionForVideos: boolean;
 
-	@Column('integer', {
-		default: 32,
-		comment: 'Drive capacity of a remote user (MB)',
-	})
-	public remoteDriveCapacityMb: number;
-
 	@Column('varchar', {
 		length: 128,
 		nullable: true,

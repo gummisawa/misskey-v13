@@ -95,12 +95,6 @@
 								<template #label>{{ i18n.ts.cacheRemoteFiles }}</template>
 								<template #caption>{{ i18n.ts.cacheRemoteFilesDescription }}</template>
 							</MkSwitch>
-
-							<MkInput v-model="remoteDriveCapacityMb" type="number" :disabled="!cacheRemoteFiles">
-								<template #label>{{ i18n.ts.driveCapacityPerRemoteAccount }}</template>
-								<template #suffix>MB</template>
-								<template #caption>{{ i18n.ts.inMb }}</template>
-							</MkInput>
 						</div>
 					</FormSection>
 
@@ -176,7 +170,6 @@ let defaultDarkTheme: any = $ref(null);
 let enableTrends: boolean = $ref(false);
 let pinnedUsers: string = $ref('');
 let cacheRemoteFiles: boolean = $ref(false);
-let remoteDriveCapacityMb: any = $ref(0);
 let enableRegistration: boolean = $ref(false);
 let disableInvitation: boolean = $ref(false);
 let emailRequiredForSignup: boolean = $ref(false);
@@ -202,7 +195,6 @@ async function init() {
 	enableTrends = !meta.disableTrends;
 	pinnedUsers = meta.pinnedUsers.join('\n');
 	cacheRemoteFiles = meta.cacheRemoteFiles;
-	remoteDriveCapacityMb = meta.driveCapacityPerRemoteUserMb;
 	enableRegistration = !meta.disableRegistration;
 	disableInvitation = meta.disableInvitation;
 	emailRequiredForSignup = meta.emailRequiredForSignup;
@@ -229,7 +221,6 @@ function save() {
 		disableTrends: !enableTrends,
 		pinnedUsers: pinnedUsers.split('\n'),
 		cacheRemoteFiles,
-		remoteDriveCapacityMb: parseInt(remoteDriveCapacityMb, 10),
 		disableRegistration: !enableRegistration,
 		disableInvitation: disableInvitation,
 		emailRequiredForSignup,

@@ -86,14 +86,6 @@ export const meta = {
 				type: 'boolean',
 				optional: false, nullable: false,
 			},
-			driveCapacityPerLocalUserMb: {
-				type: 'number',
-				optional: false, nullable: false,
-			},
-			driveCapacityPerRemoteUserMb: {
-				type: 'number',
-				optional: false, nullable: false,
-			},
 			cacheRemoteFiles: {
 				type: 'boolean',
 				optional: false, nullable: false,
@@ -317,7 +309,6 @@ export default class extends Endpoint<typeof meta, typeof paramDef> {
 				disableRegistration: instance.disableRegistration,
 				disableInvitation: instance.disableInvitation,
 				disableTrends: instance.disableTrends,
-				driveCapacityPerRemoteUserMb: instance.remoteDriveCapacityMb,
 				emailRequiredForSignup: instance.emailRequiredForSignup,
 				enableHcaptcha: instance.enableHcaptcha,
 				hcaptchaSiteKey: instance.hcaptchaSiteKey,

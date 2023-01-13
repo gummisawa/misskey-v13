@@ -17,7 +17,7 @@
 							<MkUserName class="name" :user="user" :nowrap="true"/>
 							<div class="bottom">
 								<span class="username"><MkAcct :user="user" :detail="true"/></span>
-								<span v-if="user.isAdmin" class="administrator">Administrator</span>
+								<div v-if="user.roles.length > 0" class="roles"><span v-for="role in user.roles" :key="role.id" v-tooltip="role.description" class="role" :style="{ '--color': role.color }">{{ role.name }}</span>	</div>
 								<span v-if="user.isLocked" :title="i18n.ts.isLocked"><i class="ti ti-lock"></i></span>
 								<span v-if="user.isBot" :title="i18n.ts.isBot"><i class="ti ti-robot"></i></span>
 							</div>
@@ -33,7 +33,7 @@
 						<MkUserName :user="user" :nowrap="false" class="name"/>
 						<div class="bottom">
 							<span class="username"><MkAcct :user="user" :detail="true"/></span>
-							<span v-if="user.isAdmin" class="administrator">Administrator</span>
+							<div v-if="user.roles.length > 0" class="roles"><span v-for="role in user.roles" :key="role.id" v-tooltip="role.description" class="role" :style="{ '--color': role.color }">{{ role.name }}</span>	</div>
 							<span v-if="user.isLocked" :title="i18n.ts.isLocked"><i class="ti ti-lock"></i></span>
 							<span v-if="user.isBot" :title="i18n.ts.isBot"><i class="ti ti-robot"></i></span>
 						</div>
@@ -128,7 +128,6 @@ import { i18n } from '@/i18n';
 import { $i } from '@/account';
 import { dateString } from '@/filters/date';
 import { confetti } from '@/scripts/confetti';
-import { RoleEntityService } from '@/core/entities/RoleEntityService.js';
 const XPhotos = defineAsyncComponent(() => import('./index.photos.vue'));
 const XActivity = defineAsyncComponent(() => import('./index.activity.vue'));
 const props = withDefaults(defineProps<{
@@ -305,6 +304,7 @@ onUnmounted(() => {
 					height: 120px;
 					box-shadow: 1px 1px 3px rgba(#000, 0.2);
 				}
+
 				> .description {
 					padding: 24px 24px 24px 154px;
 					font-size: 0.95em;
@@ -412,6 +412,7 @@ onUnmounted(() => {
 					height: 92px;
 					margin: auto;
 				}
+
 				> .description {
 					padding: 16px;
 					text-align: center;
@@ -432,22 +433,12 @@ onUnmounted(() => {
 	}
 }
 
-.administrator {
+.role {
 	display: inline-block;
 	border: solid 1px;
 	border-radius: 6px;
 	padding: 1px 6px;
-	font-size: 85%;
-	color: var(--error);
-	border-color: var(--error);
-}
-
-.moderator {
-	display: inline-block;
-	border: solid 1px;
-	border-radius: 6px;
-	padding: 1px 6px;
-	font-size: 85%;
+	font-size: 90%;
 	color: var(--success);
 	border-color: var(--success);
 }
