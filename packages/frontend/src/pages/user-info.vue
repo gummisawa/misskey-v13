@@ -182,6 +182,7 @@ import { i18n } from '@/i18n';
 import { iAmAdmin, iAmModerator } from '@/account';
 import { instance } from '@/instance';
 import MkRolePreview from '@/components/MkRolePreview.vue';
+import Roles from './admin/roles.vue';
 
 const props = withDefaults(defineProps<{
 	userId: string;

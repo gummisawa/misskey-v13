@@ -270,6 +270,10 @@ export class NoteCreateService {
 			data.localOnly = true;
 		}
 
+		if (data.localOnly !== true) {
+			data.localOnly = false;
+		}
+
 		if (data.text) {
 			if (data.text.length > DB_MAX_NOTE_TEXT_LENGTH) {
 				data.text = data.text.slice(0, DB_MAX_NOTE_TEXT_LENGTH);
