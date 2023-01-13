@@ -16,15 +16,10 @@
 						<div class="title">
 							<MkUserName class="name" :user="user" :nowrap="true" />
 							<div class="bottom">
-								<span class="username">
-									<MkAcct :user="user" :detail="true" />
-								</span>
-								<!-- <span v-if="user.isAdmin" :title="i18n.ts.isAdmin" style="color: var(--badge);"><i class="fas fa-bookmark"></i></span>
-							<span v-if="!user.isAdmin && user.isModerator" :title="i18n.ts.isModerator" style="color: var(--badge);"><i class="far fa-bookmark"></i></span>
-							<span v-if="user.isLocked" :title="i18n.ts.isLocked"><i class="fas fa-lock"></i></span>
-							<span v-if="user.isBot" :title="i18n.ts.isBot"><i class="fas fa-robot"></i></span> -->
-								<span v-if="user.isModerator" class="moderator">Moderator</span>
-								<span v-if="user.isAdmin" class="administrator">Administrator</span>
+								<span class="username"><MkAcct :user="user" :detail="true"/></span>
+								<span v-if="user.isAdmin" :title="i18n.ts.isAdmin" style="color: var(--badge);"><i class="ti ti-shield"></i></span>
+								<span v-if="user.isLocked" :title="i18n.ts.isLocked"><i class="ti ti-lock"></i></span>
+								<span v-if="user.isBot" :title="i18n.ts.isBot"><i class="ti ti-robot"></i></span>
 							</div>
 						</div>
 						<span v-if="$i && $i.id != user.id && user.isFollowed" class="followed">{{
@@ -201,6 +196,18 @@ function parallax() {
 onMounted(() => {
 	window.requestAnimationFrame(parallaxLoop);
 	narrow = rootEl!.clientWidth < 1000;
+
+	if (props.user.birthday) {
+		const m = new Date().getMonth() + 1;
+		const d = new Date().getDate();
+		const bm = parseInt(props.user.birthday.split('-')[1]);
+		const bd = parseInt(props.user.birthday.split('-')[2]);
+		if (m === bm && d === bd) {
+			confetti({
+				duration: 1000 * 4,
+			});
+		}
+	}
 });
 
 onUnmounted(() => {

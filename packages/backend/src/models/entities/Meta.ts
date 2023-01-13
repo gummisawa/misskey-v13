@@ -51,16 +51,6 @@ export class Meta {
 	@Column('boolean', {
 		default: false,
 	})
-	public disableLocalTimeline: boolean;
-
-	@Column('boolean', {
-		default: false,
-	})
-	public disableGlobalTimeline: boolean;
-	
-	@Column('boolean', {
-		default: false,
-	})
 	public disableTrends: boolean;
 
 	@Column('boolean', {
@@ -237,12 +227,6 @@ export class Meta {
 		default: false,
 	})
 	public enableSensitiveMediaDetectionForVideos: boolean;
-
-	@Column('integer', {
-		default: 1024,
-		comment: 'Drive capacity of a local user (MB)',
-	})
-	public localDriveCapacityMb: number;
 
 	@Column('integer', {
 		default: 32,
@@ -487,4 +471,9 @@ export class Meta {
 		default: true,
 	})
 	public enableActiveEmailValidation: boolean;
+
+	@Column('jsonb', {
+		default: { },
+	})
+	public defaultRoleOverride: Record<string, any>;
 }
