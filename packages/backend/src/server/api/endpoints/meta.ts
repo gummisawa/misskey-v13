@@ -303,14 +303,7 @@ export default class extends Endpoint<typeof meta, typeof paramDef> {
 				repositoryUrl: instance.repositoryUrl,
 				feedbackUrl: instance.feedbackUrl,
 				disableRegistration: instance.disableRegistration,
-<<<<<<< HEAD
 				disableInvitation: instance.disableInvitation,
-				disableLocalTimeline: instance.disableLocalTimeline,
-				disableGlobalTimeline: instance.disableGlobalTimeline,
-				driveCapacityPerLocalUserMb: instance.localDriveCapacityMb,
-				driveCapacityPerRemoteUserMb: instance.remoteDriveCapacityMb,
-=======
->>>>>>> c2009acb2d3a505f8d140827471cf953f6d922e6
 				emailRequiredForSignup: instance.emailRequiredForSignup,
 				enableHcaptcha: instance.enableHcaptcha,
 				hcaptchaSiteKey: instance.hcaptchaSiteKey,

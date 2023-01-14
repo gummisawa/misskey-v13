@@ -127,21 +127,6 @@ export default class extends Endpoint<typeof meta, typeof paramDef> {
 				set.disableRegistration = ps.disableRegistration;
 			}
 
-<<<<<<< HEAD
-			if (typeof ps.disableInvitation === 'boolean') {
-				set.disableInvitation = ps.disableInvitation;
-			}
-
-			if (typeof ps.disableLocalTimeline === 'boolean') {
-				set.disableLocalTimeline = ps.disableLocalTimeline;
-			}
-
-			if (typeof ps.disableGlobalTimeline === 'boolean') {
-				set.disableGlobalTimeline = ps.disableGlobalTimeline;
-			}
-
-=======
->>>>>>> c2009acb2d3a505f8d140827471cf953f6d922e6
 			if (typeof ps.useStarForReactionFallback === 'boolean') {
 				set.useStarForReactionFallback = ps.useStarForReactionFallback;
 			}
