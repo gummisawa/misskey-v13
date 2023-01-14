@@ -41,6 +41,14 @@
 						</MkFolder>
 
 						<MkFolder>
+							<template #label>{{ i18n.ts._role._options.canManageCustomEmojis }}</template>
+							<template #suffix>{{ options_canManageCustomEmojis ? i18n.ts.yes : i18n.ts.no }}</template>
+							<MkSwitch v-model="options_canManageCustomEmojis">
+								<template #label>{{ i18n.ts.enable }}</template>
+							</MkSwitch>
+						</MkFolder>
+
+						<MkFolder>
 							<template #label>{{ i18n.ts._role._options.driveCapacity }}</template>
 							<template #suffix>{{ options_driveCapacityMb }}MB</template>
 							<MkInput v-model="options_driveCapacityMb" type="number">
@@ -54,6 +62,36 @@
 							<MkInput v-model="options_antennaLimit" type="number">
 							</MkInput>
 						</MkFolder>
+
+						<MkFolder>
+							<template #label>{{ i18n.ts._role._options.wordMuteMax }}</template>
+							<template #suffix>{{ options_wordMuteLimit }}</template>
+							<MkInput v-model="options_wordMuteLimit" type="number">
+								<template #suffix>chars</template>
+							</MkInput>
+						</MkFolder>
+
+						<MkFolder>
+							<template #label>{{ i18n.ts._role._options.webhookMax }}</template>
+							<template #suffix>{{ options_webhookLimit }}</template>
+							<MkInput v-model="options_webhookLimit" type="number">
+							</MkInput>
+						</MkFolder>
+
+						<MkFolder>
+							<template #label>{{ i18n.ts._role._options.clipMax }}</template>
+							<template #suffix>{{ options_clipLimit }}</template>
+							<MkInput v-model="options_clipLimit" type="number">
+							</MkInput>
+						</MkFolder>
+
+						<MkFolder>
+							<template #label>{{ i18n.ts._role._options.noteEachClipsMax }}</template>
+							<template #suffix>{{ options_noteEachClipsLimit }}</template>
+							<MkInput v-model="options_noteEachClipsLimit" type="number">
+							</MkInput>
+						</MkFolder>
+
 						<MkButton primary rounded @click="updateBaseRole">{{ i18n.ts.save }}</MkButton>
 					</div>
 				</MkFolder>
@@ -90,8 +128,13 @@ let options_gtlAvailable = $ref(instance.baseRole.gtlAvailable);
 let options_ltlAvailable = $ref(instance.baseRole.ltlAvailable);
 let options_canPublicNote = $ref(instance.baseRole.canPublicNote);
 let options_canInvite = $ref(instance.baseRole.canInvite);
+let options_canManageCustomEmojis = $ref(instance.baseRole.canManageCustomEmojis);
 let options_driveCapacityMb = $ref(instance.baseRole.driveCapacityMb);
 let options_antennaLimit = $ref(instance.baseRole.antennaLimit);
+let options_wordMuteLimit = $ref(instance.baseRole.wordMuteLimit);
+let options_webhookLimit = $ref(instance.baseRole.webhookLimit);
+let options_clipLimit = $ref(instance.baseRole.clipLimit);
+let options_noteEachClipsLimit = $ref(instance.baseRole.noteEachClipsLimit);
 
 async function updateBaseRole() {
 	await os.apiWithDialog('admin/roles/update-default-role-override', {
@@ -100,8 +143,13 @@ async function updateBaseRole() {
 			ltlAvailable: options_ltlAvailable,
 			canPublicNote: options_canPublicNote,
 			canInvite: options_canInvite,
+			canManageCustomEmojis: options_canManageCustomEmojis,
 			driveCapacityMb: options_driveCapacityMb,
 			antennaLimit: options_antennaLimit,
+			wordMuteLimit: options_wordMuteLimit,
+			webhookLimit: options_webhookLimit,
+			clipLimit: options_clipLimit,
+			noteEachClipsLimit: options_noteEachClipsLimit,
 		},
 	});
 }

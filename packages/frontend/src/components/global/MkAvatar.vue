@@ -1,10 +1,10 @@
 
 <template>
-<span v-if="disableLink" v-user-preview="disablePreview ? undefined : user.id" :class="[$style.root, { [$style.fox]: user.isFox, [$style.cat]: user.isCat, [$style.circle]: $store.state.circleAvatars }]" class="_noSelect" :style="{ color }" :title="acct(user)" @click="onClick">
+<span v-if="disableLink" v-user-preview="disablePreview ? undefined : user.id" :class="[$style.root, {[$style.fox]: user.isFox, [$style.cat]: user.isCat, [$style.circle]: $store.state.circleAvatars }]" class="_noSelect" :style="{ color }" :title="acct(user)" @click="onClick">
 	<img :class="$style.inner" :src="url" decoding="async"/>
 	<MkUserOnlineIndicator v-if="showIndicator" :class="$style.indicator" :user="user"/>
 </span>
-<MkA v-else v-user-preview="disablePreview ? undefined : user.id" class="_noSelect" :class="[$style.root, { [$style.fox]: user.isFox, [$style.cat]: user.isCat, [$style.ciecle]: $store.state.circleAvatars }]" :style="{ color }" :to="userPage(user)" :title="acct(user)" :target="target">
+<MkA v-else v-user-preview="disablePreview ? undefined : user.id" class="_noSelect" :class="[$style.root, {[$style.fox]: user.isFox, [$style.cat]: user.isCat, [$style.circle]: $store.state.circleAvatars }]" :style="{ color }" :to="userPage(user)" :title="acct(user)" :target="target">
 	<img :class="$style.inner" :src="url" decoding="async"/>
 	<MkUserOnlineIndicator v-if="showIndicator" :class="$style.indicator" :user="user"/>
 </MkA>

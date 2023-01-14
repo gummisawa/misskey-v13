@@ -10,6 +10,7 @@ import { MetaService } from '@/core/MetaService.js';
 import { UserCacheService } from '@/core/UserCacheService.js';
 import { RoleCondFormulaValue } from '@/models/entities/Role.js';
 import { UserEntityService } from '@/core/entities/UserEntityService.js';
+import { StreamMessages } from '@/server/api/stream/types.js';
 import type { OnApplicationShutdown } from '@nestjs/common';
 
 export type RoleOptions = {
@@ -17,8 +18,13 @@ export type RoleOptions = {
 	ltlAvailable: boolean;
 	canPublicNote: boolean;
 	canInvite: boolean;
+	canManageCustomEmojis: boolean;
 	driveCapacityMb: number;
 	antennaLimit: number;
+	wordMuteLimit: number;
+	webhookLimit: number;
+	clipLimit: number;
+	noteEachClipsLimit: number;
 };
 
 export const DEFAULT_ROLE: RoleOptions = {
@@ -26,8 +32,13 @@ export const DEFAULT_ROLE: RoleOptions = {
 	ltlAvailable: true,
 	canPublicNote: true,
 	canInvite: false,
+	canManageCustomEmojis: false,
 	driveCapacityMb: 100,
 	antennaLimit: 5,
+	wordMuteLimit: 200,
+	webhookLimit: 3,
+	clipLimit: 10,
+	noteEachClipsLimit: 200,
 };
 
 @Injectable()
@@ -65,7 +76,7 @@ export class RoleService implements OnApplicationShutdown {
 		const obj = JSON.parse(data);
 
 		if (obj.channel === 'internal') {
-			const { type, body } = obj.message;
+			const { type, body } = obj.message as StreamMessages['internal']['payload'];
 			switch (type) {
 				case 'roleCreated': {
 					const cached = this.rolesCache.get(null);
@@ -143,6 +154,18 @@ export class RoleService implements OnApplicationShutdown {
 				case 'createdMoreThan': {
 					return user.createdAt.getTime() < (Date.now() - (value.sec * 1000));
 				}
+				case 'followersLessThanOrEq': {
+					return user.followersCount <= value.value;
+				}
+				case 'followersMoreThanOrEq': {
+					return user.followersCount >= value.value;
+				}
+				case 'followingLessThanOrEq': {
+					return user.followingCount <= value.value;
+				}
+				case 'followingMoreThanOrEq': {
+					return user.followingCount >= value.value;
+				}
 				default:
 					return false;
 			}
@@ -182,8 +205,13 @@ export class RoleService implements OnApplicationShutdown {
 			ltlAvailable: getOptionValues('ltlAvailable').some(x => x === true),
 			canPublicNote: getOptionValues('canPublicNote').some(x => x === true),
 			canInvite: getOptionValues('canInvite').some(x => x === true),
+			canManageCustomEmojis: getOptionValues('canManageCustomEmojis').some(x => x === true),
 			driveCapacityMb: Math.max(...getOptionValues('driveCapacityMb')),
 			antennaLimit: Math.max(...getOptionValues('antennaLimit')),
+			wordMuteLimit: Math.max(...getOptionValues('wordMuteLimit')),
+			webhookLimit: Math.max(...getOptionValues('webhookLimit')),
+			clipLimit: Math.max(...getOptionValues('clipLimit')),
+			noteEachClipsLimit: Math.max(...getOptionValues('noteEachClipsLimit')),
 		};
 	}
 

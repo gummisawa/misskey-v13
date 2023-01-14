@@ -91,6 +91,19 @@
 			</MkFolder>
 
 			<MkFolder>
+				<template #label>{{ i18n.ts._role._options.canManageCustomEmojis }}</template>
+				<template #suffix>{{ options_canManageCustomEmojis_useDefault ? i18n.ts._role.useBaseValue : (options_canManageCustomEmojis_value ? i18n.ts.yes : i18n.ts.no) }}</template>
+				<div class="_gaps">
+					<MkSwitch v-model="options_canManageCustomEmojis_useDefault" :readonly="readonly">
+						<template #label>{{ i18n.ts._role.useBaseValue }}</template>
+					</MkSwitch>
+					<MkSwitch v-model="options_canManageCustomEmojis_value" :disabled="options_canManageCustomEmojis_useDefault" :readonly="readonly">
+						<template #label>{{ i18n.ts.enable }}</template>
+					</MkSwitch>
+				</div>
+			</MkFolder>
+
+			<MkFolder>
 				<template #label>{{ i18n.ts._role._options.driveCapacity }}</template>
 				<template #suffix>{{ options_driveCapacityMb_useDefault ? i18n.ts._role.useBaseValue : (options_driveCapacityMb_value + 'MB') }}</template>
 				<div class="_gaps">
@@ -111,6 +124,55 @@
 						<template #label>{{ i18n.ts._role.useBaseValue }}</template>
 					</MkSwitch>
 					<MkInput v-model="options_antennaLimit_value" :disabled="options_antennaLimit_useDefault" type="number" :readonly="readonly">
+					</MkInput>
+				</div>
+			</MkFolder>
+
+			<MkFolder>
+				<template #label>{{ i18n.ts._role._options.wordMuteMax }}</template>
+				<template #suffix>{{ options_wordMuteLimit_useDefault ? i18n.ts._role.useBaseValue : (options_wordMuteLimit_value) }}</template>
+				<div class="_gaps">
+					<MkSwitch v-model="options_wordMuteLimit_useDefault" :readonly="readonly">
+						<template #label>{{ i18n.ts._role.useBaseValue }}</template>
+					</MkSwitch>
+					<MkInput v-model="options_wordMuteLimit_value" :disabled="options_wordMuteLimit_useDefault" type="number" :readonly="readonly">
+						<template #suffix>chars</template>
+					</MkInput>
+				</div>
+			</MkFolder>
+
+			<MkFolder>
+				<template #label>{{ i18n.ts._role._options.webhookMax }}</template>
+				<template #suffix>{{ options_webhookLimit_useDefault ? i18n.ts._role.useBaseValue : (options_webhookLimit_value) }}</template>
+				<div class="_gaps">
+					<MkSwitch v-model="options_webhookLimit_useDefault" :readonly="readonly">
+						<template #label>{{ i18n.ts._role.useBaseValue }}</template>
+					</MkSwitch>
+					<MkInput v-model="options_webhookLimit_value" :disabled="options_webhookLimit_useDefault" type="number" :readonly="readonly">
+					</MkInput>
+				</div>
+			</MkFolder>
+
+			<MkFolder>
+				<template #label>{{ i18n.ts._role._options.clipMax }}</template>
+				<template #suffix>{{ options_clipLimit_useDefault ? i18n.ts._role.useBaseValue : (options_clipLimit_value) }}</template>
+				<div class="_gaps">
+					<MkSwitch v-model="options_clipLimit_useDefault" :readonly="readonly">
+						<template #label>{{ i18n.ts._role.useBaseValue }}</template>
+					</MkSwitch>
+					<MkInput v-model="options_clipLimit_value" :disabled="options_clipLimit_useDefault" type="number" :readonly="readonly">
+					</MkInput>
+				</div>
+			</MkFolder>
+
+			<MkFolder>
+				<template #label>{{ i18n.ts._role._options.noteEachClipsMax }}</template>
+				<template #suffix>{{ options_noteEachClipsLimit_useDefault ? i18n.ts._role.useBaseValue : (options_noteEachClipsLimit_value) }}</template>
+				<div class="_gaps">
+					<MkSwitch v-model="options_noteEachClipsLimit_useDefault" :readonly="readonly">
+						<template #label>{{ i18n.ts._role.useBaseValue }}</template>
+					</MkSwitch>
+					<MkInput v-model="options_noteEachClipsLimit_value" :disabled="options_noteEachClipsLimit_useDefault" type="number" :readonly="readonly">
 					</MkInput>
 				</div>
 			</MkFolder>
@@ -175,10 +237,20 @@ let options_canPublicNote_useDefault = $ref(role?.options?.canPublicNote?.useDef
 let options_canPublicNote_value = $ref(role?.options?.canPublicNote?.value ?? false);
 let options_canInvite_useDefault = $ref(role?.options?.canInvite?.useDefault ?? true);
 let options_canInvite_value = $ref(role?.options?.canInvite?.value ?? false);
+let options_canManageCustomEmojis_useDefault = $ref(role?.options?.canManageCustomEmojis?.useDefault ?? true);
+let options_canManageCustomEmojis_value = $ref(role?.options?.canManageCustomEmojis?.value ?? false);
 let options_driveCapacityMb_useDefault = $ref(role?.options?.driveCapacityMb?.useDefault ?? true);
 let options_driveCapacityMb_value = $ref(role?.options?.driveCapacityMb?.value ?? 0);
 let options_antennaLimit_useDefault = $ref(role?.options?.antennaLimit?.useDefault ?? true);
 let options_antennaLimit_value = $ref(role?.options?.antennaLimit?.value ?? 0);
+let options_wordMuteLimit_useDefault = $ref(role?.options?.wordMuteLimit?.useDefault ?? true);
+let options_wordMuteLimit_value = $ref(role?.options?.wordMuteLimit?.value ?? 0);
+let options_webhookLimit_useDefault = $ref(role?.options?.webhookLimit?.useDefault ?? true);
+let options_webhookLimit_value = $ref(role?.options?.webhookLimit?.value ?? 0);
+let options_clipLimit_useDefault = $ref(role?.options?.clipLimit?.useDefault ?? true);
+let options_clipLimit_value = $ref(role?.options?.clipLimit?.value ?? 0);
+let options_noteEachClipsLimit_useDefault = $ref(role?.options?.noteEachClipsLimit?.useDefault ?? true);
+let options_noteEachClipsLimit_value = $ref(role?.options?.noteEachClipsLimit?.value ?? 0);
 
 if (_DEV_) {
 	watch($$(condFormula), () => {
@@ -192,8 +264,13 @@ function getOptions() {
 		ltlAvailable: { useDefault: options_ltlAvailable_useDefault, value: options_ltlAvailable_value },
 		canPublicNote: { useDefault: options_canPublicNote_useDefault, value: options_canPublicNote_value },
 		canInvite: { useDefault: options_canInvite_useDefault, value: options_canInvite_value },
+		canManageCustomEmojis: { useDefault: options_canManageCustomEmojis_useDefault, value: options_canManageCustomEmojis_value },
 		driveCapacityMb: { useDefault: options_driveCapacityMb_useDefault, value: options_driveCapacityMb_value },
 		antennaLimit: { useDefault: options_antennaLimit_useDefault, value: options_antennaLimit_value },
+		wordMuteLimit: { useDefault: options_wordMuteLimit_useDefault, value: options_wordMuteLimit_value },
+		webhookLimit: { useDefault: options_webhookLimit_useDefault, value: options_webhookLimit_value },
+		clipLimit: { useDefault: options_clipLimit_useDefault, value: options_clipLimit_value },
+		noteEachClipsLimit: { useDefault: options_noteEachClipsLimit_useDefault, value: options_noteEachClipsLimit_value },
 	};
 }
 

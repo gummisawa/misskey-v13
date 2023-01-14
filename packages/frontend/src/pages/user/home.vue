@@ -16,10 +16,14 @@
 						<div class="title">
 							<MkUserName class="name" :user="user" :nowrap="true"/>
 							<div class="bottom">
-								<span class="username"><MkAcct :user="user" :detail="true"/></span>
+								<span class="username">
+									<MkAcct :user="user" :detail="true" />
+								</span>
+								<!-- <span v-if="user.isAdmin" :title="i18n.ts.isAdmin" style="color: var(--badge);"><i class="fas fa-bookmark"></i></span>
+								<span v-if="!user.isAdmin && user.isModerator" :title="i18n.ts.isModerator" style="color: var(--badge);"><i class="far fa-bookmark"></i></span>
+								<span v-if="user.isLocked" :title="i18n.ts.isLocked"><i class="fas fa-lock"></i></span>
+								<span v-if="user.isBot" :title="i18n.ts.isBot"><i class="fas fa-robot"></i></span> -->
 								<div v-if="user.roles.length > 0" class="roles"><span v-for="role in user.roles" :key="role.id" v-tooltip="role.description" class="role" :style="{ '--color': role.color }">{{ role.name }}</span>	</div>
-								<span v-if="user.isLocked" :title="i18n.ts.isLocked"><i class="ti ti-lock"></i></span>
-								<span v-if="user.isBot" :title="i18n.ts.isBot"><i class="ti ti-robot"></i></span>
 							</div>
 						</div>
 						<span v-if="$i && $i.id != user.id && user.isFollowed" class="followed">{{ i18n.ts.followsYou }}</span>
@@ -305,6 +309,18 @@ onUnmounted(() => {
 					box-shadow: 1px 1px 3px rgba(#000, 0.2);
 				}
 
+				> .roles {
+					padding: 24px 24px 0 154px;
+					font-size: 0.95em;
+
+					> .role {
+						border: solid 1px var(--color, var(--divider));
+						border-radius: 999px;
+						margin-right: 4px;
+						padding: 3px 8px;
+					}
+				}
+
 				> .description {
 					padding: 24px 24px 24px 154px;
 					font-size: 0.95em;
@@ -411,6 +427,11 @@ onUnmounted(() => {
 					width: 92px;
 					height: 92px;
 					margin: auto;
+				}
+
+				> .roles {
+					padding: 16px 16px 0 16px;
+					text-align: center;
 				}
 
 				> .description {
