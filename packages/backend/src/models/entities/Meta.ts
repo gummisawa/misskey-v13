@@ -51,16 +51,6 @@ export class Meta {
 	@Column('boolean', {
 		default: false,
 	})
-	public disableLocalTimeline: boolean;
-
-	@Column('boolean', {
-		default: false,
-	})
-	public disableGlobalTimeline: boolean;
-
-	@Column('boolean', {
-		default: false,
-	})
 	public useStarForReactionFallback: boolean;
 
 	@Column('varchar', {
@@ -232,18 +222,6 @@ export class Meta {
 		default: false,
 	})
 	public enableSensitiveMediaDetectionForVideos: boolean;
-
-	@Column('integer', {
-		default: 1024,
-		comment: 'Drive capacity of a local user (MB)',
-	})
-	public localDriveCapacityMb: number;
-
-	@Column('integer', {
-		default: 32,
-		comment: 'Drive capacity of a remote user (MB)',
-	})
-	public remoteDriveCapacityMb: number;
 
 	@Column('varchar', {
 		length: 128,
@@ -482,4 +460,9 @@ export class Meta {
 		default: true,
 	})
 	public enableActiveEmailValidation: boolean;
+
+	@Column('jsonb', {
+		default: { },
+	})
+	public defaultRoleOverride: Record<string, any>;
 }

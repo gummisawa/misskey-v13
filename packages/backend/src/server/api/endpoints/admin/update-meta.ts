@@ -20,10 +20,6 @@ export const paramDef = {
 	properties: {
 		disableRegistration: { type: 'boolean', nullable: true },
 		disableInvitation: { type: 'boolean', nullable: true },
-		disableLocalTimeline: { type: 'boolean', nullable: true },
-		disableGlobalTimeline: { type: 'boolean', nullable: true },
-		disableTimelinePreview: { type: 'boolean', nullable: true },
-		disableProfileDirectory: { type: 'boolean', nullable: true },
 		useStarForReactionFallback: { type: 'boolean', nullable: true },
 		pinnedUsers: { type: 'array', nullable: true, items: {
 			type: 'string',
@@ -45,8 +41,6 @@ export const paramDef = {
 		description: { type: 'string', nullable: true },
 		defaultLightTheme: { type: 'string', nullable: true },
 		defaultDarkTheme: { type: 'string', nullable: true },
-		localDriveCapacityMb: { type: 'integer' },
-		remoteDriveCapacityMb: { type: 'integer' },
 		cacheRemoteFiles: { type: 'boolean' },
 		emailRequiredForSignup: { type: 'boolean' },
 		enableHcaptcha: { type: 'boolean' },
@@ -133,6 +127,7 @@ export default class extends Endpoint<typeof meta, typeof paramDef> {
 				set.disableRegistration = ps.disableRegistration;
 			}
 
+<<<<<<< HEAD
 			if (typeof ps.disableInvitation === 'boolean') {
 				set.disableInvitation = ps.disableInvitation;
 			}
@@ -145,6 +140,8 @@ export default class extends Endpoint<typeof meta, typeof paramDef> {
 				set.disableGlobalTimeline = ps.disableGlobalTimeline;
 			}
 
+=======
+>>>>>>> c2009acb2d3a505f8d140827471cf953f6d922e6
 			if (typeof ps.useStarForReactionFallback === 'boolean') {
 				set.useStarForReactionFallback = ps.useStarForReactionFallback;
 			}
@@ -158,7 +155,7 @@ export default class extends Endpoint<typeof meta, typeof paramDef> {
 			}
 
 			if (Array.isArray(ps.blockedHosts)) {
-				set.blockedHosts = ps.blockedHosts.filter(Boolean);
+				set.blockedHosts = ps.blockedHosts.filter(Boolean).map(x => x.toLowerCase());
 			}
 
 			if (ps.themeColor !== undefined) {
@@ -199,14 +196,6 @@ export default class extends Endpoint<typeof meta, typeof paramDef> {
 
 			if (ps.defaultDarkTheme !== undefined) {
 				set.defaultDarkTheme = ps.defaultDarkTheme;
-			}
-
-			if (ps.localDriveCapacityMb !== undefined) {
-				set.localDriveCapacityMb = ps.localDriveCapacityMb;
-			}
-
-			if (ps.remoteDriveCapacityMb !== undefined) {
-				set.remoteDriveCapacityMb = ps.remoteDriveCapacityMb;
 			}
 
 			if (ps.cacheRemoteFiles !== undefined) {

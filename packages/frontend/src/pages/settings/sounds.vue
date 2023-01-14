@@ -1,18 +1,18 @@
 <template>
-<div class="_autoGap">
-	<FormRange v-model="masterVolume" :min="0" :max="1" :step="0.05" :text-converter="(v) => `${Math.floor(v * 100)}%`">
+<div class="_gaps_m">
+	<MkRange v-model="masterVolume" :min="0" :max="1" :step="0.05" :text-converter="(v) => `${Math.floor(v * 100)}%`">
 		<template #label>{{ i18n.ts.masterVolume }}</template>
-	</FormRange>
+	</MkRange>
 
 	<FormSection>
 		<template #label>{{ i18n.ts.sounds }}</template>
-		<div class="_autoGap_half">
-			<FormFolder v-for="type in Object.keys(sounds)" :key="type">
+		<div class="_gaps_s">
+			<MkFolder v-for="type in Object.keys(sounds)" :key="type">
 				<template #label>{{ $t('_sfx.' + type) }}</template>
 				<template #suffix>{{ sounds[type].type ?? i18n.ts.none }}</template>
 
 				<XSound :type="sounds[type].type" :volume="sounds[type].volume" @update="(res) => updated(type, res)"/>
-			</FormFolder>
+			</MkFolder>
 		</div>
 	</FormSection>
 
@@ -23,11 +23,11 @@
 <script lang="ts" setup>
 import { computed, ref } from 'vue';
 import XSound from './sounds.sound.vue';
-import FormRange from '@/components/form/range.vue';
+import MkRange from '@/components/MkRange.vue';
 import MkButton from '@/components/MkButton.vue';
 import FormLink from '@/components/form/link.vue';
 import FormSection from '@/components/form/section.vue';
-import FormFolder from '@/components/form/folder.vue';
+import MkFolder from '@/components/MkFolder.vue';
 import * as os from '@/os';
 import { ColdDeviceStorage } from '@/store';
 import { playFile } from '@/scripts/sound';

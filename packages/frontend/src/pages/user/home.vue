@@ -1,19 +1,27 @@
 <template>
 <MkSpacer :content-max="narrow ? 800 : 1100">
 	<div ref="rootEl" class="ftskorzw" :class="{ wide: !narrow }" style="container-type: inline-size;">
-		<div class="main _autoGap">
+		<div class="main _gaps">
 			<!-- TODO -->
 			<!-- <div class="punished" v-if="user.isSuspended"><i class="fas fa-exclamation-triangle" style="margin-right: 8px;"></i> {{ i18n.ts.userSuspended }}</div> -->
 			<!-- <div class="punished" v-if="user.isSilenced"><i class="fas fa-exclamation-triangle" style="margin-right: 8px;"></i> {{ i18n.ts.userSilenced }}</div> -->
 
+<<<<<<< HEAD
 			<div class="profile">
 				<MkRemoteCaution v-if="user.host != null" :href="user.url" class="warn" />
 				<div class="profile _autoGap">
+=======
+			<div class="profile _gaps">
+				<MkRemoteCaution v-if="user.host != null" :href="user.url" class="warn"/>
+
+				<div :key="user.id" class="main _panel">
+>>>>>>> c2009acb2d3a505f8d140827471cf953f6d922e6
 					<div class="banner-container" :style="style">
 						<div ref="bannerEl" class="banner" :style="style"></div>
 						<div class="title">
 							<MkUserName class="name" :user="user" :nowrap="true" />
 							<div class="bottom">
+<<<<<<< HEAD
 								<span class="username">
 									<MkAcct :user="user" :detail="true" />
 								</span>
@@ -23,6 +31,12 @@
 								<span v-if="user.isBot" :title="i18n.ts.isBot"><i class="fas fa-robot"></i></span> -->
 								<span v-if="user.isModerator" class="moderator">Moderator</span>
 								<span v-if="user.isAdmin" class="administrator">Administrator</span>
+=======
+								<span class="username"><MkAcct :user="user" :detail="true"/></span>
+								<span v-if="user.isAdmin" :title="i18n.ts.isAdmin" style="color: var(--badge);"><i class="ti ti-shield"></i></span>
+								<span v-if="user.isLocked" :title="i18n.ts.isLocked"><i class="ti ti-lock"></i></span>
+								<span v-if="user.isBot" :title="i18n.ts.isBot"><i class="ti ti-robot"></i></span>
+>>>>>>> c2009acb2d3a505f8d140827471cf953f6d922e6
 							</div>
 						</div>
 						<span v-if="$i && $i.id != user.id && user.isFollowed" class="followed">{{
@@ -38,6 +52,7 @@
 					<div class="title">
 						<MkUserName :user="user" :nowrap="false" class="name" />
 						<div class="bottom">
+<<<<<<< HEAD
 							<span class="username">
 								<MkAcct :user="user" :detail="true" />
 							</span>
@@ -47,7 +62,16 @@
 							<span v-if="user.isAdmin" class="administrator">Administrator</span>
 							<span v-if="user.isLocked" :title="i18n.ts.isLocked"><i class="fas fa-lock"></i></span>
 							<span v-if="user.isBot" :title="i18n.ts.isBot"><i class="fas fa-robot"></i></span>
+=======
+							<span class="username"><MkAcct :user="user" :detail="true"/></span>
+							<span v-if="user.isAdmin" :title="i18n.ts.isAdmin" style="color: var(--badge);"><i class="ti ti-shield"></i></span>
+							<span v-if="user.isLocked" :title="i18n.ts.isLocked"><i class="ti ti-lock"></i></span>
+							<span v-if="user.isBot" :title="i18n.ts.isBot"><i class="ti ti-robot"></i></span>
+>>>>>>> c2009acb2d3a505f8d140827471cf953f6d922e6
 						</div>
+					</div>
+					<div v-if="user.roles.length > 0" class="roles">
+						<span v-for="role in user.roles" :key="role.id" v-tooltip="role.description" class="role" :style="{ '--color': role.color }">{{ role.name }}</span>
 					</div>
 					<div class="description">
 						<Mfm v-if="user.description" :text="user.description" :is-note="false" :author="user"
@@ -101,23 +125,35 @@
 				</div>
 			</div>
 
-			<div class="contents">
-				<div v-if="user.pinnedNotes.length > 0" class="_autoGap_half">
+			<div class="contents _gaps">
+				<div v-if="user.pinnedNotes.length > 0" class="_gaps">
 					<XNote v-for="note in user.pinnedNotes" :key="note.id" class="note _panel" :note="note" :pinned="true"/>
 				</div>
 				<MkInfo v-else-if="$i && $i.id === user.id">{{ i18n.ts.userPagePinTip }}</MkInfo>
 				<template v-if="narrow">
+<<<<<<< HEAD
 					<XPhotos :key="user.id" :user="user" />
 					<XActivity :key="user.id" :user="user" style="margin-top: var(--margin);" />
+=======
+					<XPhotos :key="user.id" :user="user"/>
+					<XActivity :key="user.id" :user="user"/>
+>>>>>>> c2009acb2d3a505f8d140827471cf953f6d922e6
 				</template>
 			</div>
 			<div>
 				<XUserTimeline :user="user" />
 			</div>
+<<<<<<< HEAD
 		</div>	
 		<div v-if="!narrow" class="sub">
 			<XPhotos :key="user.id" :user="user" />
 			<XActivity :key="user.id" :user="user" style="margin-top: var(--margin);" />
+=======
+		</div>
+		<div v-if="!narrow" class="sub _gaps" style="container-type: inline-size;">
+			<XPhotos :key="user.id" :user="user"/>
+			<XActivity :key="user.id" :user="user"/>
+>>>>>>> c2009acb2d3a505f8d140827471cf953f6d922e6
 		</div>
 	</div>
 	</MkSpacer>
@@ -131,7 +167,7 @@ import XUserTimeline from './index.timeline.vue';
 import XNote from '@/components/MkNote.vue';
 import MkFollowButton from '@/components/MkFollowButton.vue';
 import MkContainer from '@/components/MkContainer.vue';
-import MkFolder from '@/components/MkFolder.vue';
+import MkFoldableSection from '@/components/MkFoldableSection.vue';
 import MkRemoteCaution from '@/components/MkRemoteCaution.vue';
 import MkTab from '@/components/MkTab.vue';
 import MkInfo from '@/components/MkInfo.vue';
@@ -144,6 +180,7 @@ import { useRouter } from '@/router';
 import { i18n } from '@/i18n';
 import { $i } from '@/account';
 import { dateString } from '@/filters/date';
+import { confetti } from '@/scripts/confetti';
 
 const XPhotos = defineAsyncComponent(() => import('./index.photos.vue'));
 const XActivity = defineAsyncComponent(() => import('./index.activity.vue'));
@@ -196,6 +233,18 @@ function parallax() {
 onMounted(() => {
 	window.requestAnimationFrame(parallaxLoop);
 	narrow = rootEl!.clientWidth < 1000;
+
+	if (props.user.birthday) {
+		const m = new Date().getMonth() + 1;
+		const d = new Date().getDate();
+		const bm = parseInt(props.user.birthday.split('-')[1]);
+		const bd = parseInt(props.user.birthday.split('-')[2]);
+		if (m === bm && d === bd) {
+			confetti({
+				duration: 1000 * 4,
+			});
+		}
+	}
 });
 
 onUnmounted(() => {
@@ -343,7 +392,23 @@ onUnmounted(() => {
 					box-shadow: 1px 1px 3px rgba(#000, 0.2);
 				}
 
+<<<<<<< HEAD
 				>.description {
+=======
+				> .roles {
+					padding: 24px 24px 0 154px;
+					font-size: 0.95em;
+
+					> .role {
+						border: solid 1px var(--color, var(--divider));
+						border-radius: 999px;
+						margin-right: 4px;
+						padding: 3px 8px;
+					}
+				}
+
+				> .description {
+>>>>>>> c2009acb2d3a505f8d140827471cf953f6d922e6
 					padding: 24px 24px 24px 154px;
 					font-size: 0.95em;
 
@@ -454,7 +519,16 @@ onUnmounted(() => {
 					margin: auto;
 				}
 
+<<<<<<< HEAD
 				>.description {
+=======
+				> .roles {
+					padding: 16px 16px 0 16px;
+					text-align: center;
+				}
+
+				> .description {
+>>>>>>> c2009acb2d3a505f8d140827471cf953f6d922e6
 					padding: 16px;
 					text-align: center;
 				}

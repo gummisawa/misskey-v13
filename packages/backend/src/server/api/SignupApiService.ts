@@ -193,7 +193,7 @@ export class SignupApiService {
 				emailVerifyCode: null,
 			});
 
-			this.signinService.signin(request, reply, account as ILocalUser);
+			return this.signinService.signin(request, reply, account as ILocalUser);
 		} catch (err) {
 			throw new FastifyReplyError(400, err);
 		}
