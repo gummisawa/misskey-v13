@@ -91,6 +91,12 @@
 				<button v-else :class="$style.footerButton" class="_button" disabled>
 					<i class="ti ti-ban"></i>
 				</button>
+				<button v-if="!isFavorited" ref="favoriteButton" :class="$style.footerButton" class="_button" @mousedown="addFavorite(true)">
+					<i class="ti ti-star"></i>
+				</button>
+				<button v-if="isFavorited" ref="favoriteButton" :class="$style.footerButton" class="_button" @click="removeFavorite(true)">
+					<i class="ti ti-star-off"></i>
+				</button>
 				<button v-if="appearNote.myReaction == null" ref="reactButton" :class="$style.footerButton" class="_button" @mousedown="react()">
 					<i class="ti ti-plus"></i>
 				</button>
@@ -146,6 +152,7 @@ import { useTooltip } from '@/scripts/use-tooltip';
 
 const props = defineProps<{
 	note: misskey.entities.Note;
+	favorite: misskey.entities.NoteFavorite;
 	pinned?: boolean;
 }>();
 
@@ -185,6 +192,7 @@ const isLong = (appearNote.cw == null && appearNote.text != null && (
 ));
 const collapsed = ref(appearNote.cw == null && isLong);
 const isDeleted = ref(false);
+const isFavorited = ref(false);
 const muted = ref(checkWordMute(appearNote, $i, defaultStore.state.mutedWords));
 const translation = ref(null);
 const translating = ref(false);
@@ -195,6 +203,7 @@ const canRenote = computed(() => ['public', 'home'].includes(appearNote.visibili
 const keymap = {
 	'r': () => reply(true),
 	'e|a|plus': () => react(true),
+	'f': () => addFavorite(true),
 	'q': () => renoteButton.value.renote(true),
 	'up|k|shift+tab': focusBefore,
 	'down|j|tab': focusAfter,
@@ -207,6 +216,7 @@ useNoteCapture({
 	rootEl: el,
 	note: $$(appearNote),
 	isDeletedRef: isDeleted,
+	isFavoritedRef: isFavorited,
 });
 
 useTooltip(renoteButton, async (showing) => {
@@ -258,6 +268,20 @@ function reply(viaKeyboard = false): void {
 	}, () => {
 		focus();
 	});
+}
+
+function addFavorite(favorite: boolean): void {
+	os.apiWithDialog('notes/favorites/create', {
+		noteId: appearNote.id,
+	});
+	isFavorited.value = true;
+}
+
+function removeFavorite(favorite: boolean): void {
+	os.apiWithDialog('notes/favorites/delete', {
+		noteId: appearNote.id,
+	});
+	isFavorited.value = false;
 }
 
 function react(viaKeyboard = false): void {

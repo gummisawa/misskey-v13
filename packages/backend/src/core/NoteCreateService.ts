@@ -266,8 +266,8 @@ export class NoteCreateService {
 		}
 
 		//公開範囲を制限する(なくても良い)
-		if (data.visibility === 'public') {
-			data.localOnly = true;
+		if (data.visibility === 'public' && !data.localOnly) {
+			throw new Error('パブリック投稿をする際は「ローカルのみ」に設定してください！');
 		}
 
 		if (data.localOnly !== true) {
