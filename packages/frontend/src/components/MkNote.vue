@@ -88,10 +88,19 @@
 					<i class="ti ti-repeat"></i>
 					<p v-if="appearNote.renoteCount > 0" :class="$style.footerButtonCount">{{ appearNote.renoteCount }}</p>
 				</button>
+				<button
+					v-if="canQuote"
+					ref="quoteButton"
+					:class="$style.footerButton"
+					class="_button"
+					@mousedown="quote()"
+				>
+					<i class="ti ti-quote"></i>
+				</button>
 				<button v-else :class="$style.footerButton" class="_button" disabled>
 					<i class="ti ti-ban"></i>
 				</button>
-				<button v-if="!isFavorited" ref="favoriteButton" :class="$style.footerButton" class="_button" @mousedown="addFavorite(true)">
+				<button v-if="!isFavorited" ref="favoriteButton" :class="$style.footerButton" class="_button" @click="addFavorite(true)">
 					<i class="ti ti-star"></i>
 				</button>
 				<button v-if="isFavorited" ref="favoriteButton" :class="$style.footerButton" class="_button" @click="removeFavorite(true)">
@@ -149,6 +158,7 @@ import { getNoteMenu } from '@/scripts/get-note-menu';
 import { useNoteCapture } from '@/scripts/use-note-capture';
 import { deepClone } from '@/scripts/clone';
 import { useTooltip } from '@/scripts/use-tooltip';
+import appear from '@/directives/appear';
 
 const props = defineProps<{
 	note: misskey.entities.Note;
@@ -183,6 +193,7 @@ const menuButton = shallowRef<HTMLElement>();
 const renoteButton = shallowRef<HTMLElement>();
 const renoteTime = shallowRef<HTMLElement>();
 const reactButton = shallowRef<HTMLElement>();
+const quoteButton = shallowRef<HTMLElement>();
 let appearNote = $computed(() => isRenote ? note.renote as misskey.entities.Note : note);
 const isMyRenote = $i && ($i.id === note.userId);
 const showContent = ref(false);
@@ -199,11 +210,12 @@ const translating = ref(false);
 const urls = appearNote.text ? extractUrlFromMfm(mfm.parse(appearNote.text)) : null;
 const showTicker = (defaultStore.state.instanceTicker === 'always') || (defaultStore.state.instanceTicker === 'remote' && appearNote.user.instance);
 const canRenote = computed(() => ['public', 'home'].includes(appearNote.visibility) || appearNote.userId === $i.id);
+const canQuote = computed(() => ['public', 'home'].includes(appearNote.visibility) || appearNote.userId === $i.id);
 
 const keymap = {
 	'r': () => reply(true),
 	'e|a|plus': () => react(true),
-	'f': () => addFavorite(true),
+	'f': () => removeFavorite(true),
 	'q': () => renoteButton.value.renote(true),
 	'up|k|shift+tab': focusBefore,
 	'down|j|tab': focusAfter,
@@ -239,6 +251,20 @@ useTooltip(renoteButton, async (showing) => {
 
 function renote(viaKeyboard = false) {
 	pleaseLogin();
+	os.apiWithDialog('notes/renotes', {
+		renoteId: appearNote.id,
+	});
+}
+
+function quote(viaKeyboard = false) {
+	pleaseLogin();
+	os.post({
+		renote: appearNote,
+	});
+}
+
+/*function renote(viaKeyboard = false) {
+	pleaseLogin();
 	os.popupMenu([{
 		text: i18n.ts.renote,
 		icon: 'ti ti-repeat',
@@ -258,7 +284,7 @@ function renote(viaKeyboard = false) {
 	}], renoteButton.value, {
 		viaKeyboard,
 	});
-}
+}*/
 
 function reply(viaKeyboard = false): void {
 	pleaseLogin();
