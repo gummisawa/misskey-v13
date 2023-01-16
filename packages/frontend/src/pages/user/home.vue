@@ -43,8 +43,10 @@
 						</div>
 					</div>
 					<div class="description">
-						<Mfm v-if="user.description" :text="user.description" :is-note="false" :author="user" :i="$i"/>
-						<p v-else class="empty">{{ i18n.ts.noAccountDescription }}</p>
+						<MkOmit>
+							<Mfm v-if="user.description" :text="user.description" :is-note="false" :author="user" :i="$i"/>
+							<p v-else class="empty">{{ i18n.ts.noAccountDescription }}</p>
+						</MkOmit>
 					</div>
 					<div class="fields system">
 						<dl v-if="user.location" class="field">
@@ -121,6 +123,7 @@ import MkContainer from '@/components/MkContainer.vue';
 import MkFoldableSection from '@/components/MkFoldableSection.vue';
 import MkRemoteCaution from '@/components/MkRemoteCaution.vue';
 import MkTab from '@/components/MkTab.vue';
+import MkOmit from '@/components/MkOmit.vue';
 import MkInfo from '@/components/MkInfo.vue';
 import { getScrollPosition } from '@/scripts/scroll';
 import { getUserMenu } from '@/scripts/get-user-menu';

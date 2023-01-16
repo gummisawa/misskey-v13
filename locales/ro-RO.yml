@@ -647,6 +647,10 @@ middle: "Mediu"
 sent: "Trimite"
 searchByGoogle: "Caută"
 file: "Fișiere"
+show: "Arată"
+_role:
+  _priority:
+    middle: "Mediu"
 _email:
   _follow:
     title: "te-a urmărit"
