@@ -158,7 +158,6 @@ import { getNoteMenu } from '@/scripts/get-note-menu';
 import { useNoteCapture } from '@/scripts/use-note-capture';
 import { deepClone } from '@/scripts/clone';
 import { useTooltip } from '@/scripts/use-tooltip';
-import appear from '@/directives/appear';
 
 const props = defineProps<{
 	note: misskey.entities.Note;
