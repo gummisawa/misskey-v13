@@ -1,16 +1,17 @@
 <template>
-<MkContainer :show-header="widgetProps.showHeader" class="mkw-rss">
-	<template #header><i class="ti ti-rss"></i>RSS</template>
-	<template #func><button class="_button" @click="configure"><i class="ti ti-settings"></i></button></template>
+<MkContainer :show-header="widgetProps.showHeader" class="mkw-rss data-cy-mkw-rss">
+	<template #icon><i class="ti ti-rss"></i></template>
+	<template #header>RSS</template>
+	<template #func="{ buttonStyleClass }"><button class="_button" :class="buttonStyleClass" @click="configure"><i class="ti ti-settings"></i></button></template>
 
 	<div class="ekmkgxbj">
 		<MkLoading v-if="fetching"/>
-		<div class="_fullinfo" v-else-if="(!items || items.length === 0) && widgetProps.showHeader">
+		<div v-else-if="(!items || items.length === 0) && widgetProps.showHeader" class="_fullinfo">
 			<img src="https://beta-media.kemomi.me/media/3ca30b92-8f82-4fd5-a2f6-140f92f0be55.png" class="_ghost"/>
 			<div>{{ i18n.ts.nothing }}</div>
 		</div>
 		<div v-else :class="$style.feed">
-			<a v-for="item in items" :class="$style.item" :href="item.link" :key="item.link" rel="nofollow noopener" target="_blank" :title="item.title">{{ item.title }}</a>
+			<a v-for="item in items" :key="item.link" :class="$style.item" :href="item.link" rel="nofollow noopener" target="_blank" :title="item.title">{{ item.title }}</a>
 		</div>
 	</div>
 </MkContainer>
@@ -74,11 +75,11 @@ const tick = () => {
 	if (document.visibilityState === 'hidden' && rawItems.value.length !== 0) return;
 
 	window.fetch(fetchEndpoint.value, {})
-	.then(res => res.json())
-	.then(feed => {
-		rawItems.value = feed.items ?? [];
-		fetching.value = false;
-	});
+		.then(res => res.json())
+		.then(feed => {
+			rawItems.value = feed.items ?? [];
+			fetching.value = false;
+		});
 };
 
 watch(() => fetchEndpoint, tick);
