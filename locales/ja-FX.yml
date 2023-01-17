@@ -1045,7 +1045,7 @@ _accountDelete:
 _ad:
   back: "戻るのじゃ"
   reduceFrequencyOfThisAd: "この広告の表示頻度を下げるのじゃ"
-    hide: "もう見とうないのじゃ"
+  hide: "もう見とうないのじゃ"
 
 _forgotPassword:
   enterEmail: "アカウントに登録したメールアドレスを入力するのじゃ。そのアドレス宛てに、パスワードリセット用のリンクが送信されるのじゃ。"
