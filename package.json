@@ -1,7 +1,7 @@
 {
 	"name": "misskey",
-	"version": "13.0.0-kakitsubata(rc.10)",
-	"codename": "indigo",
+	"version": "13.0.0-Kakitsubata",
+	"codename": "nasubi",
 	"repository": {
 		"type": "git",
 		"url": "https://github.com/gummisawa/misskey-v13.git"
