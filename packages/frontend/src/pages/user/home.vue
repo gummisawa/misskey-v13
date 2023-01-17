@@ -463,7 +463,7 @@ onUnmounted(() => {
 	border-radius: 6px;
 	padding: 1px 6px;
 	font-size: 90%;
-	color: var(--success);
-	border-color: var(--success);
+	color: var(--color, var(--divider));
+	border-color: var(--color, var(--divider));
 }
 </style>
