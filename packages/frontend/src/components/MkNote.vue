@@ -108,7 +108,7 @@
 					<i class="ti ti-star"></i>
 				</button>
 				<button v-if="appearNote.myReaction == null" ref="reactButton" :class="$style.footerButton" class="_button" @mousedown="react()">
-					<i class="ti ti-plus"></i>
+					<i class="ti ti-mood-smile"></i>
 				</button>
 				<button v-if="appearNote.myReaction != null" ref="reactButton" :class="$style.footerButton" class="_button" @click="undoReact(appearNote)">
 					<i class="ti ti-minus"></i>
@@ -159,7 +159,6 @@ import { getNoteMenu } from '@/scripts/get-note-menu';
 import { useNoteCapture } from '@/scripts/use-note-capture';
 import { deepClone } from '@/scripts/clone';
 import { useTooltip } from '@/scripts/use-tooltip';
-import quoteCount from '@/types/quoteCount';
 
 const props = defineProps<{
 	note: misskey.entities.Note;
@@ -171,7 +170,6 @@ const inChannel = inject('inChannel', null);
 
 let note = $ref(deepClone(props.note));
 
-
 // plugin
 if (noteViewInterruptors.length > 0) {
 	onMounted(async () => {
@@ -182,18 +180,18 @@ if (noteViewInterruptors.length > 0) {
 		note = result;
 	});
 }
+
 let appearNote = $computed(() => isRenote ? note.renote as misskey.entities.Note : note);
 
 let isFavorited = ref(false);
-onMounted(async () =>  {
+onMounted(async () => {
 	const response = await os.api('notes/state', {
 		noteId: appearNote.id,
-	})
-	if(response) {
+	});
+	if (response) {
 		isFavorited.value = response.isFavorited
 	}
-})
-
+});
 
 const isRenote = (
 	note.renote != null &&
@@ -227,7 +225,6 @@ const canQuote = computed(() => ['public', 'home'].includes(appearNote.visibilit
 const keymap = {
 	'r': () => reply(true),
 	'e|a|plus': () => react(true),
-	'f': () => removeFavorited(),
 	'q': () => renoteButton.value.renote(true),
 	'up|k|shift+tab': focusBefore,
 	'down|j|tab': focusAfter,
@@ -261,14 +258,14 @@ useTooltip(renoteButton, async (showing) => {
 	}, {}, 'closed');
 });
 
-function renote(viaKeyboard = false) {
+function renote(): void {
 	pleaseLogin();
 	os.apiWithDialog('notes/create', {
 		renoteId: appearNote.id,
 	});
 }
 
-function quote(viaKeyboard = false) {
+function quote(): void {
 	pleaseLogin();
 	os.post({
 		renote: appearNote,
@@ -309,12 +306,12 @@ function reply(viaKeyboard = false): void {
 }
 
 async function getIsFavorited(): Promise<boolean> {
-  const response = await os.api('notes/state', {
-    noteId: appearNote.id,
-  });
-  if (response) {
-    return response.isFavorited;
-  }
+	const response = await os.api('notes/state', {
+		noteId: appearNote.id,
+	});
+	if (response) {
+		return response.isFavorited;
+	}
 }
 
 async function addFavorited(): Promise<boolean> {

@@ -104,8 +104,22 @@
 					<i class="ti ti-repeat"></i>
 					<p v-if="appearNote.renoteCount > 0" class="count">{{ appearNote.renoteCount }}</p>
 				</button>
+				<button
+					v-if="canQuote"
+					ref="quoteButton"
+					class="button _button"
+					@mousedown="quote()"
+				>
+					<i class="ti ti-quote"></i>
+				</button>
 				<button v-else class="button _button" disabled>
 					<i class="ti ti-ban"></i>
+				</button>
+				<button v-if="isFavorited == true" ref="favoriteButton" class="button _button" @click="removeFavorited()">
+					<i class="ti ti-star-off"></i>
+				</button>
+				<button v-else ref="favoriteButton" class="button _button" @mousedown="addFavorited()">
+					<i class="ti ti-star"></i>
 				</button>
 				<button v-if="appearNote.myReaction == null" ref="reactButton" class="button _button" @mousedown="react()">
 					<i class="ti ti-plus"></i>
@@ -162,6 +176,7 @@ import { useTooltip } from '@/scripts/use-tooltip';
 
 const props = defineProps<{
 	note: misskey.entities.Note;
+	favorite?: misskey.entities.NoteFavorite;
 	pinned?: boolean;
 }>();
 
@@ -180,6 +195,18 @@ if (noteViewInterruptors.length > 0) {
 	});
 }
 
+let appearNote = $computed(() => isRenote ? note.renote as misskey.entities.Note : note);
+
+let isFavorited = ref(false);
+onMounted(async () =>  {
+	const response = await os.api('notes/state', {
+		noteId: appearNote.id,
+	});
+	if (response) {
+		isFavorited.value = response.isFavorited
+	}
+});
+
 const isRenote = (
 	note.renote != null &&
 	note.text == null &&
@@ -192,7 +219,6 @@ const menuButton = shallowRef<HTMLElement>();
 const renoteButton = shallowRef<HTMLElement>();
 const renoteTime = shallowRef<HTMLElement>();
 const reactButton = shallowRef<HTMLElement>();
-let appearNote = $computed(() => isRenote ? note.renote as misskey.entities.Note : note);
 const isMyRenote = $i && ($i.id === note.userId);
 const showContent = ref(false);
 const isDeleted = ref(false);
@@ -204,6 +230,7 @@ const showTicker = (defaultStore.state.instanceTicker === 'always') || (defaultS
 const conversation = ref<misskey.entities.Note[]>([]);
 const replies = ref<misskey.entities.Note[]>([]);
 const canRenote = computed(() => ['public', 'home'].includes(appearNote.visibility) || appearNote.userId === $i.id);
+const canQuote = computed(() => ['public', 'home'].includes(appearNote.visibility) || appearNote.userId === $i.id);
 
 const keymap = {
 	'r': () => reply(true),
@@ -218,6 +245,7 @@ useNoteCapture({
 	rootEl: el,
 	note: $$(appearNote),
 	isDeletedRef: isDeleted,
+	isFavoritedRef: isFavorited,
 });
 
 useTooltip(renoteButton, async (showing) => {
@@ -238,7 +266,21 @@ useTooltip(renoteButton, async (showing) => {
 	}, {}, 'closed');
 });
 
-function renote(viaKeyboard = false) {
+function renote(): void {
+	pleaseLogin();
+	os.apiWithDialog('notes/create', {
+		renoteId: appearNote.id,
+	});
+}
+
+function quote(): void {
+	pleaseLogin();
+	os.post({
+		renote: appearNote,
+	});
+}
+
+/*function renote(viaKeyboard = false) {
 	pleaseLogin();
 	os.popupMenu([{
 		text: i18n.ts.renote,
@@ -259,7 +301,7 @@ function renote(viaKeyboard = false) {
 	}], renoteButton.value, {
 		viaKeyboard,
 	});
-}
+}*/
 
 function reply(viaKeyboard = false): void {
 	pleaseLogin();
@@ -269,6 +311,43 @@ function reply(viaKeyboard = false): void {
 	}, () => {
 		focus();
 	});
+}
+
+async function getIsFavorited(): Promise<boolean> {
+	const response = await os.api('notes/state', {
+		noteId: appearNote.id,
+	});
+	if (response) {
+		return response.isFavorited;
+	}
+}
+
+async function addFavorited(): Promise<boolean> {
+	const state = await getIsFavorited();
+	isFavorited.value = state;
+	if (state === false || isFavorited.value === false) {
+		pleaseLogin();
+		os.apiWithDialog('notes/favorites/create',{
+			noteId: appearNote.id,
+		}).then(() => {
+			isFavorited.value = true;
+		});
+	}
+	return isFavorited.value = true;
+}
+
+async function removeFavorited(): Promise<boolean> {
+	const state = await getIsFavorited();
+	isFavorited.value = state;
+	if (state === true || isFavorited.value === true) {
+		pleaseLogin();
+		os.apiWithDialog('notes/favorites/delete',{
+			noteId: appearNote.id,
+		}).then(() => {
+			isFavorited.value = false;
+		});
+	}
+	return isFavorited.value = false;
 }
 
 function react(viaKeyboard = false): void {
