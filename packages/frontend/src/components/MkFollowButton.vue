@@ -41,6 +41,7 @@ import * as Misskey from 'misskey-js';
 import * as os from '@/os';
 import { stream } from '@/stream';
 import { i18n } from '@/i18n';
+import Profile from '@/pages/settings/profile.vue';
 import { claimAchievement } from '@/scripts/achievements';
 import { $i } from '@/account';
 
