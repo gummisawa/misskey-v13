@@ -261,7 +261,7 @@ useTooltip(renoteButton, async (showing) => {
 
 function renote(): void {
 	pleaseLogin();
-	if ($store.reactiveState.showRenoteConfirmWindow.value) {
+	if (defaultStore.reactiveState.showRenoteConfirmWindow.value) {
 		os.confirm({
 			type: 'warning',
 			text: i18n.ts.noteRenoteConfirm,
@@ -274,7 +274,7 @@ function renote(): void {
 		});
 	}
 
-	else if (!$store.reactiveState.showRenoteConfirmWindow.value) {
+	else if (!defaultStore.reactiveState.showRenoteConfirmWindow.value) {
 		os.apiWithDialog('notes/create', {
 			renoteId: appearNote.id,
 		});
