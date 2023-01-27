@@ -261,9 +261,24 @@ useTooltip(renoteButton, async (showing) => {
 
 function renote(): void {
 	pleaseLogin();
-	os.apiWithDialog('notes/create', {
-		renoteId: appearNote.id,
-	});
+	if ($store.reactiveState.showRenoteConfirmWindow.value) {
+		os.confirm({
+			type: 'warning',
+			text: i18n.ts.noteRenoteConfirm,
+		}).then(({ canceled }) => {
+			if (canceled) return;
+
+			os.api('notes/create', {
+				renoteId: appearNote.id,
+			});	
+		});
+	}
+
+	else if (!$store.reactiveState.showRenoteConfirmWindow.value) {
+		os.apiWithDialog('notes/create', {
+			renoteId: appearNote.id,
+		});
+	}
 }
 
 function quote(): void {

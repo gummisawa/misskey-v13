@@ -56,6 +56,7 @@
 				<MkSwitch v-model="circleAvatars">{{ i18n.ts.circleAvatars }}</MkSwitch>
 				<MkSwitch v-model="useSystemFont">{{ i18n.ts.useSystemFont }}</MkSwitch>
 				<MkSwitch v-model="disableDrawer">{{ i18n.ts.disableDrawer }}</MkSwitch>
+				<MkSwitch v-model="showRenoteConfirmWindow">{{ i18n.ts.showRenoteConfirmWindow }}</MkSwitch>
 			</div>
 			<div>
 				<MkRadios v-model="emojiStyle">
@@ -151,6 +152,7 @@ const loadRawImages = computed(defaultStore.makeGetterSetter('loadRawImages'));
 const imageNewTab = computed(defaultStore.makeGetterSetter('imageNewTab'));
 const nsfw = computed(defaultStore.makeGetterSetter('nsfw'));
 const showFixedPostForm = computed(defaultStore.makeGetterSetter('showFixedPostForm'));
+const showRenoteConfirmWindow = computed(defaultStore.makeGetterSetter('showRenoteConfirmWindow'));
 const numberOfPageCache = computed(defaultStore.makeGetterSetter('numberOfPageCache'));
 const instanceTicker = computed(defaultStore.makeGetterSetter('instanceTicker'));
 const enableInfiniteScroll = computed(defaultStore.makeGetterSetter('enableInfiniteScroll'));

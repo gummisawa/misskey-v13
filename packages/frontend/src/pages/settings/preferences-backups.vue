@@ -82,6 +82,7 @@ const defaultStoreSaveKeys: (keyof typeof defaultStore['state'])[] = [
 	'menuDisplay',
 	'reportError',
 	'squareAvatars',
+	'showRenoteConfirmWindow',
 	'numberOfPageCache',
 	'aiChanMode',
 ];

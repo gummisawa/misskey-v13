@@ -194,6 +194,10 @@ export const defaultStore = markRaw(new Storage('base', {
 		where: 'device',
 		default: true,
 	},
+	showRenoteConfirmWindow: {
+		where: 'device',
+		default: false,
+	},
 	enableInfiniteScroll: {
 		where: 'device',
 		default: true,
