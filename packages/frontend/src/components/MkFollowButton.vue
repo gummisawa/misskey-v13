@@ -25,6 +25,9 @@
 		<template v-else-if="!isFollowing && !Profile.carefulMassive">
 			<span v-if="full">{{ i18n.ts.followRequest }}</span><i class="ti ti-plus"></i>			
 		</template>
+		<template v-else-if="!isFollowing && !Profile.privateAccount">
+			<span v-if="full">{{ i18n.ts.followRequest }}</span><i class="ti ti-plus"></i>			
+		</template>
 		<template v-else-if="!isFollowing && !user.isLocked">
 			<span v-if="full">{{ i18n.ts.follow }}</span><i class="ti ti-plus"></i>
 		</template>

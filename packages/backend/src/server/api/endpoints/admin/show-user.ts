@@ -84,6 +84,7 @@ export default class extends Endpoint<typeof meta, typeof paramDef> {
 				carefulBot: profile.carefulBot,
 				carefulRemote: profile.carefulRemote,
 				carefulMassive: profile.carefulMassive,
+				privateAccount: profile.privateAccount,
 				injectFeaturedNote: profile.injectFeaturedNote,
 				receiveAnnouncementEmail: profile.receiveAnnouncementEmail,
 				integrations: profile.integrations,

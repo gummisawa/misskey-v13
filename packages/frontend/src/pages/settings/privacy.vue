@@ -1,10 +1,11 @@
 <template>
 <div class="_gaps_m">
-	<MkSwitch v-if="!carefulRemote && !carefulBot && !carefulMassive" v-model="isLocked" @update:model-value="save()">{{ i18n.ts.makeFollowManuallyApprove }}<template #caption>{{ i18n.ts.lockedAccountInfo }}</template></MkSwitch>
-	<MkSwitch v-if="!isLocked" v-model="carefulRemote" @update:model-value="save()">{{ i18n.ts.flagCarefulRemote }}<template #caption>{{ i18n.ts.carefulRemoteInfo }}</template></MkSwitch>
-	<MkSwitch v-if="!isLocked" v-model="carefulBot" @update:model-value="save()">{{ i18n.ts.flagCarefulBot }}<template #caption>{{ i18n.ts.carefulBotInfo }}</template></MkSwitch>
-	<MkSwitch v-if="!isLocked" v-model="carefulMassive" @update:model-value="save()">{{ i18n.ts.flagCarefulMassive }}<template #caption>{{ i18n.ts.carefulMassiveInfo}}</template></MkSwitch>
-	<MkSwitch v-if="isLocked || carefulRemote || carefulBot || carefulMassive" v-model="autoAcceptFollowed" @update:model-value="save()">{{ i18n.ts.autoAcceptFollowed }}</MkSwitch>
+	<MkSwitch v-if="!carefulRemote && !carefulBot && !carefulMassive && !privateAccount" v-model="isLocked" @update:model-value="save()">{{ i18n.ts.makeFollowManuallyApprove }}<template #caption>{{ i18n.ts.lockedAccountInfo }}</template></MkSwitch>
+	<MkSwitch v-if="!isLocked && !privateAccount" v-model="carefulRemote" @update:model-value="save()">{{ i18n.ts.flagCarefulRemote }}<template #caption>{{ i18n.ts.carefulRemoteInfo }}</template></MkSwitch>
+	<MkSwitch v-if="!isLocked && !privateAccount" v-model="carefulBot" @update:model-value="save()">{{ i18n.ts.flagCarefulBot }}<template #caption>{{ i18n.ts.carefulBotInfo }}</template></MkSwitch>
+	<MkSwitch v-if="!isLocked && !privateAccount" v-model="carefulMassive" @update:model-value="save()">{{ i18n.ts.flagCarefulMassive }}<template #caption>{{ i18n.ts.carefulMassiveInfo}}</template></MkSwitch>
+	<MkSwitch v-if="!carefulRemote && !carefulBot && !carefulMassive && !isLocked" v-model="privateAccount" @update:model-value="save()">{{ i18n.ts.privateAccount }}<template #caption>{{ i18n.ts.privateAccountInfo }}</template></MkSwitch>
+	<MkSwitch v-if="isLocked || carefulRemote || carefulBot || carefulMassive || privateAccount" v-model="autoAcceptFollowed" @update:model-value="save()">{{ i18n.ts.autoAcceptFollowed }}</MkSwitch>
 
 	<MkSwitch v-model="publicReactions" @update:model-value="save()">
 		{{ i18n.ts.makeReactionsPublic }}
@@ -43,8 +44,8 @@
 
 				<div class="_gaps_m">
 					<MkSelect v-model="defaultNoteVisibility">
-						<option value="public">{{ i18n.ts._visibility.public }}</option>
-						<option value="home">{{ i18n.ts._visibility.home }}</option>
+						<option v-if="!privateAccount" value="public">{{ i18n.ts._visibility.public }}</option>
+						<option v-if="!privateAccount" value="home">{{ i18n.ts._visibility.home }}</option>
 						<option value="followers">{{ i18n.ts._visibility.followers }}</option>
 						<option value="specified">{{ i18n.ts._visibility.specified }}</option>
 					</MkSelect>
@@ -75,11 +76,13 @@ let autoAcceptFollowed = $ref($i.autoAcceptFollowed);
 let carefulBot = $ref($i.carefulBot);
 let carefulRemote = $ref($i.carefulRemote);
 let carefulMassive = $ref($i.carefulMassive);
+let privateAccount = $ref($i.privateAccount);
 let noCrawle = $ref($i.noCrawle);
 let isExplorable = $ref($i.isExplorable);
 let hideOnlineStatus = $ref($i.hideOnlineStatus);
 let publicReactions = $ref($i.publicReactions);
 let ffVisibility = $ref($i.ffVisibility);
+let userNotesVisibility = $ref($i.userNotesVisibility);
 
 let defaultNoteVisibility = $computed(defaultStore.makeGetterSetter('defaultNoteVisibility'));
 let defaultNoteLocalOnly = $computed(defaultStore.makeGetterSetter('defaultNoteLocalOnly'));
@@ -93,11 +96,13 @@ function save() {
 		carefulBot: !!carefulBot,
 		carefulRemote: !!carefulRemote,
 		carefulMassive: !!carefulMassive,
+		privateAccount: !!privateAccount,
 		noCrawle: !!noCrawle,
 		isExplorable: !!isExplorable,
 		hideOnlineStatus: !!hideOnlineStatus,
 		publicReactions: !!publicReactions,
 		ffVisibility: ffVisibility,
+		userNotesVisibility: userNotesVisibility,
 	});
 }
 

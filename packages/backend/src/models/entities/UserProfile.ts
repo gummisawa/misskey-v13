@@ -175,6 +175,11 @@ export class UserProfile {
 	@Column('boolean', {
 		default: false,
 	})
+	public privateAccount: boolean;
+
+	@Column('boolean', {
+		default: false,
+	})
 	public injectFeaturedNote: boolean;
 
 	@Column('boolean', {

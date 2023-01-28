@@ -108,6 +108,7 @@ export const paramDef = {
 		carefulBot: { type: 'boolean' },
 		carefulRemote: { type: 'boolean' },
 		carefulMassive: { type: 'boolean' },
+		privateAccount: { type: 'boolean' },
 		autoAcceptFollowed: { type: 'boolean' },
 		noCrawle: { type: 'boolean' },
 		isBot: { type: 'boolean' },
@@ -206,6 +207,7 @@ export default class extends Endpoint<typeof meta, typeof paramDef> {
 			if (typeof ps.carefulBot === 'boolean') profileUpdates.carefulBot = ps.carefulBot;
 			if (typeof ps.carefulRemote === 'boolean') profileUpdates.carefulRemote = ps.carefulRemote;
 			if (typeof ps.carefulMassive === 'boolean') profileUpdates.carefulMassive = ps.carefulMassive;
+			if (typeof ps.privateAccount === 'boolean') profileUpdates.privateAccount = ps.privateAccount;
 			if (typeof ps.autoAcceptFollowed === 'boolean') profileUpdates.autoAcceptFollowed = ps.autoAcceptFollowed;
 			if (typeof ps.noCrawle === 'boolean') profileUpdates.noCrawle = ps.noCrawle;
 			if (typeof ps.isCat === 'boolean') updates.isCat = ps.isCat;
@@ -301,6 +303,9 @@ export default class extends Endpoint<typeof meta, typeof paramDef> {
 				this.userFollowingService.acceptAllFollowRequests(user);
 			}
 			if (profile.carefulMassive && ps.carefulMassive === false) {
+				this.userFollowingService.acceptAllFollowRequests(user);
+			}
+			if (profile.privateAccount && ps.privateAccount === false) {
 				this.userFollowingService.acceptAllFollowRequests(user);
 			}
 

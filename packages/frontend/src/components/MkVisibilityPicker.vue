@@ -1,14 +1,14 @@
 <template>
 <MkModal ref="modal" :z-priority="'high'" :src="src" @click="modal.close()" @closed="emit('closed')">
 	<div class="_popup" :class="$style.root">
-		<button key="public" class="_button" :class="[$style.item, { [$style.active]: v === 'public' }]" data-index="1" @click="choose('public')">
+		<button v-if="!$i?.privateAccount" key="public" class="_button" :class="[$style.item, { [$style.active]: v === 'public' }]" data-index="1" @click="choose('public')">
 			<div :class="$style.icon"><i class="ti ti-world"></i></div>
 			<div :class="$style.body">
 				<span :class="$style.itemTitle">{{ i18n.ts._visibility.public }}</span>
 				<span :class="$style.itemDescription">{{ i18n.ts._visibility.publicDescription }}</span>
 			</div>
 		</button>
-		<button key="home" class="_button" :class="[$style.item, { [$style.active]: v === 'home' }]" data-index="2" @click="choose('home')">
+		<button v-if="!$i?.privateAccount" key="home" class="_button" :class="[$style.item, { [$style.active]: v === 'home' }]" data-index="2" @click="choose('home')">
 			<div :class="$style.icon"><i class="ti ti-home"></i></div>
 			<div :class="$style.body">
 				<span :class="$style.itemTitle">{{ i18n.ts._visibility.home }}</span>
@@ -47,15 +47,15 @@ import { nextTick, watch } from 'vue';
 import * as misskey from 'misskey-js';
 import MkModal from '@/components/MkModal.vue';
 import { i18n } from '@/i18n';
+import { $i } from '@/account';
 
 const modal = $shallowRef<InstanceType<typeof MkModal>>();
 
-const props = withDefaults(defineProps<{
+const props = defineProps<{
 	currentVisibility: typeof misskey.noteVisibilities[number];
 	currentLocalOnly: boolean;
 	src?: HTMLElement;
-}>(), {
-});
+}>();
 
 const emit = defineEmits<{
 	(ev: 'changeVisibility', v: typeof misskey.noteVisibilities[number]): void;

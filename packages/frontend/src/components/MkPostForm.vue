@@ -16,7 +16,7 @@
 			<span v-if="localOnly" :class="$style.localOnly"><i class="ti ti-world-off"></i></span>
 			<button ref="visibilityButton" v-tooltip="i18n.ts.visibility" class="_button" :class="$style.visibility" :disabled="channel != null" @click="setVisibility">
 				<span v-if="visibility === 'public'"><i class="ti ti-world"></i></span>
-				<span v-if="visibility === 'home'"><i class="ti ti-home"></i></span>
+				<span v-if="visibility === 'home' && !Profile.privateAccount"><i class="ti ti-home"></i></span>
 				<span v-if="visibility === 'followers'"><i class="ti ti-lock"></i></span>
 				<span v-if="visibility === 'specified'"><i class="ti ti-mail"></i></span>
 			</button>
@@ -99,6 +99,7 @@ import { deepClone } from '@/scripts/clone';
 import MkRippleEffect from '@/components/MkRippleEffect.vue';
 import { miLocalStorage } from '@/local-storage';
 import { claimAchievement } from '@/scripts/achievements';
+import Profile from '@/pages/settings/profile.vue';
 
 const modal = inject('modal');
 

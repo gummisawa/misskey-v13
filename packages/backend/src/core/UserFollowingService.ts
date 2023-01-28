@@ -111,6 +111,7 @@ export class UserFollowingService {
 			|| (followeeProfile.carefulBot && follower.isBot) 
 			|| (followeeProfile.carefulRemote && this.userEntityService.isRemoteUser(follower))
 			|| (followeeProfile.carefulMassive && follower.followingCount > 5000 && (follower.followingCount / follower.followersCount) > 10)
+			|| (followeeProfile.privateAccount)
 			|| (this.userEntityService.isLocalUser(follower) && this.userEntityService.isRemoteUser(followee))) {
 			let autoAccept = false;
 

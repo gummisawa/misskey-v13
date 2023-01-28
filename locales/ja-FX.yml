@@ -90,6 +90,8 @@ youShouldUpgradeClient: "このページを表示するためには、リロー�
 enterListName: "リスト名を入力するのじゃ"
 privacy: "プライバシー"
 makeFollowManuallyApprove: "フォローを承認制にするのじゃ"
+privateAccount: "鍵アカウント厳格運用モード"
+privateAccountInfo: "有効にするとフォローが承認制に、公開範囲の設定がフォロワー限定/ダイレクトのみになるのじゃ。"
 defaultNoteVisibility: "デフォルトの公開範囲"
 follow: "フォロー"
 followRequest: "フォロー申請"
