@@ -1,6 +1,4 @@
-const { MigrationInterface, QueryRunner } = require("typeorm");
-
-module.exports = class length1674890650164 {
+export class length1674890650164 {
     name = 'length1674890650164'
 
     async up(queryRunner) {
