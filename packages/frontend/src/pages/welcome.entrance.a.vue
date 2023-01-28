@@ -28,7 +28,7 @@
 				</div>
 				<div class="action">
 					<MkButton v-if="meta && !meta.disableInvitation" inline rounded gradate data-cy-signup style="margin-right: 12px;" @click="signup()">{{ i18n.ts.signup }}</MkButton>
-					<MkButton inline rounded data-cy-signin @click="signin()">{{ i18n.ts.login }}</MkButton>
+					<MkButton inline rounded data-cy-signin @click="signin()"><i class="ti ti-lock" style="margin-right: 4px;"></i></MkButton>
 				</div>
 			</div>
 		</div>
