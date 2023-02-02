@@ -1,17 +1,17 @@
 <template>
-<transition :name="$store.state.animation ? 'popup' : ''" appear @after-leave="emit('closed')">
+<Transition :name="$store.state.animation ? 'popup' : ''" appear @after-leave="emit('closed')">
 	<div v-if="showing" class="fxxzrfni _popup _shadow" :style="{ zIndex, top: top + 'px', left: left + 'px' }" @mouseover="() => { emit('mouseover'); }" @mouseleave="() => { emit('mouseleave'); }">
 		<div v-if="user != null" class="info">
 			<div class="banner" :style="user.bannerUrl ? `background-image: url(${user.bannerUrl})` : ''">
 				<span v-if="$i && $i.id != user.id && user.isFollowed" class="followed">{{ $ts.followsYou }}</span>
 			</div>
-			<MkAvatar class="avatar" :user="user" :disable-preview="true" :show-indicator="true"/>
+			<MkAvatar class="avatar" :user="user" indicator/>
 			<div class="title">
 				<MkA class="name" :to="userPage(user)"><MkUserName :user="user" :nowrap="false"/></MkA>
 				<p class="username"><MkAcct :user="user"/></p>
 			</div>
 			<div class="description">
-				<Mfm v-if="user.description" :text="user.description" :author="user" :i="$i" :custom-emojis="user.emojis"/>
+				<Mfm v-if="user.description" :text="user.description" :author="user" :i="$i"/>
 			</div>
 			<div class="status">
 				<div>
@@ -30,7 +30,7 @@
 			<MkLoading/>
 		</div>
 	</div>
-</transition>
+</Transition>
 </template>
 
 <script lang="ts" setup>

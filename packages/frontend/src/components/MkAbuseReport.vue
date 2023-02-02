@@ -1,16 +1,16 @@
 <template>
-<div class="bcekxzvu _gap _panel">
+<div class="bcekxzvu _margin _panel">
 	<div class="target">
 		<MkA v-user-preview="report.targetUserId" class="info" :to="`/user-info/${report.targetUserId}`">
-			<MkAvatar class="avatar" :user="report.targetUser" :show-indicator="true" :disable-link="true"/>
+			<MkAvatar class="avatar" :user="report.targetUser" indicator/>
 			<div class="names">
 				<MkUserName class="name" :user="report.targetUser"/>
 				<MkAcct class="acct" :user="report.targetUser" style="display: block;"/>
 			</div>
 		</MkA>
-		<MkKeyValue class="_formBlock">
+		<MkKeyValue>
 			<template #key>{{ i18n.ts.registeredDate }}</template>
-			<template #value>{{ new Date(report.targetUser.createdAt).toLocaleString() }} (<MkTime :time="report.targetUser.createdAt"/>)</template>
+			<template #value>{{ dateString(report.targetUser.createdAt) }} (<MkTime :time="report.targetUser.createdAt"/>)</template>
 		</MkKeyValue>
 	</div>
 	<div class="detail">
@@ -37,11 +37,12 @@
 
 <script lang="ts" setup>
 import MkButton from '@/components/MkButton.vue';
-import MkSwitch from '@/components/form/switch.vue';
+import MkSwitch from '@/components/MkSwitch.vue';
 import MkKeyValue from '@/components/MkKeyValue.vue';
 import { acct, userPage } from '@/filters/user';
 import * as os from '@/os';
 import { i18n } from '@/i18n';
+import { dateString } from '@/filters/date';
 
 const props = defineProps<{
 	report: any;

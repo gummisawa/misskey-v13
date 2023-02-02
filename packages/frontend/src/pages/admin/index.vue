@@ -80,7 +80,7 @@ const menuDef = $computed(() => [{
 		action: lookup,
 	}, ...(instance.disableRegistration ? [{
 		type: 'button',
-		icon: 'ti ti-user',
+		icon: 'ti ti-user-plus',
 		text: i18n.ts.invite,
 		action: invite,
 	}] : [])],
@@ -97,14 +97,19 @@ const menuDef = $computed(() => [{
 		to: '/admin/users',
 		active: currentPage?.route.name === 'users',
 	}, {
-		icon: 'ti ti-mood-happy',
+		icon: 'ti ti-badges',
+		text: i18n.ts.roles,
+		to: '/admin/roles',
+		active: currentPage?.route.name === 'roles',
+	}, {
+		icon: 'ti ti-icons',
 		text: i18n.ts.customEmojis,
 		to: '/admin/emojis',
 		active: currentPage?.route.name === 'emojis',
 	}, {
 		icon: 'ti ti-whirl',
 		text: i18n.ts.federation,
-		to: '/about#federation',
+		to: '/admin/federation',
 		active: currentPage?.route.name === 'federation',
 	}, {
 		icon: 'ti ti-clock-play',
@@ -218,7 +223,7 @@ provideMetadataReceiver((info) => {
 });
 
 const invite = () => {
-	os.api('admin/invite').then(x => {
+	os.api('invite').then(x => {
 		os.alert({
 			type: 'info',
 			text: x.code,

@@ -2,18 +2,18 @@ import { Inject, Injectable } from '@nestjs/common';
 import { In } from 'typeorm';
 import { ModuleRef } from '@nestjs/core';
 import { DI } from '@/di-symbols.js';
-import type { AccessTokensRepository, NoteReactionsRepository, NotificationsRepository } from '@/models/index.js';
+import type { AccessTokensRepository, NoteReactionsRepository, NotificationsRepository, User } from '@/models/index.js';
 import { awaitAll } from '@/misc/prelude/await-all.js';
 import type { Notification } from '@/models/entities/Notification.js';
 import type { NoteReaction } from '@/models/entities/NoteReaction.js';
 import type { Note } from '@/models/entities/Note.js';
 import type { Packed } from '@/misc/schema.js';
+import { bindThis } from '@/decorators.js';
 import type { OnModuleInit } from '@nestjs/common';
 import type { CustomEmojiService } from '../CustomEmojiService.js';
 import type { UserEntityService } from './UserEntityService.js';
 import type { NoteEntityService } from './NoteEntityService.js';
 import type { UserGroupInvitationEntityService } from './UserGroupInvitationEntityService.js';
-import { bindThis } from '@/decorators.js';
 
 @Injectable()
 export class NotificationEntityService implements OnModuleInit {
@@ -98,7 +98,7 @@ export class NotificationEntityService implements OnModuleInit {
 				}),
 				reaction: notification.reaction,
 			} : {}),
-			...(notification.type === 'pollVote' ? {
+			...(notification.type === 'pollVote' ? { // TODO: そのうち消す
 				note: this.noteEntityService.pack(notification.note ?? notification.noteId!, { id: notification.notifieeId }, {
 					detail: true,
 					_hint_: options._hintForEachNotes_,
@@ -113,6 +113,9 @@ export class NotificationEntityService implements OnModuleInit {
 			} : {}),
 			...(notification.type === 'groupInvited' ? {
 				invitation: this.userGroupInvitationEntityService.pack(notification.userGroupInvitationId!),
+			} : {}),
+			...(notification.type === 'achievementEarned' ? {
+				achievement: notification.achievement,
 			} : {}),
 			...(notification.type === 'app' ? {
 				body: notification.customBody,

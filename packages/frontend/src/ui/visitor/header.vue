@@ -4,12 +4,12 @@
 		<div class="content">
 			<MkA to="/" class="link" active-class="active"><i class="ti ti-home icon"></i>{{ $ts.home }}</MkA>
 			<MkA to="/explore" class="link" active-class="active"><i class="ti ti-hash icon"></i>{{ $ts.explore }}</MkA>
-			<MkA to="/featured" class="link" active-class="active"><i class="fas fa-fire-alt icon"></i>{{ $ts.featured }}</MkA>
+			<MkA to="/featured" class="link" active-class="active"><i class="ti ti-flare icon"></i>{{ $ts.featured }}</MkA>
 			<MkA to="/channels" class="link" active-class="active"><i class="ti ti-device-tv icon"></i>{{ $ts.channel }}</MkA>
 			<div v-if="info" class="page active link">
 				<div class="title">
 					<i v-if="info.icon" class="icon" :class="info.icon"></i>
-					<MkAvatar v-else-if="info.avatar" class="avatar" :user="info.avatar" :disable-preview="true" :show-indicator="true"/>
+					<MkAvatar v-else-if="info.avatar" class="avatar" :user="info.avatar" indicator/>
 					<span v-if="info.title" class="text">{{ info.title }}</span>
 					<MkUserName v-else-if="info.userName" :user="info.userName" :nowrap="false" class="text"/>
 				</div>
@@ -28,7 +28,7 @@
 		</button>
 		<div v-if="info" class="title">
 			<i v-if="info.icon" class="icon" :class="info.icon"></i>
-			<MkAvatar v-else-if="info.avatar" class="avatar" :user="info.avatar" :disable-preview="true" :show-indicator="true"/>
+			<MkAvatar v-else-if="info.avatar" class="avatar" :user="info.avatar" indicator/>
 			<span v-if="info.title" class="text">{{ info.title }}</span>
 			<MkUserName v-else-if="info.userName" :user="info.userName" :nowrap="false" class="text"/>
 		</div>

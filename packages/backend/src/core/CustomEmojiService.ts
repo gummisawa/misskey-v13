@@ -1,26 +1,18 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { DataSource, In, IsNull } from 'typeorm';
-import { GlobalEventService } from '@/core/GlobalEventService.js';
 import { DI } from '@/di-symbols.js';
-import type { Config } from '@/config.js';
 import { IdService } from '@/core/IdService.js';
+import { EmojiEntityService } from '@/core/entities/EmojiEntityService.js';
+import { GlobalEventService } from '@/core/GlobalEventService.js';
 import type { DriveFile } from '@/models/entities/DriveFile.js';
 import type { Emoji } from '@/models/entities/Emoji.js';
-import { Cache } from '@/misc/cache.js';
-import { query } from '@/misc/prelude/url.js';
-import type { Note } from '@/models/entities/Note.js';
-import type { EmojisRepository } from '@/models/index.js';
-import { UtilityService } from '@/core/UtilityService.js';
-import { ReactionService } from '@/core/ReactionService.js';
+import type { EmojisRepository, Note } from '@/models/index.js';
 import { bindThis } from '@/decorators.js';
-
-/**
- * 添付用絵文字情報
- */
-type PopulatedEmoji = {
-	name: string;
-	url: string;
-};
+import { Cache } from '@/misc/cache.js';
+import { UtilityService } from '@/core/UtilityService.js';
+import type { Config } from '@/config.js';
+import { ReactionService } from '@/core/ReactionService.js';
+import { query } from '@/misc/prelude/url.js';
 
 @Injectable()
 export class CustomEmojiService {
@@ -36,9 +28,10 @@ export class CustomEmojiService {
 		@Inject(DI.emojisRepository)
 		private emojisRepository: EmojisRepository,
 
-		private idService: IdService,
-		private globalEventServie: GlobalEventService,
 		private utilityService: UtilityService,
+		private idService: IdService,
+		private emojiEntityService: EmojiEntityService,
+		private globalEventService: GlobalEventService,
 		private reactionService: ReactionService,
 	) {
 		this.cache = new Cache<Emoji | null>(1000 * 60 * 60 * 12);
@@ -64,11 +57,17 @@ export class CustomEmojiService {
 			type: data.driveFile.webpublicType ?? data.driveFile.type,
 		}).then(x => this.emojisRepository.findOneByOrFail(x.identifiers[0]));
 
-		await this.db.queryResultCache!.remove(['meta_emojis']);
+		if (data.host == null) {
+			await this.db.queryResultCache!.remove(['meta_emojis']);
+
+			this.globalEventService.publishBroadcastStream('emojiAdded', {
+				emoji: await this.emojiEntityService.pack(emoji.id),
+			});
+		}
 
 		return emoji;
 	}
-	
+
 	@bindThis
 	private normalizeHost(src: string | undefined, noteUserHost: string | null): string | null {
 	// クエリに使うホスト
@@ -96,15 +95,16 @@ export class CustomEmojiService {
 	}
 
 	/**
- * 添付用絵文字情報を解決する
- * @param emojiName ノートやユーザープロフィールに添付された、またはリアクションのカスタム絵文字名 (:は含めない, リアクションでローカルホストの場合は@.を付ける (これはdecodeReactionで可能))
- * @param noteUserHost ノートやユーザープロフィールの所有者のホスト
- * @returns 絵文字情報, nullは未マッチを意味する
- */
+	 * 添付用(リモート)カスタム絵文字URLを解決する
+	 * @param emojiName ノートやユーザープロフィールに添付された、またはリアクションのカスタム絵文字名 (:は含めない, リアクションでローカルホストの場合は@.を付ける (これはdecodeReactionで可能))
+	 * @param noteUserHost ノートやユーザープロフィールの所有者のホスト
+	 * @returns URL, nullは未マッチを意味する
+	 */
 	@bindThis
-	public async populateEmoji(emojiName: string, noteUserHost: string | null): Promise<PopulatedEmoji | null> {
+	public async populateEmoji(emojiName: string, noteUserHost: string | null): Promise<string | null> {
 		const { name, host } = this.parseEmojiStr(emojiName, noteUserHost);
 		if (name == null) return null;
+		if (host == null) return null;
 
 		const queryOrNull = async () => (await this.emojisRepository.findOneBy({
 			name,
@@ -116,22 +116,29 @@ export class CustomEmojiService {
 		if (emoji == null) return null;
 
 		const isLocal = emoji.host == null;
-		const emojiUrl = emoji.publicUrl || emoji.originalUrl; // || emoji.originalUrl してるのは後方互換性のため
-		const url = isLocal ? emojiUrl : `${this.config.url}/proxy/${encodeURIComponent((new URL(emojiUrl)).pathname)}?${query({ url: emojiUrl })}`;
+		const emojiUrl = emoji.publicUrl || emoji.originalUrl; // || emoji.originalUrl してるのは後方互換性のため（publicUrlはstringなので??はだめ）
+		const url = isLocal
+			? emojiUrl
+			: this.config.proxyRemoteFiles
+				? `${this.config.url}/proxy/${encodeURIComponent((new URL(emojiUrl)).pathname)}?${query({ url: emojiUrl })}`
+				: emojiUrl;
 
-		return {
-			name: emojiName,
-			url,
-		};
+		return url;
 	}
 
 	/**
- * 複数の添付用絵文字情報を解決する (キャシュ付き, 存在しないものは結果から除外される)
- */
+	 * 複数の添付用(リモート)カスタム絵文字URLを解決する (キャシュ付き, 存在しないものは結果から除外される)
+	 */
 	@bindThis
-	public async populateEmojis(emojiNames: string[], noteUserHost: string | null): Promise<PopulatedEmoji[]> {
+	public async populateEmojis(emojiNames: string[], noteUserHost: string | null): Promise<Record<string, string>> {
 		const emojis = await Promise.all(emojiNames.map(x => this.populateEmoji(x, noteUserHost)));
-		return emojis.filter((x): x is PopulatedEmoji => x != null);
+		const res = {} as any;
+		for (let i = 0; i < emojiNames.length; i++) {
+			if (emojis[i] != null) {
+				res[emojiNames[i]] = emojis[i];
+			}
+		}
+		return res;
 	}
 
 	@bindThis
@@ -155,21 +162,22 @@ export class CustomEmojiService {
 					.map(e => this.parseEmojiStr(e, note.userHost)));
 			}
 		}
-		return emojis.filter(x => x.name != null) as { name: string; host: string | null; }[];
+		return emojis.filter(x => x.name != null && x.host != null) as { name: string; host: string; }[];
 	}
 
 	/**
- * 与えられた絵文字のリストをデータベースから取得し、キャッシュに追加します
- */
+	 * 与えられた絵文字のリストをデータベースから取得し、キャッシュに追加します
+	 */
 	@bindThis
 	public async prefetchEmojis(emojis: { name: string; host: string | null; }[]): Promise<void> {
 		const notCachedEmojis = emojis.filter(emoji => this.cache.get(`${emoji.name} ${emoji.host}`) == null);
 		const emojisQuery: any[] = [];
 		const hosts = new Set(notCachedEmojis.map(e => e.host));
 		for (const host of hosts) {
+			if (host == null) continue;
 			emojisQuery.push({
 				name: In(notCachedEmojis.filter(e => e.host === host).map(e => e.name)),
-				host: host ?? IsNull(),
+				host: host,
 			});
 		}
 		const _emojis = emojisQuery.length > 0 ? await this.emojisRepository.find({

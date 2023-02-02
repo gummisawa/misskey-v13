@@ -4,6 +4,7 @@ import { AccountUpdateService } from './AccountUpdateService.js';
 import { AiService } from './AiService.js';
 import { AntennaService } from './AntennaService.js';
 import { AppLockService } from './AppLockService.js';
+import { AchievementService } from './AchievementService.js';
 import { CaptchaService } from './CaptchaService.js';
 import { CreateNotificationService } from './CreateNotificationService.js';
 import { CreateSystemUserService } from './CreateSystemUserService.js';
@@ -35,6 +36,7 @@ import { PushNotificationService } from './PushNotificationService.js';
 import { QueryService } from './QueryService.js';
 import { ReactionService } from './ReactionService.js';
 import { RelayService } from './RelayService.js';
+import { RoleService } from './RoleService.js';
 import { S3Service } from './S3Service.js';
 import { SignupService } from './SignupService.js';
 import { TwoFactorAuthenticationService } from './TwoFactorAuthenticationService.js';
@@ -57,6 +59,7 @@ import UsersChart from './chart/charts/users.js';
 import ActiveUsersChart from './chart/charts/active-users.js';
 import InstanceChart from './chart/charts/instance.js';
 import PerUserNotesChart from './chart/charts/per-user-notes.js';
+import PerUserPvChart from './chart/charts/per-user-pv.js';
 import DriveChart from './chart/charts/drive.js';
 import PerUserReactionsChart from './chart/charts/per-user-reactions.js';
 import HashtagChart from './chart/charts/hashtag.js';
@@ -94,6 +97,9 @@ import { UserEntityService } from './entities/UserEntityService.js';
 import { UserGroupEntityService } from './entities/UserGroupEntityService.js';
 import { UserGroupInvitationEntityService } from './entities/UserGroupInvitationEntityService.js';
 import { UserListEntityService } from './entities/UserListEntityService.js';
+import { FlashEntityService } from './entities/FlashEntityService.js';
+import { FlashLikeEntityService } from './entities/FlashLikeEntityService.js';
+import { RoleEntityService } from './entities/RoleEntityService.js';
 import { ApAudienceService } from './activitypub/ApAudienceService.js';
 import { ApDbResolverService } from './activitypub/ApDbResolverService.js';
 import { ApDeliverManagerService } from './activitypub/ApDeliverManagerService.js';
@@ -123,6 +129,7 @@ const $AccountUpdateService: Provider = { provide: 'AccountUpdateService', useEx
 const $AiService: Provider = { provide: 'AiService', useExisting: AiService };
 const $AntennaService: Provider = { provide: 'AntennaService', useExisting: AntennaService };
 const $AppLockService: Provider = { provide: 'AppLockService', useExisting: AppLockService };
+const $AchievementService: Provider = { provide: 'AchievementService', useExisting: AchievementService };
 const $CaptchaService: Provider = { provide: 'CaptchaService', useExisting: CaptchaService };
 const $CreateNotificationService: Provider = { provide: 'CreateNotificationService', useExisting: CreateNotificationService };
 const $CreateSystemUserService: Provider = { provide: 'CreateSystemUserService', useExisting: CreateSystemUserService };
@@ -155,6 +162,7 @@ const $PushNotificationService: Provider = { provide: 'PushNotificationService',
 const $QueryService: Provider = { provide: 'QueryService', useExisting: QueryService };
 const $ReactionService: Provider = { provide: 'ReactionService', useExisting: ReactionService };
 const $RelayService: Provider = { provide: 'RelayService', useExisting: RelayService };
+const $RoleService: Provider = { provide: 'RoleService', useExisting: RoleService };
 const $S3Service: Provider = { provide: 'S3Service', useExisting: S3Service };
 const $SignupService: Provider = { provide: 'SignupService', useExisting: SignupService };
 const $TwoFactorAuthenticationService: Provider = { provide: 'TwoFactorAuthenticationService', useExisting: TwoFactorAuthenticationService };
@@ -176,6 +184,7 @@ const $UsersChart: Provider = { provide: 'UsersChart', useExisting: UsersChart }
 const $ActiveUsersChart: Provider = { provide: 'ActiveUsersChart', useExisting: ActiveUsersChart };
 const $InstanceChart: Provider = { provide: 'InstanceChart', useExisting: InstanceChart };
 const $PerUserNotesChart: Provider = { provide: 'PerUserNotesChart', useExisting: PerUserNotesChart };
+const $PerUserPvChart: Provider = { provide: 'PerUserPvChart', useExisting: PerUserPvChart };
 const $DriveChart: Provider = { provide: 'DriveChart', useExisting: DriveChart };
 const $PerUserReactionsChart: Provider = { provide: 'PerUserReactionsChart', useExisting: PerUserReactionsChart };
 const $HashtagChart: Provider = { provide: 'HashtagChart', useExisting: HashtagChart };
@@ -214,6 +223,9 @@ const $UserEntityService: Provider = { provide: 'UserEntityService', useExisting
 const $UserGroupEntityService: Provider = { provide: 'UserGroupEntityService', useExisting: UserGroupEntityService };
 const $UserGroupInvitationEntityService: Provider = { provide: 'UserGroupInvitationEntityService', useExisting: UserGroupInvitationEntityService };
 const $UserListEntityService: Provider = { provide: 'UserListEntityService', useExisting: UserListEntityService };
+const $FlashEntityService: Provider = { provide: 'FlashEntityService', useExisting: FlashEntityService };
+const $FlashLikeEntityService: Provider = { provide: 'FlashLikeEntityService', useExisting: FlashLikeEntityService };
+const $RoleEntityService: Provider = { provide: 'RoleEntityService', useExisting: RoleEntityService };
 
 const $ApAudienceService: Provider = { provide: 'ApAudienceService', useExisting: ApAudienceService };
 const $ApDbResolverService: Provider = { provide: 'ApDbResolverService', useExisting: ApDbResolverService };
@@ -245,6 +257,7 @@ const $ApQuestionService: Provider = { provide: 'ApQuestionService', useExisting
 		AiService,
 		AntennaService,
 		AppLockService,
+		AchievementService,
 		CaptchaService,
 		CreateNotificationService,
 		CreateSystemUserService,
@@ -277,6 +290,7 @@ const $ApQuestionService: Provider = { provide: 'ApQuestionService', useExisting
 		QueryService,
 		ReactionService,
 		RelayService,
+		RoleService,
 		S3Service,
 		SignupService,
 		TwoFactorAuthenticationService,
@@ -298,6 +312,7 @@ const $ApQuestionService: Provider = { provide: 'ApQuestionService', useExisting
 		ActiveUsersChart,
 		InstanceChart,
 		PerUserNotesChart,
+		PerUserPvChart,
 		DriveChart,
 		PerUserReactionsChart,
 		HashtagChart,
@@ -335,6 +350,9 @@ const $ApQuestionService: Provider = { provide: 'ApQuestionService', useExisting
 		UserGroupEntityService,
 		UserGroupInvitationEntityService,
 		UserListEntityService,
+		FlashEntityService,
+		FlashLikeEntityService,
+		RoleEntityService,
 		ApAudienceService,
 		ApDbResolverService,
 		ApDeliverManagerService,
@@ -361,6 +379,7 @@ const $ApQuestionService: Provider = { provide: 'ApQuestionService', useExisting
 		$AiService,
 		$AntennaService,
 		$AppLockService,
+		$AchievementService,
 		$CaptchaService,
 		$CreateNotificationService,
 		$CreateSystemUserService,
@@ -393,6 +412,7 @@ const $ApQuestionService: Provider = { provide: 'ApQuestionService', useExisting
 		$QueryService,
 		$ReactionService,
 		$RelayService,
+		$RoleService,
 		$S3Service,
 		$SignupService,
 		$TwoFactorAuthenticationService,
@@ -414,6 +434,7 @@ const $ApQuestionService: Provider = { provide: 'ApQuestionService', useExisting
 		$ActiveUsersChart,
 		$InstanceChart,
 		$PerUserNotesChart,
+		$PerUserPvChart,
 		$DriveChart,
 		$PerUserReactionsChart,
 		$HashtagChart,
@@ -451,6 +472,9 @@ const $ApQuestionService: Provider = { provide: 'ApQuestionService', useExisting
 		$UserGroupEntityService,
 		$UserGroupInvitationEntityService,
 		$UserListEntityService,
+		$FlashEntityService,
+		$FlashLikeEntityService,
+		$RoleEntityService,
 		$ApAudienceService,
 		$ApDbResolverService,
 		$ApDeliverManagerService,
@@ -478,6 +502,7 @@ const $ApQuestionService: Provider = { provide: 'ApQuestionService', useExisting
 		AiService,
 		AntennaService,
 		AppLockService,
+		AchievementService,
 		CaptchaService,
 		CreateNotificationService,
 		CreateSystemUserService,
@@ -510,6 +535,7 @@ const $ApQuestionService: Provider = { provide: 'ApQuestionService', useExisting
 		QueryService,
 		ReactionService,
 		RelayService,
+		RoleService,
 		S3Service,
 		SignupService,
 		TwoFactorAuthenticationService,
@@ -530,6 +556,7 @@ const $ApQuestionService: Provider = { provide: 'ApQuestionService', useExisting
 		ActiveUsersChart,
 		InstanceChart,
 		PerUserNotesChart,
+		PerUserPvChart,
 		DriveChart,
 		PerUserReactionsChart,
 		HashtagChart,
@@ -567,6 +594,9 @@ const $ApQuestionService: Provider = { provide: 'ApQuestionService', useExisting
 		UserGroupEntityService,
 		UserGroupInvitationEntityService,
 		UserListEntityService,
+		FlashEntityService,
+		FlashLikeEntityService,
+		RoleEntityService,
 		ApAudienceService,
 		ApDbResolverService,
 		ApDeliverManagerService,
@@ -593,6 +623,7 @@ const $ApQuestionService: Provider = { provide: 'ApQuestionService', useExisting
 		$AiService,
 		$AntennaService,
 		$AppLockService,
+		$AchievementService,
 		$CaptchaService,
 		$CreateNotificationService,
 		$CreateSystemUserService,
@@ -625,6 +656,7 @@ const $ApQuestionService: Provider = { provide: 'ApQuestionService', useExisting
 		$QueryService,
 		$ReactionService,
 		$RelayService,
+		$RoleService,
 		$S3Service,
 		$SignupService,
 		$TwoFactorAuthenticationService,
@@ -645,6 +677,7 @@ const $ApQuestionService: Provider = { provide: 'ApQuestionService', useExisting
 		$ActiveUsersChart,
 		$InstanceChart,
 		$PerUserNotesChart,
+		$PerUserPvChart,
 		$DriveChart,
 		$PerUserReactionsChart,
 		$HashtagChart,
@@ -682,6 +715,9 @@ const $ApQuestionService: Provider = { provide: 'ApQuestionService', useExisting
 		$UserGroupEntityService,
 		$UserGroupInvitationEntityService,
 		$UserListEntityService,
+		$FlashEntityService,
+		$FlashLikeEntityService,
+		$RoleEntityService,
 		$ApAudienceService,
 		$ApDbResolverService,
 		$ApDeliverManagerService,

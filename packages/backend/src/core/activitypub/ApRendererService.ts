@@ -21,11 +21,11 @@ import { UserEntityService } from '@/core/entities/UserEntityService.js';
 import { DriveFileEntityService } from '@/core/entities/DriveFileEntityService.js';
 import type { UserKeypair } from '@/models/entities/UserKeypair.js';
 import type { UsersRepository, UserProfilesRepository, NotesRepository, DriveFilesRepository, EmojisRepository, PollsRepository } from '@/models/index.js';
+import { bindThis } from '@/decorators.js';
 import { LdSignatureService } from './LdSignatureService.js';
 import { ApMfmService } from './ApMfmService.js';
 import type { IActivity, IObject } from './type.js';
 import type { IIdentifier } from './models/identifier.js';
-import { bindThis } from '@/decorators.js';
 
 @Injectable()
 export class ApRendererService {
@@ -172,7 +172,8 @@ export class ApRendererService {
 			icon: {
 				type: 'Image',
 				mediaType: emoji.type ?? 'image/png',
-				url: emoji.publicUrl ?? emoji.originalUrl, // ?? emoji.originalUrl してるのは後方互換性のため
+				// || emoji.originalUrl してるのは後方互換性のため（publicUrlはstringなので??はだめ）
+				url: emoji.publicUrl || emoji.originalUrl,
 			},
 		};
 	}

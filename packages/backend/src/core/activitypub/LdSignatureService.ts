@@ -1,6 +1,6 @@
 import * as crypto from 'node:crypto';
 import { Inject, Injectable } from '@nestjs/common';
-import fetch from 'node-fetch';
+import jsonld from 'jsonld';
 import { HttpRequestService } from '@/core/HttpRequestService.js';
 import { bindThis } from '@/decorators.js';
 import { CONTEXTS } from './misc/contexts.js';
@@ -10,7 +10,7 @@ import { CONTEXTS } from './misc/contexts.js';
 class LdSignature {
 	public debug = false;
 	public preLoad = true;
-	public loderTimeout = 10 * 1000;
+	public loderTimeout = 5000;
 
 	constructor(
 		private httpRequestService: HttpRequestService,
@@ -85,7 +85,9 @@ class LdSignature {
 	@bindThis
 	public async normalize(data: any) {
 		const customLoader = this.getLoader();
-		return 42;
+		return await jsonld.normalize(data, {
+			documentLoader: customLoader,
+		});
 	}
 
 	@bindThis
@@ -116,14 +118,12 @@ class LdSignature {
 
 	@bindThis
 	private async fetchDocument(url: string) {
-		const json = await fetch(url, {
+		const json = await this.httpRequestService.send(url, {
 			headers: {
 				Accept: 'application/ld+json, application/json',
 			},
-			// TODO
-			//timeout: this.loderTimeout,
-			agent: u => u.protocol === 'http:' ? this.httpRequestService.httpAgent : this.httpRequestService.httpsAgent,
-		}).then(res => {
+			timeout: this.loderTimeout,
+		}, { throwErrorWhenResponseNotOk: false }).then(res => {
 			if (!res.ok) {
 				throw `${res.status} ${res.statusText}`;
 			} else {

@@ -1,12 +1,11 @@
 import cluster from 'node:cluster';
 import * as fs from 'node:fs';
-import * as http from 'node:http';
 import { Inject, Injectable } from '@nestjs/common';
 import Fastify from 'fastify';
 import { IsNull } from 'typeorm';
 import { GlobalEventService } from '@/core/GlobalEventService.js';
 import type { Config } from '@/config.js';
-import type { UserProfilesRepository, UsersRepository } from '@/models/index.js';
+import type { EmojisRepository, UserProfilesRepository, UsersRepository } from '@/models/index.js';
 import { DI } from '@/di-symbols.js';
 import type Logger from '@/logger.js';
 import { envOption } from '@/env.js';
@@ -15,15 +14,14 @@ import { genIdenticon } from '@/misc/gen-identicon.js';
 import { createTemp } from '@/misc/create-temp.js';
 import { UserEntityService } from '@/core/entities/UserEntityService.js';
 import { LoggerService } from '@/core/LoggerService.js';
+import { bindThis } from '@/decorators.js';
 import { ActivityPubServerService } from './ActivityPubServerService.js';
 import { NodeinfoServerService } from './NodeinfoServerService.js';
 import { ApiServerService } from './api/ApiServerService.js';
 import { StreamingApiServerService } from './api/StreamingApiServerService.js';
 import { WellKnownServerService } from './WellKnownServerService.js';
-import { MediaProxyServerService } from './MediaProxyServerService.js';
 import { FileServerService } from './FileServerService.js';
 import { ClientServerService } from './web/ClientServerService.js';
-import { bindThis } from '@/decorators.js';
 
 @Injectable()
 export class ServerService {
@@ -39,6 +37,9 @@ export class ServerService {
 		@Inject(DI.userProfilesRepository)
 		private userProfilesRepository: UserProfilesRepository,
 
+		@Inject(DI.emojisRepository)
+		private emojisRepository: EmojisRepository,
+
 		private userEntityService: UserEntityService,
 		private apiServerService: ApiServerService,
 		private streamingApiServerService: StreamingApiServerService,
@@ -46,7 +47,6 @@ export class ServerService {
 		private wellKnownServerService: WellKnownServerService,
 		private nodeinfoServerService: NodeinfoServerService,
 		private fileServerService: FileServerService,
-		private mediaProxyServerService: MediaProxyServerService,
 		private clientServerService: ClientServerService,
 		private globalEventService: GlobalEventService,
 		private loggerService: LoggerService,
@@ -71,11 +71,52 @@ export class ServerService {
 		}
 
 		fastify.register(this.apiServerService.createServer, { prefix: '/api' });
-		fastify.register(this.fileServerService.createServer, { prefix: '/files' });
-		fastify.register(this.mediaProxyServerService.createServer, { prefix: '/proxy' });
+		fastify.register(this.fileServerService.createServer);
 		fastify.register(this.activityPubServerService.createServer);
 		fastify.register(this.nodeinfoServerService.createServer);
 		fastify.register(this.wellKnownServerService.createServer);
+
+		fastify.get<{ Params: { path: string }; Querystring: { static?: any; }; }>('/emoji/:path(.*)', async (request, reply) => {
+			const path = request.params.path;
+
+			reply.header('Cache-Control', 'public, max-age=86400');
+
+			if (!path.match(/^[a-zA-Z0-9\-_@\.]+?\.webp$/)) {
+				reply.code(404);
+				return;
+			}
+
+			const name = path.split('@')[0].replace('.webp', '');
+			const host = path.split('@')[1]?.replace('.webp', '');
+
+			const emoji = await this.emojisRepository.findOneBy({
+				// `@.` is the spec of ReactionService.decodeReaction
+				host: (host == null || host === '.') ? IsNull() : host,
+				name: name,
+			});
+
+			reply.header('Content-Security-Policy', 'default-src \'none\'; style-src \'unsafe-inline\'');
+
+			if (emoji == null) {
+				if ('fallback' in request.query) {
+					return await reply.redirect('/static-assets/emoji-unknown.png');
+				} else {
+					reply.code(404);
+					return;
+				}
+			}
+
+			const url = new URL('/proxy/emoji.webp', this.config.url);
+			// || emoji.originalUrl してるのは後方互換性のため（publicUrlはstringなので??はだめ）
+			url.searchParams.set('url', emoji.publicUrl || emoji.originalUrl);
+			url.searchParams.set('emoji', '1');
+			if ('static' in request.query) url.searchParams.set('static', '1');
+
+			return await reply.redirect(
+				301,
+				url.toString(),
+			);
+		});
 
 		fastify.get<{ Params: { acct: string } }>('/avatar/@:acct', async (request, reply) => {
 			const { username, host } = Acct.parse(request.params.acct);
@@ -88,6 +129,8 @@ export class ServerService {
 				relations: ['avatar'],
 			});
 
+			reply.header('Cache-Control', 'public, max-age=86400');
+
 			if (user) {
 				reply.redirect(this.userEntityService.getAvatarUrlSync(user));
 			} else {
@@ -99,6 +142,7 @@ export class ServerService {
 			const [temp, cleanup] = await createTemp();
 			await genIdenticon(request.params.x, fs.createWriteStream(temp));
 			reply.header('Content-Type', 'image/png');
+			reply.header('Cache-Control', 'public, max-age=86400');
 			return fs.createReadStream(temp).on('close', () => cleanup());
 		});
 

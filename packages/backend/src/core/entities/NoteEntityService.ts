@@ -11,12 +11,12 @@ import type { User } from '@/models/entities/User.js';
 import type { Note } from '@/models/entities/Note.js';
 import type { NoteReaction } from '@/models/entities/NoteReaction.js';
 import type { UsersRepository, NotesRepository, FollowingsRepository, PollsRepository, PollVotesRepository, NoteReactionsRepository, ChannelsRepository, DriveFilesRepository } from '@/models/index.js';
+import { bindThis } from '@/decorators.js';
 import type { OnModuleInit } from '@nestjs/common';
 import type { CustomEmojiService } from '../CustomEmojiService.js';
 import type { ReactionService } from '../ReactionService.js';
 import type { UserEntityService } from './UserEntityService.js';
 import type { DriveFileEntityService } from './DriveFileEntityService.js';
-import { bindThis } from '@/decorators.js';
 
 @Injectable()
 export class NoteEntityService implements OnModuleInit {
@@ -282,7 +282,9 @@ export class NoteEntityService implements OnModuleInit {
 				: await this.channelsRepository.findOneBy({ id: note.channelId })
 			: null;
 
-		const reactionEmojiNames = Object.keys(note.reactions).filter(x => x.startsWith(':')).map(x => this.reactionService.decodeReaction(x).reaction).map(x => x.replace(/:/g, ''));
+		const reactionEmojiNames = Object.keys(note.reactions)
+			.filter(x => x.startsWith(':') && x.includes('@') && !x.includes('@.')) // リモートカスタム絵文字のみ
+			.map(x => this.reactionService.decodeReaction(x).reaction.replaceAll(':', ''));
 
 		const packed: Packed<'Note'> = await awaitAll({
 			id: note.id,
@@ -299,8 +301,9 @@ export class NoteEntityService implements OnModuleInit {
 			renoteCount: note.renoteCount,
 			repliesCount: note.repliesCount,
 			reactions: this.reactionService.convertLegacyReactions(note.reactions),
+			reactionEmojis: this.customEmojiService.populateEmojis(reactionEmojiNames, host),
+			emojis: host != null ? this.customEmojiService.populateEmojis(note.emojis, host) : undefined,
 			tags: note.tags.length > 0 ? note.tags : undefined,
-			emojis: this.customEmojiService.populateEmojis(note.emojis.concat(reactionEmojiNames), host),
 			fileIds: note.fileIds,
 			files: this.driveFileEntityService.packMany(note.fileIds),
 			replyId: note.replyId,

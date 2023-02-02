@@ -86,6 +86,10 @@ export const defaultStore = markRaw(new Storage('base', {
 		where: 'account',
 		default: [] as string[],
 	},
+	hiddenAds: {
+		where: 'account',
+		default: [] as string[],
+	},
 
 	menu: {
 		where: 'deviceAccount',
@@ -152,7 +156,7 @@ export const defaultStore = markRaw(new Storage('base', {
 	},
 	animation: {
 		where: 'device',
-		default: true,
+		default: !matchMedia('(prefers-reduced-motion)').matches,
 	},
 	animatedMfm: {
 		where: 'device',
@@ -170,10 +174,6 @@ export const defaultStore = markRaw(new Storage('base', {
 		where: 'device',
 		default: false,
 	},
-	disablePagesScript: {
-		where: 'device',
-		default: false,
-	},
 	emojiStyle: {
 		where: 'device',
 		default: 'twemoji', // twemoji / fluentEmoji / native
@@ -184,11 +184,11 @@ export const defaultStore = markRaw(new Storage('base', {
 	},
 	useBlurEffectForModal: {
 		where: 'device',
-		default: true,
+		default: !/mobile|iphone|android/.test(navigator.userAgent.toLowerCase()), // 循環参照するのでdevice-kind.tsは参照できない
 	},
 	useBlurEffect: {
 		where: 'device',
-		default: true,
+		default: !/mobile|iphone|android/.test(navigator.userAgent.toLowerCase()), // 循環参照するのでdevice-kind.tsは参照できない
 	},
 	showFixedPostForm: {
 		where: 'device',
@@ -278,7 +278,7 @@ export const defaultStore = markRaw(new Storage('base', {
 
 // TODO: 他のタブと永続化されたstateを同期
 
-const PREFIX = 'miux:';
+const PREFIX = 'miux:' as const;
 
 type Plugin = {
 	id: string;
@@ -297,6 +297,7 @@ interface Watcher {
 /**
  * 常にメモリにロードしておく必要がないような設定情報を保管するストレージ(非リアクティブ)
  */
+import { miLocalStorage } from './local-storage';
 import lightTheme from '@/themes/l-light.json5';
 import darkTheme from '@/themes/d-green-lime.json5';
 import { Note, UserDetailed } from 'misskey-js/built/entities';
@@ -324,7 +325,7 @@ export class ColdDeviceStorage {
 		// TODO: indexedDBにする
 		//       ただしその際はnullチェックではなくキー存在チェックにしないとダメ
 		//       (indexedDBはnullを保存できるため、ユーザーが意図してnullを格納した可能性がある)
-		const value = localStorage.getItem(PREFIX + key);
+		const value = miLocalStorage.getItem(`${PREFIX}${key}`);
 		if (value == null) {
 			return ColdDeviceStorage.default[key];
 		} else {
@@ -334,14 +335,14 @@ export class ColdDeviceStorage {
 
 	public static set<T extends keyof typeof ColdDeviceStorage.default>(key: T, value: typeof ColdDeviceStorage.default[T]): void {
 		// 呼び出し側のバグ等で undefined が来ることがある
-		// undefined を文字列として localStorage に入れると参照する際の JSON.parse でコケて不具合の元になるため無視
+		// undefined を文字列として miLocalStorage に入れると参照する際の JSON.parse でコケて不具合の元になるため無視
 		// eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
 		if (value === undefined) {
 			console.error(`attempt to store undefined value for key '${key}'`);
 			return;
 		}
 
-		localStorage.setItem(PREFIX + key, JSON.stringify(value));
+		miLocalStorage.setItem(`${PREFIX}${key}`, JSON.stringify(value));
 
 		for (const watcher of this.watchers) {
 			if (watcher.key === key) watcher.callback(value);

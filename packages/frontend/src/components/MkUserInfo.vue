@@ -1,7 +1,7 @@
 <template>
 <div class="_panel vjnjpkug">
 	<div class="banner" :style="user.bannerUrl ? `background-image: url(${user.bannerUrl})` : ''"></div>
-	<MkAvatar class="avatar" :user="user" :disable-preview="true" :show-indicator="true"/>
+	<MkAvatar class="avatar" :user="user" indicator/>
 	<div class="title">
 		<MkA class="name" :to="userPage(user)"><MkUserName :user="user" :nowrap="false"/></MkA>
 		<p class="username"><MkAcct :user="user"/></p>
@@ -9,7 +9,7 @@
 	<span v-if="$i && $i.id !== user.id && user.isFollowed" class="followed">{{ $ts.followsYou }}</span>
 	<div class="description">
 		<div v-if="user.description" class="mfm">
-			<Mfm :text="user.description" :author="user" :i="$i" :custom-emojis="user.emojis"/>
+			<Mfm :text="user.description" :author="user" :i="$i"/>
 		</div>
 		<span v-else style="opacity: 0.7;">{{ i18n.ts.noAccountDescription }}</span>
 	</div>

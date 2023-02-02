@@ -2,9 +2,11 @@
 <MkStickyContainer>
 	<template #header><MkPageHeader v-model:tab="tab" :actions="headerActions" :tabs="headerTabs"/></template>
 	<div>
-		<transition name="fade" mode="out-in">
+		<Transition name="fade" mode="out-in">
 			<div v-if="user">
 				<XHome v-if="tab === 'home'" :user="user"/>
+				<XActivity v-else-if="tab === 'activity'" :user="user"/>
+				<XAchievements v-else-if="tab === 'achievements'" :user="user"/>
 				<XReactions v-else-if="tab === 'reactions'" :user="user"/>
 				<XClips v-else-if="tab === 'clips'" :user="user"/>
 				<XPages v-else-if="tab === 'pages'" :user="user"/>
@@ -12,7 +14,7 @@
 			</div>
 			<MkError v-else-if="error" @retry="fetchUser()"/>
 			<MkLoading v-else/>
-		</transition>
+		</Transition>
 	</div>
 </MkStickyContainer>
 </template>
@@ -32,6 +34,8 @@ import { i18n } from '@/i18n';
 import { $i } from '@/account';
 
 const XHome = defineAsyncComponent(() => import('./home.vue'));
+const XActivity = defineAsyncComponent(() => import('./activity.vue'));
+const XAchievements = defineAsyncComponent(() => import('./achievements.vue'));
 const XReactions = defineAsyncComponent(() => import('./reactions.vue'));
 const XClips = defineAsyncComponent(() => import('./clips.vue'));
 const XPages = defineAsyncComponent(() => import('./pages.vue'));
@@ -70,7 +74,15 @@ const headerTabs = $computed(() => user ? [{
 	key: 'home',
 	title: i18n.ts.overview,
 	icon: 'ti ti-home',
-}, ...($i && ($i.id === user.id)) || user.publicReactions ? [{
+}, {
+	key: 'activity',
+	title: i18n.ts.activity,
+	icon: 'ti ti-chart-line',
+}, ...(user.host == null ? [{
+	key: 'achievements',
+	title: i18n.ts.achievements,
+	icon: 'ti ti-medal',
+}] : []), ...($i && ($i.id === user.id)) || user.publicReactions ? [{
 	key: 'reactions',
 	title: i18n.ts.reaction,
 	icon: 'ti ti-mood-happy',
@@ -86,7 +98,7 @@ const headerTabs = $computed(() => user ? [{
 	key: 'gallery',
 	title: i18n.ts.gallery,
 	icon: 'ti ti-icons',
-}] : null);
+}] : []);
 
 definePageMetadata(computed(() => user ? {
 	icon: 'ti ti-user',

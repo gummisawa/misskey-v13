@@ -88,7 +88,7 @@
 </template>
 
 <script lang="ts" setup>
-import { markRaw, nextTick, onActivated, onBeforeUnmount, onMounted, ref, watch } from 'vue';
+import { markRaw, nextTick, onActivated, onBeforeUnmount, onMounted, ref, shallowRef, watch } from 'vue';
 import * as Misskey from 'misskey-js';
 import MkButton from './MkButton.vue';
 import XNavFolder from '@/components/MkDrive.navFolder.vue';
@@ -99,6 +99,7 @@ import { stream } from '@/stream';
 import { defaultStore } from '@/store';
 import { i18n } from '@/i18n';
 import { uploadFile, uploads } from '@/scripts/upload';
+import { claimAchievement } from '@/scripts/achievements';
 
 const props = withDefaults(defineProps<{
 	initialFolder?: Misskey.entities.DriveFolder;
@@ -118,8 +119,8 @@ const emit = defineEmits<{
 	(ev: 'open-folder', v: Misskey.entities.DriveFolder): void;
 }>();
 
-const loadMoreFiles = ref<InstanceType<typeof MkButton>>();
-const fileInput = ref<HTMLInputElement>();
+const loadMoreFiles = shallowRef<InstanceType<typeof MkButton>>();
+const fileInput = shallowRef<HTMLInputElement>();
 
 const folder = ref<Misskey.entities.DriveFolder | null>(null);
 const files = ref<Misskey.entities.DriveFile[]>([]);
@@ -268,9 +269,11 @@ function onDrop(ev: DragEvent): any {
 		}).then(() => {
 			// noop
 		}).catch(err => {
-			switch (err) {
-				case 'detected-circular-definition':
+			switch (err.code) {
+				case 'RECURSIVE_NESTING':
+					claimAchievement('driveFolderCircularReference');
 					os.alert({
+						type: 'error',
 						title: i18n.ts.unableToProcess,
 						text: i18n.ts.circularReferenceFolder,
 					});

@@ -3,14 +3,14 @@
 	<template #header><MkPageHeader :actions="headerActions" :tabs="headerTabs"/></template>
 	<MkSpacer :content-max="1000" :margin-min="16" :margin-max="32">
 		<div class="_root">
-			<transition :name="$store.state.animation ? 'fade' : ''" mode="out-in">
+			<Transition :name="$store.state.animation ? 'fade' : ''" mode="out-in">
 				<div v-if="post" class="rkxwuolj">
 					<div class="files">
 						<div v-for="file in post.files" :key="file.id" class="file">
 							<img :src="file.url"/>
 						</div>
 					</div>
-					<div class="body _block">
+					<div class="body">
 						<div class="title">{{ post.title }}</div>
 						<div class="description"><Mfm :text="post.description"/></div>
 						<div class="info">
@@ -28,7 +28,7 @@
 							</div>
 						</div>
 						<div class="user">
-							<MkAvatar :user="post.user" class="avatar"/>
+							<MkAvatar :user="post.user" class="avatar" link preview/>
 							<div class="name">
 								<MkUserName :user="post.user" style="display: block;"/>
 								<MkAcct :user="post.user"/>
@@ -38,7 +38,8 @@
 					</div>
 					<MkAd :prefer="['horizontal', 'horizontal-big']"/>
 					<MkContainer :max-height="300" :foldable="true" class="other">
-						<template #header><i class="ti ti-clock"></i> {{ i18n.ts.recentPosts }}</template>
+						<template #icon><i class="ti ti-clock"></i></template>
+						<template #header>{{ i18n.ts.recentPosts }}</template>
 						<MkPagination v-slot="{items}" :pagination="otherPostsPagination">
 							<div class="sdrarzaf">
 								<MkGalleryPostPreview v-for="post in items" :key="post.id" :post="post" class="post"/>
@@ -48,7 +49,7 @@
 				</div>
 				<MkError v-else-if="error" @retry="fetch()"/>
 				<MkLoading v-else/>
-			</transition>
+			</Transition>
 		</div>
 	</MkSpacer>
 </MkStickyContainer>

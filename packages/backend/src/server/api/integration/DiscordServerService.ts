@@ -134,7 +134,7 @@ export class DiscordServerService {
 			reply.redirect(oauth2!.getAuthorizeUrl(params));
 		});
 
-		fastify.get('/dc/cb', async (request, reply) => {
+		fastify.get<{ Querystring: { code: string; state: string; } }>('/dc/cb', async (request, reply) => {
 			const userToken = this.getUserToken(request);
 
 			const oauth2 = await getOAuth2();
@@ -181,7 +181,7 @@ export class DiscordServerService {
 						}
 					}));
 
-				const { id, username, discriminator } = (await this.httpRequestService.getJson('https://discord.com/api/users/@me', '*/*', 10 * 1000, {
+				const { id, username, discriminator } = (await this.httpRequestService.getJson('https://discord.com/api/users/@me', '*/*', {
 					'Authorization': `Bearer ${accessToken}`,
 				})) as Record<string, unknown>;
 
@@ -249,7 +249,7 @@ export class DiscordServerService {
 						}
 					}));
 
-				const { id, username, discriminator } = (await this.httpRequestService.getJson('https://discord.com/api/users/@me', '*/*', 10 * 1000, {
+				const { id, username, discriminator } = (await this.httpRequestService.getJson('https://discord.com/api/users/@me', '*/*', {
 					'Authorization': `Bearer ${accessToken}`,
 				})) as Record<string, unknown>;
 				if (typeof id !== 'string' || typeof username !== 'string' || typeof discriminator !== 'string') {

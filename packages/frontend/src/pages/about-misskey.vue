@@ -3,18 +3,23 @@
 	<template #header><MkPageHeader :actions="headerActions" :tabs="headerTabs"/></template>
 	<div style="overflow: clip;">
 		<MkSpacer :content-max="600" :margin-min="20">
-			<div class="_formRoot znqjceqz">
-				<div id="debug"></div>
-				<div ref="containerEl" v-panel class="_formBlock about" :class="{ playing: easterEggEngine != null }">
-					<img src="/client-assets/about-icon.png" alt="" class="icon" draggable="false" @load="iconLoaded" @click="gravity"/>
-					<div class="misskey">Misskey</div>
-					<div class="version">v{{ version }}</div>
-					<span v-for="emoji in easterEggEmojis" :key="emoji.id" class="emoji" :data-physics-x="emoji.left" :data-physics-y="emoji.top" :class="{ _physics_circle_: !emoji.emoji.startsWith(':') }"><MkEmoji class="emoji" :emoji="emoji.emoji" :custom-emojis="$instance.emojis" :is-reaction="false" :normal="true" :no-style="true"/></span>
+			<div class="_gaps_m znqjceqz">
+				<div v-panel class="about">
+					<div ref="containerEl" class="container" :class="{ playing: easterEggEngine != null }">
+						<img src="/client-assets/about-icon.png" alt="" class="icon" draggable="false" @load="iconLoaded" @click="gravity"/>
+						<div class="misskey">Misskey</div>
+						<div class="version">v{{ version }}</div>
+						<span v-for="emoji in easterEggEmojis" :key="emoji.id" class="emoji" :data-physics-x="emoji.left" :data-physics-y="emoji.top" :class="{ _physics_circle_: !emoji.emoji.startsWith(':') }">
+							<MkCustomEmoji v-if="emoji.emoji[0] === ':'" class="emoji" :name="emoji.emoji" :normal="true" :no-style="true"/>
+							<MkEmoji v-else class="emoji" :emoji="emoji.emoji" :normal="true" :no-style="true"/>
+						</span>
+					</div>
+					<button v-if="thereIsTreasure" class="_button treasure" @click="getTreasure"><img src="/fluent-emoji/1f3c6.png" class="treasureImg"></button>
 				</div>
-				<div class="_formBlock" style="text-align: center;">
+				<div style="text-align: center;">
 					{{ i18n.ts._aboutMisskey.about }}<br><a href="https://misskey-hub.net/docs/misskey.html" target="_blank" class="_link">{{ i18n.ts.learnMore }}</a>
 				</div>
-				<div class="_formBlock" style="text-align: center;">
+				<div style="text-align: center;">
 					<MkButton primary rounded inline @click="iLoveMisskey">I <Mfm text="$[jelly ❤]"/> #Misskey</MkButton>
 				</div>
 				<FormSection>
@@ -38,23 +43,40 @@
 				</FormSection>
 				<FormSection>
 					<template #label>{{ i18n.ts._aboutMisskey.contributors }}</template>
-					<div class="_formLinks">
-						<FormLink to="https://github.com/syuilo" external>@syuilo</FormLink>
-						<FormLink to="https://github.com/AyaMorisawa" external>@AyaMorisawa</FormLink>
-						<FormLink to="https://github.com/mei23" external>@mei23</FormLink>
-						<FormLink to="https://github.com/acid-chicken" external>@acid-chicken</FormLink>
-						<FormLink to="https://github.com/tamaina" external>@tamaina</FormLink>
-						<FormLink to="https://github.com/rinsuki" external>@rinsuki</FormLink>
-						<FormLink to="https://github.com/Xeltica" external>@Xeltica</FormLink>
-						<FormLink to="https://github.com/u1-liquid" external>@u1-liquid</FormLink>
-						<FormLink to="https://github.com/marihachi" external>@marihachi</FormLink>
+					<div :class="$style.contributors">
+						<a href="https://github.com/syuilo" target="_blank" :class="$style.contributor">
+							<img src="https://avatars.githubusercontent.com/u/4439005?v=4" :class="$style.contributorAvatar">
+							<span :class="$style.contributorUsername">@syuilo</span>
+						</a>
+						<a href="https://github.com/tamaina" target="_blank" :class="$style.contributor">
+							<img src="https://avatars.githubusercontent.com/u/7973572?v=4" :class="$style.contributorAvatar">
+							<span :class="$style.contributorUsername">@tamaina</span>
+						</a>
+						<a href="https://github.com/acid-chicken" target="_blank" :class="$style.contributor">
+							<img src="https://avatars.githubusercontent.com/u/20679825?v=4" :class="$style.contributorAvatar">
+							<span :class="$style.contributorUsername">@acid-chicken</span>
+						</a>
+						<a href="https://github.com/rinsuki" target="_blank" :class="$style.contributor">
+							<img src="https://avatars.githubusercontent.com/u/6533808?v=4" :class="$style.contributorAvatar">
+							<span :class="$style.contributorUsername">@rinsuki</span>
+						</a>
+						<a href="https://github.com/mei23" target="_blank" :class="$style.contributor">
+							<img src="https://avatars.githubusercontent.com/u/30769358?v=4" :class="$style.contributorAvatar">
+							<span :class="$style.contributorUsername">@mei23</span>
+						</a>
+						<a href="https://github.com/robflop" target="_blank" :class="$style.contributor">
+							<img src="https://avatars.githubusercontent.com/u/8159402?v=4" :class="$style.contributorAvatar">
+							<span :class="$style.contributorUsername">@robflop</span>
+						</a>
 					</div>
 					<template #caption><MkLink url="https://github.com/misskey-dev/misskey/graphs/contributors">{{ i18n.ts._aboutMisskey.allContributors }}</MkLink></template>
 				</FormSection>
 				<FormSection>
 					<template #label><Mfm text="$[jelly ❤]"/> {{ i18n.ts._aboutMisskey.patrons }}</template>
-					<div v-for="patron in patrons" :key="patron">{{ patron }}</div>
-					<template #caption>{{ i18n.ts._aboutMisskey.morePatrons }}</template>
+					<div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); grid-gap: 12px;">
+						<div v-for="patron in patrons" :key="patron">{{ patron }}</div>
+					</div>
+					<p>{{ i18n.ts._aboutMisskey.morePatrons }}</p>
 				</FormSection>
 			</div>
 		</MkSpacer>
@@ -74,6 +96,8 @@ import { i18n } from '@/i18n';
 import { defaultStore } from '@/store';
 import * as os from '@/os';
 import { definePageMetadata } from '@/scripts/page-metadata';
+import { claimAchievement, claimedAchievements } from '@/scripts/achievements';
+import { $i } from '@/account';
 
 const patrons = [
 	'まっちゃとーにゅ',
@@ -156,10 +180,12 @@ const patrons = [
 	'pixeldesu',
 ];
 
+let thereIsTreasure = $ref($i && !claimedAchievements.includes('foundTreasure'));
+
 let easterEggReady = false;
 let easterEggEmojis = $ref([]);
 let easterEggEngine = $ref(null);
-const containerEl = $ref<HTMLElement>();
+const containerEl = $shallowRef<HTMLElement>();
 
 function iconLoaded() {
 	const emojis = defaultStore.state.reactions;
@@ -191,6 +217,11 @@ function iLoveMisskey() {
 	});
 }
 
+function getTreasure() {
+	thereIsTreasure = false;
+	claimAchievement('foundTreasure');
+}
+
 onBeforeUnmount(() => {
 	if (easterEggEngine) {
 		easterEggEngine.stop();
@@ -211,54 +242,114 @@ definePageMetadata({
 .znqjceqz {
 	> .about {
 		position: relative;
-		text-align: center;
-		padding: 16px;
 		border-radius: var(--radius);
 
-		&.playing {
-			&, * {
-				user-select: none;
-			}
-
-			* {
-				will-change: transform;
-			}
-
-			> .emoji {
-				visibility: visible;
-			}
-		}
-
-		> .icon {
-			display: block;
-			width: 100px;
-			margin: 0 auto;
-			border-radius: 16px;
-		}
-
-		> .misskey {
-			margin: 0.75em auto 0 auto;
-			width: max-content;
-		}
-
-		> .version {
-			margin: 0 auto;
-			width: max-content;
-			opacity: 0.5;
-		}
-
-		> .emoji {
+		> .treasure {
 			position: absolute;
-			top: 0;
+			top: 60px;
 			left: 0;
-			visibility: hidden;
+			right: 0;
+			margin: 0 auto;
+			width: min-content;
+
+			> .treasureImg {
+				width: 25px;
+				vertical-align: bottom;
+			}
+		}
+
+		> .container {
+			position: relative;
+			text-align: center;
+			padding: 16px;
+
+			&.playing {
+				&, * {
+					user-select: none;
+				}
+
+				* {
+					will-change: transform;
+				}
+
+				> .emoji {
+					visibility: visible;
+				}
+			}
+
+			> .icon {
+				display: block;
+				width: 80px;
+				margin: 0 auto;
+				border-radius: 16px;
+				position: relative;
+				z-index: 1;
+			}
+
+			> .misskey {
+				margin: 0.75em auto 0 auto;
+				width: max-content;
+				position: relative;
+				z-index: 1;
+			}
+
+			> .version {
+				margin: 0 auto;
+				width: max-content;
+				opacity: 0.5;
+				position: relative;
+				z-index: 1;
+			}
 
 			> .emoji {
-				pointer-events: none;
-				font-size: 24px;
-				width: 24px;
+				position: absolute;
+				z-index: 1;
+				top: 0;
+				left: 0;
+				visibility: hidden;
+
+				> .emoji {
+					pointer-events: none;
+					font-size: 24px;
+					width: 24px;
+				}
 			}
 		}
 	}
+}
+</style>
+
+<style lang="scss" module>
+.contributors {
+	display: grid;
+	grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+	grid-gap: 12px;
+}
+
+.contributor {
+	display: flex;
+	align-items: center;
+	padding: 12px;
+	background: var(--buttonBg);
+	border-radius: 6px;
+
+	&:hover {
+		text-decoration: none;
+		background: var(--buttonHoverBg);
+	}
+
+	&.active {
+		color: var(--accent);
+		background: var(--buttonHoverBg);
+	}
+}
+
+.contributorAvatar {
+	width: 30px;
+	border-radius: 100%;
+}
+
+.contributorUsername {
+	margin-left: 12px;
 }
 </style>

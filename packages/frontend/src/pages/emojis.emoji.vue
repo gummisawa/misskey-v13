@@ -1,6 +1,6 @@
 <template>
 <button class="zuvgdzyu _button" @click="menu">
-	<img :src="emoji.url" class="img" :alt="emoji.name"/>
+	<img :src="emoji.url" class="img" loading="lazy"/>
 	<div class="body">
 		<div class="name _monospace">{{ emoji.name }}</div>
 		<div class="info">{{ emoji.aliases.join(' ') }}</div>
@@ -15,7 +15,12 @@ import copyToClipboard from '@/scripts/copy-to-clipboard';
 import { i18n } from '@/i18n';
 
 const props = defineProps<{
-	emoji: Record<string, unknown>; // TODO
+	emoji: {
+		name: string;
+		aliases: string[];
+		category: string;
+		url: string;
+	};
 }>();
 
 function menu(ev) {
@@ -49,6 +54,7 @@ function menu(ev) {
 	> .img {
 		width: 42px;
 		height: 42px;
+		object-fit: contain;
 	}
 
 	> .body {

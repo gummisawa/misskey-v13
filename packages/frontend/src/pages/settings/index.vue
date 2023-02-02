@@ -11,7 +11,7 @@
 					</div>
 				</div>
 				<div v-if="!(narrow && currentPage?.route.name == null)" class="main">
-					<div class="bkzroven">
+					<div class="bkzroven" style="container-type: inline-size;">
 						<RouterView/>
 					</div>
 				</div>
@@ -22,7 +22,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed, defineAsyncComponent, inject, nextTick, onActivated, onMounted, onUnmounted, provide, ref, watch } from 'vue';
+import { computed, defineAsyncComponent, inject, nextTick, onActivated, onMounted, onUnmounted, provide, ref, shallowRef, watch } from 'vue';
 import { i18n } from '@/i18n';
 import MkInfo from '@/components/MkInfo.vue';
 import MkSuperMenu from '@/components/MkSuperMenu.vue';
@@ -33,6 +33,8 @@ import { instance } from '@/instance';
 import { useRouter } from '@/router';
 import { definePageMetadata, provideMetadataReceiver, setPageMetadata } from '@/scripts/page-metadata';
 import * as os from '@/os';
+import { miLocalStorage } from '@/local-storage';
+import { fetchCustomEmojis } from '@/custom-emojis';
 
 const indexInfo = {
 	title: i18n.ts.settings,
@@ -40,7 +42,7 @@ const indexInfo = {
 	hideHeader: true,
 };
 const INFO = ref(indexInfo);
-const el = ref<HTMLElement | null>(null);
+const el = shallowRef<HTMLElement | null>(null);
 const childInfo = ref(null);
 
 const router = useRouter();
@@ -179,9 +181,13 @@ const menuDef = computed(() => [{
 		type: 'button',
 		icon: 'ti ti-trash',
 		text: i18n.ts.clearCache,
-		action: () => {
-			localStorage.removeItem('locale');
-			localStorage.removeItem('theme');
+		action: async () => {
+			os.waiting();
+			miLocalStorage.removeItem('locale');
+			miLocalStorage.removeItem('theme');
+			miLocalStorage.removeItem('emojis');
+			miLocalStorage.removeItem('lastEmojisFetchedAt');
+			await fetchCustomEmojis();
 			unisonReload();
 		},
 	}, {

@@ -24,7 +24,7 @@
 			<header v-show="mainRouter.currentRoute?.name !== 'index'" ref="header" class="header">
 				<XHeader :info="pageInfo"/>
 			</header>
-			<main ref="main">
+			<main ref="main" style="container-type: inline-size;">
 				<RouterView/>
 			</main>
 			<div class="powered-by">
@@ -37,12 +37,11 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, defineAsyncComponent } from 'vue';
+import { defineComponent } from 'vue';
 import XHeader from './header.vue';
 import { host, instanceName } from '@/config';
 import { search } from '@/scripts/search';
 import * as os from '@/os';
-import MkPagination from '@/components/MkPagination.vue';
 import MkButton from '@/components/MkButton.vue';
 import { ColdDeviceStorage } from '@/store';
 import { mainRouter } from '@/router';
@@ -52,7 +51,6 @@ const DESKTOP_THRESHOLD = 1100;
 export default defineComponent({
 	components: {
 		XHeader,
-		MkPagination,
 		MkButton,
 	},
 

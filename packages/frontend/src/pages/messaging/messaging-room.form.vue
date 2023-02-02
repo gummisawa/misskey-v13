@@ -1,10 +1,12 @@
 <template>
 <div
-	class="pemppnzi _block"
+	:class="$style['root']"
 	@dragover.stop="onDragover"
 	@drop.stop="onDrop"
 >
 	<textarea
+		:class="$style['textarea']"
+		class="_acrylic"
 		ref="textEl"
 		v-model="text"
 		:placeholder="i18n.ts.inputMessageHere"
@@ -12,17 +14,17 @@
 		@compositionupdate="onCompositionUpdate"
 		@paste="onPaste"
 	></textarea>
-	<footer>
-		<div v-if="file" class="file" @click="file = null">{{ file.name }}</div>
-		<div class="buttons">
-			<button class="_button" @click="chooseFile"><i class="ti ti-photo-plus"></i></button>
-			<button class="_button" @click="insertEmoji"><i class="ti ti-mood-happy"></i></button>
-			<button class="send _button" :disabled="!canSend || sending" :title="i18n.ts.send" @click="send">
+	<footer :class="$style['footer']">
+		<div v-if="file" :class="$style['file']" @click="file = null">{{ file.name }}</div>
+		<div :class="$style['buttons']">
+			<button class="_button" :class="$style['button']" @click="chooseFile"><i class="ti ti-photo-plus"></i></button>
+			<button class="_button" :class="$style['button']" @click="insertEmoji"><i class="ti ti-mood-happy"></i></button>
+			<button class="_button" :class="[$style['button'], $style['send']]" :disabled="!canSend || sending" :title="i18n.ts.send" @click="send">
 				<template v-if="!sending"><i class="ti ti-send"></i></template><template v-if="sending"><MkLoading :em="true"/></template>
 			</button>
 		</div>
 	</footer>
-	<input ref="fileEl" type="file" @change="onChangeFile"/>
+	<input :class="$style['file-input']" ref="fileEl" type="file" @change="onChangeFile"/>
 </div>
 </template>
 
@@ -40,14 +42,15 @@ import { defaultStore } from '@/store';
 import { i18n } from '@/i18n';
 //import { Autocomplete } from '@/scripts/autocomplete';
 import { uploadFile } from '@/scripts/upload';
+import { miLocalStorage } from '@/local-storage';
 
 const props = defineProps<{
 	user?: Misskey.entities.UserDetailed | null;
 	group?: Misskey.entities.UserGroup | null;
 }>();
 
-let textEl = $ref<HTMLTextAreaElement>();
-let fileEl = $ref<HTMLInputElement>();
+let textEl = $shallowRef<HTMLTextAreaElement>();
+let fileEl = $shallowRef<HTMLInputElement>();
 
 let text = $ref<string>('');
 let file = $ref<Misskey.entities.DriveFile | null>(null);
@@ -188,7 +191,7 @@ function clear() {
 }
 
 function saveDraft() {
-	const drafts = JSON.parse(localStorage.getItem('message_drafts') || '{}');
+	const drafts = JSON.parse(miLocalStorage.getItem('message_drafts') || '{}');
 
 	drafts[draftKey] = {
 		updatedAt: new Date(),
@@ -199,15 +202,15 @@ function saveDraft() {
 		},
 	};
 
-	localStorage.setItem('message_drafts', JSON.stringify(drafts));
+	miLocalStorage.setItem('message_drafts', JSON.stringify(drafts));
 }
 
 function deleteDraft() {
-	const drafts = JSON.parse(localStorage.getItem('message_drafts') || '{}');
+	const drafts = JSON.parse(miLocalStorage.getItem('message_drafts') || '{}');
 
 	delete drafts[draftKey];
 
-	localStorage.setItem('message_drafts', JSON.stringify(drafts));
+	miLocalStorage.setItem('message_drafts', JSON.stringify(drafts));
 }
 
 async function insertEmoji(ev: MouseEvent) {
@@ -222,7 +225,7 @@ onMounted(() => {
 	//new Autocomplete(textEl, this, { model: 'text' });
 
 	// 書きかけの投稿を復元
-	const draft = JSON.parse(localStorage.getItem('message_drafts') || '{}')[draftKey];
+	const draft = JSON.parse(miLocalStorage.getItem('message_drafts') || '{}')[draftKey];
 	if (draft) {
 		text = draft.data.text;
 		file = draft.data.file;
@@ -235,130 +238,129 @@ defineExpose({
 });
 </script>
 
-<style lang="scss" scoped>
-.pemppnzi {
+<style lang="scss" module>
+.root {
 	position: relative;
+}
 
-	> textarea {
-		cursor: auto;
+.textarea {
+	cursor: auto;
+	display: block;
+	width: 100%;
+	min-width: 100%;
+	max-width: 100%;
+	min-height: 80px;
+	margin: 0;
+	padding: 16px 16px 0 16px;
+	resize: none;
+	font-size: 1em;
+	font-family: inherit;
+	outline: none;
+	border: none;
+	border-radius: 0;
+	box-shadow: none;
+	box-sizing: border-box;
+	color: var(--fg);
+}
+
+.footer {
+	position: sticky;
+	bottom: 0;
+	background: var(--panel);
+}
+
+.file {
+	padding: 8px;
+	color: var(--fg);
+	background: transparent;
+	cursor: pointer;
+}
+/*
+.files {
+	display: block;
+	margin: 0;
+	padding: 0 8px;
+	list-style: none;
+
+	&:after {
+		content: '';
 		display: block;
-		width: 100%;
-		min-width: 100%;
-		max-width: 100%;
-		min-height: 80px;
-		margin: 0;
-		padding: 16px 16px 0 16px;
-		resize: none;
-		font-size: 1em;
-		font-family: inherit;
-		outline: none;
-		border: none;
-		border-radius: 0;
-		box-shadow: none;
-		background: transparent;
-		box-sizing: border-box;
-		color: var(--fg);
+		clear: both;
 	}
 
-	footer {
-		position: sticky;
-		bottom: 0;
-		background: var(--panel);
-
-		> .file {
-			padding: 8px;
-			color: var(--fg);
-			background: transparent;
-			cursor: pointer;
-		}
-	}
-
-	.files {
+	> li {
 		display: block;
-		margin: 0;
-		padding: 0 8px;
-		list-style: none;
+		float: left;
+		margin: 4px;
+		padding: 0;
+		width: 64px;
+		height: 64px;
+		background-color: #eee;
+		background-repeat: no-repeat;
+		background-position: center center;
+		background-size: cover;
+		cursor: move;
 
-		&:after {
-			content: '';
-			display: block;
-			clear: both;
-		}
-
-		> li {
-			display: block;
-			float: left;
-			margin: 4px;
-			padding: 0;
-			width: 64px;
-			height: 64px;
-			background-color: #eee;
-			background-repeat: no-repeat;
-			background-position: center center;
-			background-size: cover;
-			cursor: move;
-
-			&:hover {
-				> .remove {
-					display: block;
-				}
-			}
-
+		&:hover {
 			> .remove {
-				display: none;
-				position: absolute;
-				right: -6px;
-				top: -6px;
-				margin: 0;
-				padding: 0;
-				background: transparent;
-				outline: none;
-				border: none;
-				border-radius: 0;
-				box-shadow: none;
-				cursor: pointer;
+				display: block;
 			}
 		}
 	}
+}
 
-	.buttons {
-		display: flex;
+.file-remove {
+	display: none;
+	position: absolute;
+	right: -6px;
+	top: -6px;
+	margin: 0;
+	padding: 0;
+	background: transparent;
+	outline: none;
+	border: none;
+	border-radius: 0;
+	box-shadow: none;
+	cursor: pointer;
+}
+*/
 
-		._button {
-			margin: 0;
-			padding: 16px;
-			font-size: 1em;
-			font-weight: normal;
-			text-decoration: none;
-			transition: color 0.1s ease;
+.buttons {
+	display: flex;
+}
 
-			&:hover {
-				color: var(--accent);
-			}
+.button {
+	margin: 0;
+	padding: 16px;
+	font-size: 1em;
+	font-weight: normal;
+	text-decoration: none;
+	transition: color 0.1s ease;
 
-			&:active {
-				color: var(--accentDarken);
-				transition: color 0s ease;
-			}
-		}
-
-		> .send {
-			margin-left: auto;
-			color: var(--accent);
-
-			&:hover {
-				color: var(--accentLighten);
-			}
-
-			&:active {
-				color: var(--accentDarken);
-				transition: color 0s ease;
-			}
-		}
+	&:hover {
+		color: var(--accent);
 	}
 
-	input[type=file] {
-		display: none;
+	&:active {
+		color: var(--accentDarken);
+		transition: color 0s ease;
 	}
+}
+.send {
+	margin-left: auto;
+	color: var(--accent);
+
+	&:hover {
+		color: var(--accentLighten);
+	}
+
+	&:active {
+		color: var(--accentDarken);
+		transition: color 0s ease;
+	}
+}
+
+.file-input {
+	display: none;
 }
 </style>

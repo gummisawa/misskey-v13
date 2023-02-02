@@ -6,15 +6,15 @@
 		<div class="items">
 			<template v-for="(item, i) in group.items">
 				<a v-if="item.type === 'a'" :href="item.href" :target="item.target" :tabindex="i" class="_button item" :class="{ danger: item.danger, active: item.active }">
-					<i v-if="item.icon" class="icon ti-fw" :class="item.icon"></i>
+					<span v-if="item.icon" class="icon"><i :class="item.icon" class="ti-fw"></i></span>
 					<span class="text">{{ item.text }}</span>
 				</a>
 				<button v-else-if="item.type === 'button'" :tabindex="i" class="_button item" :class="{ danger: item.danger, active: item.active }" :disabled="item.active" @click="ev => item.action(ev)">
-					<i v-if="item.icon" class="icon ti-fw" :class="item.icon"></i>
+					<span v-if="item.icon" class="icon"><i :class="item.icon" class="ti-fw"></i></span>
 					<span class="text">{{ item.text }}</span>
 				</button>
 				<MkA v-else :to="item.to" :tabindex="i" class="_button item" :class="{ danger: item.danger, active: item.active }">
-					<i v-if="item.icon" class="icon ti-fw" :class="item.icon"></i>
+					<span v-if="item.icon" class="icon"><i :class="item.icon" class="ti-fw"></i></span>
 					<span class="text">{{ item.text }}</span>
 				</MkA>
 			</template>
@@ -62,7 +62,7 @@ export default defineComponent({
 				align-items: center;
 				width: 100%;
 				box-sizing: border-box;
-				padding: 10px 16px 10px 8px;
+				padding: 9px 16px 9px 8px;
 				border-radius: 9px;
 				font-size: 0.9em;
 
@@ -141,8 +141,8 @@ export default defineComponent({
 						margin-right: 0;
 						margin-bottom: 6px;
 						font-size: 1.5em;
-						width: 54px;
-						height: 54px;
+						width: 60px;
+						height: 60px;
 						aspect-ratio: 1;
 						background: var(--panel);
 						border-radius: 100%;
