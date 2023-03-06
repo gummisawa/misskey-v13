@@ -227,6 +227,7 @@ const translating = ref(false);
 const urls = appearNote.text ? extractUrlFromMfm(mfm.parse(appearNote.text)) : null;
 const showTicker = (defaultStore.state.instanceTicker === 'always') || (defaultStore.state.instanceTicker === 'remote' && appearNote.user.instance);
 const canRenote = computed(() => ['public', 'home'].includes(appearNote.visibility) || appearNote.userId === $i.id);
+const canQuote = computed(() => ['public', 'home'].includes(appearNote.visibility) || appearNote.userId === $i.id);
 let renoteCollapsed = $ref(isRenote && (($i && ($i.id === note.userId)) || shownNoteIds.has(appearNote.id)));
 
 shownNoteIds.add(appearNote.id);
